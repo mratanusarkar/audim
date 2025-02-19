@@ -27,7 +27,7 @@ video_width, video_height = 1920, 1080
 fps = 30
 
 # Add configuration flags
-show_speaker_names = False  # New flag to control name display
+show_speaker_names = True  # New flag to control name display
 
 def calculate_layout(video_height, header_height, dp_size, num_speakers, min_spacing=40):
     """Calculate dynamic spacing for speaker rows with equal spacing above and below"""
@@ -128,6 +128,12 @@ def create_frame(current_sub, fade_in=False, opacity=255):
         text_y = speaker_pos[1] + (dp_size[1] // 2)  # Center align with DP
         text_width = video_width - text_x - text_margin
         
+        # Get font metrics for dynamic calculations
+        font_ascent, font_descent = subtitle_font.getmetrics()
+        line_height = font_ascent + font_descent
+        line_spacing = line_height * 0.5  # 50% of line height for spacing
+        total_line_height = line_height + line_spacing
+        
         # Word wrap and draw text
         words = text.split()
         lines = []
@@ -143,11 +149,12 @@ def create_frame(current_sub, fade_in=False, opacity=255):
         lines.append(" ".join(current_line))
         
         # Calculate vertical offset for multiple lines to maintain center alignment
-        total_text_height = len(lines) * 50
-        text_start_y = text_y - (total_text_height // 2)
+        total_text_height = len(lines) * total_line_height
+        text_start_y = text_y - (total_text_height // 2) + (line_height // 2)
         
         for i, line in enumerate(lines):
-            draw.text((text_x, text_start_y + (i * 50)), line,
+            line_y = text_start_y + (i * total_line_height)
+            draw.text((text_x, line_y), line,
                      fill=(255, 255, 255, opacity), font=subtitle_font, anchor="lm")
     
     return np.array(frame)
