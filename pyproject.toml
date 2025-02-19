@@ -1,0 +1,30 @@
+[project]
+name = "audim"
+version = "0.0.1"
+description = "Animation engine for voice-based podcast videos."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pip>=24.2",
+    "uv>=0.4.20",
+    "pytest>=8.3.3",
+    "isort>=5.13.2",
+    "black>=24.10.0",
+    "ruff>=0.6.9",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocstrings>=0.26.1",
+    "mkdocstrings-python>=1.11.1",
+    "mkdocs-material>=9.5.39",
+    "mkdocs-minify-plugin>=0.8.0",
+    "mkdocs-glightbox>=0.4.0",
+    "mkdocs-jupyter>=0.25.0",
+    "jupyter>=1.1.1",
+]
+
+[tool.setuptools]
+py-modules = ["audim"]
