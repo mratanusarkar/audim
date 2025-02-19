@@ -26,11 +26,36 @@ speaker_dps = {
 video_width, video_height = 1920, 1080
 fps = 30
 
+def calculate_layout(video_height, header_height, dp_size, num_speakers, min_spacing=40):
+    """Calculate dynamic spacing for speaker rows with equal spacing above and below"""
+    available_height = video_height - header_height
+    total_dp_height = num_speakers * dp_size[1]
+    
+    # Calculate spacing between DPs (now including top and bottom spaces)
+    # We need (num_speakers + 1) spaces: one above first speaker, between speakers, and below last speaker
+    num_spaces = num_speakers + 1
+    spacing = (available_height - total_dp_height) // num_spaces
+    spacing = max(spacing, min_spacing)
+    
+    # Calculate starting Y position with equal spacing above first speaker
+    start_y = header_height + spacing
+    
+    return spacing, start_y
+
 # Define layout parameters
 header_height = 150
 dp_size = (120, 120)
-dp_margin = 20
+dp_margin_left = 40
 text_margin = 50
+
+# Calculate dynamic spacing based on number of speakers
+num_speakers = len(speaker_dps)
+dp_spacing, start_y = calculate_layout(
+    video_height=video_height,
+    header_height=header_height,
+    dp_size=dp_size,
+    num_speakers=num_speakers
+)
 
 # Load and create circular DPs
 speaker_images = {}
@@ -50,11 +75,12 @@ logo = Image.open(logo_img).convert('RGBA')
 logo_size = (100, 100)
 logo = logo.resize(logo_size)
 
-# Calculate DP positions (vertically aligned on left)
+# Calculate DP positions with dynamic spacing
 dp_positions = {}
 for i, speaker in enumerate(speaker_dps.keys()):
-    y_pos = header_height + (i * (dp_size[1] + dp_margin))
-    dp_positions[speaker] = (dp_margin, y_pos)
+    # Now the y_pos calculation includes the initial spacing
+    y_pos = start_y + (i * (dp_size[1] + dp_spacing))
+    dp_positions[speaker] = (dp_margin_left, y_pos)
 
 # Font setup
 font_path = font_manager.findfont(font_manager.FontProperties(family=['sans']))
@@ -76,7 +102,9 @@ def create_frame(current_sub, fade_in=False, opacity=255):
     # Add all speaker DPs and names
     for speaker, pos in dp_positions.items():
         frame.paste(speaker_images[speaker], pos, speaker_images[speaker])
-        draw.text((pos[0] + dp_size[0]//2, pos[1] + dp_size[1] + 10),
+        # Draw speaker name below DP
+        name_y = pos[1] + dp_size[1] + 10
+        draw.text((pos[0] + dp_size[0]//2, name_y),
                  speaker, fill=(200, 200, 200, opacity), font=speaker_font, anchor="mm")
     
     if current_sub:
@@ -91,9 +119,9 @@ def create_frame(current_sub, fade_in=False, opacity=255):
             speaker_pos[0] + dp_size[0] + 5, speaker_pos[1] + dp_size[1] + 5
         ], outline=highlight_color, width=3)
         
-        # Calculate text position (to the right of the DP)
-        text_x = dp_margin + dp_size[0] + text_margin
-        text_y = speaker_pos[1]
+        # Calculate text position (vertically centered with DP)
+        text_x = dp_margin_left + dp_size[0] + text_margin
+        text_y = speaker_pos[1] + (dp_size[1] // 2)  # Center align with DP
         text_width = video_width - text_x - text_margin
         
         # Word wrap and draw text
@@ -110,8 +138,12 @@ def create_frame(current_sub, fade_in=False, opacity=255):
                 current_line = [word]
         lines.append(" ".join(current_line))
         
+        # Calculate vertical offset for multiple lines to maintain center alignment
+        total_text_height = len(lines) * 50
+        text_start_y = text_y - (total_text_height // 2)
+        
         for i, line in enumerate(lines):
-            draw.text((text_x, text_y + (i * 50)), line,
+            draw.text((text_x, text_start_y + (i * 50)), line,
                      fill=(255, 255, 255, opacity), font=subtitle_font, anchor="lm")
     
     return np.array(frame)
