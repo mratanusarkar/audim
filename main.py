@@ -26,6 +26,9 @@ speaker_dps = {
 video_width, video_height = 1920, 1080
 fps = 30
 
+# Add configuration flags
+show_speaker_names = False  # New flag to control name display
+
 def calculate_layout(video_height, header_height, dp_size, num_speakers, min_spacing=40):
     """Calculate dynamic spacing for speaker rows with equal spacing above and below"""
     available_height = video_height - header_height
@@ -102,10 +105,11 @@ def create_frame(current_sub, fade_in=False, opacity=255):
     # Add all speaker DPs and names
     for speaker, pos in dp_positions.items():
         frame.paste(speaker_images[speaker], pos, speaker_images[speaker])
-        # Draw speaker name below DP
-        name_y = pos[1] + dp_size[1] + 10
-        draw.text((pos[0] + dp_size[0]//2, name_y),
-                 speaker, fill=(200, 200, 200, opacity), font=speaker_font, anchor="mm")
+        # Draw speaker name below DP only if show_speaker_names is True
+        if show_speaker_names:
+            name_y = pos[1] + dp_size[1] + 10
+            draw.text((pos[0] + dp_size[0]//2, name_y),
+                     speaker, fill=(200, 200, 200, opacity), font=speaker_font, anchor="mm")
     
     if current_sub:
         speaker, text = current_sub.text.split("] ")
