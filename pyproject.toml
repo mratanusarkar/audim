@@ -4,7 +4,14 @@ version = "0.0.1"
 description = "Animation engine for voice-based podcast videos."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pysrt>=1.1.2",
+    "opencv-python>=4.9.0.80",
+    "numpy>=1.26.4",
+    "moviepy==2.0.0.dev2",
+    "Pillow>=10.2.0",
+    "matplotlib>=3.8.0",
+]
 
 [project.optional-dependencies]
 dev = [
