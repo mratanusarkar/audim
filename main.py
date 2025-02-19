@@ -50,6 +50,7 @@ header_height = 150
 dp_size = (120, 120)
 dp_margin_left = 40
 text_margin = 50
+name_margin = 30  # New parameter for spacing between DP and name
 
 # Calculate dynamic spacing based on number of speakers
 num_speakers = len(speaker_dps)
@@ -107,7 +108,7 @@ def create_frame(current_sub, fade_in=False, opacity=255):
         frame.paste(speaker_images[speaker], pos, speaker_images[speaker])
         # Draw speaker name below DP only if show_speaker_names is True
         if show_speaker_names:
-            name_y = pos[1] + dp_size[1] + 10
+            name_y = pos[1] + dp_size[1] + name_margin  # Added margin here
             draw.text((pos[0] + dp_size[0]//2, name_y),
                      speaker, fill=(200, 200, 200, opacity), font=speaker_font, anchor="mm")
     
