@@ -1,3 +1,3 @@
-from audim.sub2pod import layouts, core
+from audim.sub2pod import core, layouts
 
-__all__ = ['layouts', 'core']
+__all__ = ["layouts", "core"]
