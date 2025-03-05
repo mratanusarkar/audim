@@ -3,7 +3,32 @@ from moviepy.editor import AudioFileClip, ImageSequenceClip
 
 
 class VideoGenerator:
-    """Core engine for generating videos from SRT files"""
+    """
+    Core engine for generating videos from SRT files
+
+    This class is responsible for generating video frames from an SRT or subtitle file.
+    The subtitle file must follow our extended SRT format, which adds speaker identification:
+    
+    - Standard SRT format with sequential numbering, timestamps, and text content
+    - Speaker identification in square brackets at the beginning of each subtitle text
+      Example: "[Host] Welcome to our podcast!"
+    
+    Example of expected SRT format:
+    ```srt
+    1
+    00:00:00,000 --> 00:00:04,500
+    [Host] Welcome to our podcast!
+    
+    2
+    00:00:04,600 --> 00:00:08,200
+    [Guest] Thank you! Glad to be here.
+    ```
+    
+    The speaker tag is used to visually distinguish different speakers in the generated video,\
+    and is mandatory for the core engine to work.
+    
+    It uses a layout object to define the visual arrangement of the video.
+    """
 
     def __init__(self, layout, fps=30):
         """
@@ -13,6 +38,7 @@ class VideoGenerator:
             layout: Layout object that defines the visual arrangement
             fps (int): Frames per second for the output video
         """
+
         self.layout = layout
         self.fps = fps
         self.frames = []
@@ -30,6 +56,7 @@ class VideoGenerator:
             logo_path (str, optional): Path to the logo image
             title (str, optional): Title for the video
         """
+
         # Store paths for later use
         self.audio_path = audio_path
         self.logo_path = logo_path
@@ -70,6 +97,7 @@ class VideoGenerator:
         Args:
             output_path (str): Path for the output video file
         """
+
         # Convert frames to video
         video = ImageSequenceClip(self.frames, fps=self.fps)
 

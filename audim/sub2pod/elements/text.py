@@ -3,17 +3,31 @@ from PIL import ImageFont
 
 
 class TextRenderer:
-    """Handles text rendering with various styles and wrapping"""
+    """
+    Handles text rendering with various styles and wrapping
+
+    This component is responsible for rendering text on the frame with various styles and wrapping.
+    It can handle different fonts, sizes, colors, and anchor points.
+    """
 
     def __init__(self):
-        """Initialize the text renderer with default fonts"""
+        """
+        Initialize the text renderer with default fonts
+        """
+
         self.font_path = font_manager.findfont(
             font_manager.FontProperties(family=["sans"])
         )
         self.fonts = {}
 
     def get_font(self, size):
-        """Get or create a font of the specified size"""
+        """
+        Get or create a font of the specified size
+
+        Args:
+            size (int): Size of the font
+        """
+
         if size not in self.fonts:
             self.fonts[size] = ImageFont.truetype(self.font_path, size)
         return self.fonts[size]
@@ -27,7 +41,20 @@ class TextRenderer:
         color=(255, 255, 255, 255),
         anchor="mm",
     ):
-        """Draw text at the specified position"""
+        """
+        Draw text at the specified position
+
+        Args:
+            draw (ImageDraw): Draw object to draw on the frame
+            text (str): Text to draw
+            position (tuple): Position of the text
+            font_size (int): Size of the font, defaults to 40
+            color (tuple): Color of the text, defaults to RGB (255, 255, 255, 255)
+            anchor (str): Anchor of the text (from PIL library), defaults to "mm".
+                          See [pillow docs: text anchors](https://pillow.readthedocs.io/en/latest/handbook/text-anchors.html)
+                          for all possible options.
+        """
+
         font = self.get_font(font_size)
         draw.text(position, text, fill=color, font=font, anchor=anchor)
 
@@ -41,7 +68,21 @@ class TextRenderer:
         color=(255, 255, 255, 255),
         anchor="lm",
     ):
-        """Draw text with word wrapping"""
+        """
+        Draw text with word wrapping
+
+        Args:
+            draw (ImageDraw): Draw object to draw on the frame
+            text (str): Text to draw
+            position (tuple): Position of the text
+            max_width (int): Maximum width of the text before wrapping
+            font_size (int): Size of the font, defaults to 40
+            color (tuple): Color of the text, defaults to RGB (255, 255, 255, 255)
+            anchor (str): Anchor of the text (from PIL library), defaults to "lm".
+                          See [pillow docs: text anchors](https://pillow.readthedocs.io/en/latest/handbook/text-anchors.html)
+                          for all possible options.
+        """
+
         font = self.get_font(font_size)
 
         # Get font metrics for dynamic calculations
