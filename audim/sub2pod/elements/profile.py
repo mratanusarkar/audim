@@ -25,6 +25,9 @@ class ProfilePicture:
         if self.shape == "circle":
             mask = self._create_circular_mask()
             img.putalpha(mask)
+        elif self.shape == "square":
+            mask = self._create_square_mask()
+            img.putalpha(mask)
         
         return img
     
@@ -33,6 +36,13 @@ class ProfilePicture:
         mask = Image.new('L', self.size, 0)
         draw = ImageDraw.Draw(mask)
         draw.ellipse((0, 0) + self.size, fill=255)
+        return mask
+    
+    def _create_square_mask(self):
+        """Create a square mask for profile pictures"""
+        mask = Image.new('L', self.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.rectangle((0, 0) + self.size, fill=255)
         return mask
     
     def highlight(self, draw, position, color=(255, 200, 0), width=3, opacity=255):
