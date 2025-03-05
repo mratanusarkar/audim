@@ -62,8 +62,10 @@ nav:
   - Installation: 'installation/installation.md'
   - Development: 'installation/development.md'
   - Audim:
-    - Core: 'audim/sub2pod/core.md'
-    - Elements:
-      - Header: 'audim/sub2pod/elements/header.md'
+    - Sub2Pod:
+      - Core: 'audim/sub2pod/core.md'
+      - Elements:
+        - Header: 'audim/sub2pod/elements/header.md'
+        - Profile: 'audim/sub2pod/elements/profile.md'
 
 repo_url: https://github.com/mratanusarkar/audim
