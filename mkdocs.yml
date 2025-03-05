@@ -67,5 +67,6 @@ nav:
       - Elements:
         - Header: 'audim/sub2pod/elements/header.md'
         - Profile: 'audim/sub2pod/elements/profile.md'
+        - Text: 'audim/sub2pod/elements/text.md'
 
 repo_url: https://github.com/mratanusarkar/audim
