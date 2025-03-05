@@ -61,5 +61,7 @@ nav:
   - Home: 'index.md'
   - Installation: 'installation/installation.md'
   - Development: 'installation/development.md'
+  - Audim:
+    - Core: 'audim/sub2pod/core.md'
 
 repo_url: https://github.com/mratanusarkar/audim
