@@ -70,5 +70,6 @@ nav:
         - Text: 'audim/sub2pod/elements/text.md'
       - Layouts:
         - Base: 'audim/sub2pod/layouts/base.md'
+        - Podcast: 'audim/sub2pod/layouts/podcast.md'
 
 repo_url: https://github.com/mratanusarkar/audim
