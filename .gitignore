@@ -50,3 +50,5 @@ outputs/
 *.txt
 test.py
 test_*.py
+run.py
+run_*.py

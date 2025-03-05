@@ -35,3 +35,14 @@ source .venv/bin/activate   # on Linux
 
 uv pip install -e ".[dev,docs]"
 ```
+
+### 3. Code Quality
+
+Before committing, please ensure that the code is formatted and styled correctly.
+Run the following commands to check and fix code style issues:
+
+```bash
+# Check and fix code style issues
+ruff check --fix .
+ruff format .
+```
