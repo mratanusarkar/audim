@@ -1,6 +1,6 @@
 # Audim
 
-Animation engine for voice-based podcast videos.
+Animation engine for audio-based and voice-based podcast videos.
 
 ## Prerequisites
 
