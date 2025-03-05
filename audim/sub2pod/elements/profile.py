@@ -37,7 +37,7 @@ class ProfilePicture:
         img = img.resize(self.size)
 
         if self.shape == "circle":
-            mask = self.create_circular_mask()
+            mask = self._create_circular_mask()
             img.putalpha(mask)
         elif self.shape == "square":
             mask = self._create_square_mask()
@@ -45,7 +45,7 @@ class ProfilePicture:
 
         return img
 
-    def create_circular_mask(self):
+    def _create_circular_mask(self):
         """
         Create a circular mask for profile pictures
         (mostly for internal use)
