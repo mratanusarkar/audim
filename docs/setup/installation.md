@@ -1,6 +1,4 @@
-# Audim
-
-Animation engine for audio-based and voice-based podcast videos.
+# Installation
 
 ## Prerequisites
 
@@ -13,6 +11,7 @@ Animation engine for audio-based and voice-based podcast videos.
 
 ```bash
 git clone https://github.com/mratanusarkar/audim.git
+cd audim
 ```
 
 ### 2. Install `uv` and setup project environment:
@@ -36,13 +35,21 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-### 3. Code Quality
-
-Before committing, please ensure that the code is formatted and styled correctly.
-Run the following commands to check and fix code style issues:
+### 3. Create input and output directories:
 
 ```bash
-# Check and fix code style issues
-ruff check --fix .
-ruff format .
+mkdir ./input ./output
 ```
+
+ideally, if done correctly, the setup should be like this:
+
+```bash
+audim/
+├── audim/
+├── docs/
+├── input/
+├── output/
+└── README.md
+```
+
+Note: you would dump your input files in the `input` directory and the output files will be dumped in the `output` directory.
