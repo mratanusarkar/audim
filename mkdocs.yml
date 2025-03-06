@@ -59,17 +59,20 @@ extra_javascript:
 
 nav:
   - Home: 'index.md'
-  - Installation: 'installation/installation.md'
-  - Development: 'installation/development.md'
+  - Setup:
+    - Installation: 'setup/installation.md'
+    - Development: 'setup/development.md'
   - Audim:
     - Sub2Pod:
       - Core: 'audim/sub2pod/core.md'
+      - Layouts:
+        - Base: 'audim/sub2pod/layouts/base.md'
+        - Podcast: 'audim/sub2pod/layouts/podcast.md'
       - Elements:
         - Header: 'audim/sub2pod/elements/header.md'
         - Profile: 'audim/sub2pod/elements/profile.md'
         - Text: 'audim/sub2pod/elements/text.md'
-      - Layouts:
-        - Base: 'audim/sub2pod/layouts/base.md'
-        - Podcast: 'audim/sub2pod/layouts/podcast.md'
+  - Examples:
+    - Podcast 01: 'examples/podcast_01.md'
 
 repo_url: https://github.com/mratanusarkar/audim
