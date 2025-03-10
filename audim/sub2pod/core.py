@@ -1,6 +1,7 @@
 import concurrent.futures
 import os
 import tempfile
+import multiprocessing
 
 import pysrt
 from moviepy.editor import AudioFileClip, ImageSequenceClip
@@ -53,7 +54,8 @@ class VideoGenerator:
         self.layout = layout
         self.fps = fps
         self.batch_size = batch_size
-        self.max_workers = max_workers
+        # Default to using all available CPU cores if not specified
+        self.max_workers = max_workers if max_workers is not None else multiprocessing.cpu_count()
         self.audio_path = None
         self.logo_path = None
         self.title = None
@@ -91,10 +93,10 @@ class VideoGenerator:
         self.frame_files = []
         self.total_frames = 0
 
-        # Prepare frame generation tasks
-        frame_tasks = []
-
-        # Create frames for each subtitle
+        # Create frames for each subtitle and organize them into batches
+        frame_batches = []
+        current_batch = []
+        
         for sub in subs:
             start_frame = sub.start.ordinal // (1000 // self.fps)
             end_frame = sub.end.ordinal // (1000 // self.fps)
@@ -103,120 +105,113 @@ class VideoGenerator:
             fade_frames = min(15, end_frame - start_frame)
             for i in range(fade_frames):
                 opacity = int((i / fade_frames) * 255)
-                frame_tasks.append(("fade", sub, opacity, self.total_frames))
+                current_batch.append(("fade", sub, opacity, self.total_frames))
                 self.total_frames += 1
+                
+                # Create a new batch if the current one is full
+                if len(current_batch) >= self.batch_size:
+                    frame_batches.append(current_batch)
+                    current_batch = []
 
             # Add main frames
             for _ in range(start_frame + fade_frames, end_frame):
-                frame_tasks.append(("main", sub, 255, self.total_frames))
+                current_batch.append(("main", sub, 255, self.total_frames))
                 self.total_frames += 1
-
-        # Process frames in parallel batches
-        print(f"Generating {self.total_frames} frames...")
-
+                
+                # Create a new batch if the current one is full
+                if len(current_batch) >= self.batch_size:
+                    frame_batches.append(current_batch)
+                    current_batch = []
+        
+        # Add the last batch if it's not empty
+        if current_batch:
+            frame_batches.append(current_batch)
+        
         # Create batch directories in advance
-        batch_count = (self.total_frames + self.batch_size - 1) // self.batch_size
+        batch_count = len(frame_batches)
         for i in range(batch_count):
             batch_dir = os.path.join(self.temp_dir, f"batch_{i}")
             os.makedirs(batch_dir, exist_ok=True)
-
-        # Process frames in parallel
-        with concurrent.futures.ProcessPoolExecutor(
-            max_workers=self.max_workers
-        ) as executor:
-            # Submit all frame generation tasks
-            future_to_frame = {
-                executor.submit(
-                    self._generate_frame_task, task_type, sub, opacity, frame_index
-                ): (task_type, sub, opacity, frame_index)
-                for task_type, sub, opacity, frame_index in frame_tasks
-            }
-
-            # Process results as they complete
-            for future in tqdm(
-                concurrent.futures.as_completed(future_to_frame),
-                total=len(future_to_frame),
-                desc="Generating frames",
-            ):
-                frame_index = future_to_frame[future][3]
-                batch_index = frame_index // self.batch_size
-                batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
-                frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
-
-                try:
-                    frame = future.result()
-                    self._save_frame(frame, frame_path)
-                    self.frame_files.append(frame_path)
-                except Exception as e:
-                    print(f"Error processing frame {frame_index}: {e}")
+        
+        # Process batches sequentially, but frames within each batch in parallel
+        print(f"Generating {self.total_frames} frames in {batch_count} batches using {self.max_workers} CPU cores...")
+        
+        for batch_index, batch in enumerate(frame_batches):
+            print(f"Processing batch {batch_index+1}/{batch_count}...")
+            batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
+            
+            # Process frames in this batch in parallel
+            # Use ProcessPoolExecutor for CPU-bound tasks
+            with concurrent.futures.ProcessPoolExecutor(max_workers=self.max_workers) as executor:
+                # Create a list to store all futures
+                futures = []
+                
+                # Submit all frame generation tasks for this batch
+                for task_type, sub, opacity, frame_index in batch:
+                    future = executor.submit(
+                        self._generate_and_save_frame_task, 
+                        task_type, 
+                        sub, 
+                        opacity, 
+                        frame_index, 
+                        batch_dir
+                    )
+                    futures.append((future, frame_index))
+                
+                # Process results as they complete
+                for future, frame_index in tqdm(
+                    futures,
+                    total=len(futures),
+                    desc=f"Batch {batch_index+1}/{batch_count}"
+                ):
+                    frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
+                    
+                    try:
+                        # Wait for the future to complete
+                        future.result()
+                        self.frame_files.append(frame_path)
+                    except Exception as e:
+                        print(f"Error processing frame {frame_index}: {e}")
+            
+            # Force garbage collection after each batch
+            import gc
+            gc.collect()
 
         return self
 
-    def _generate_frame_task(self, task_type, sub, opacity, frame_index):
+    def _generate_and_save_frame_task(self, task_type, sub, opacity, frame_index, batch_dir):
         """
-        Generate a single frame (for parallel processing)
+        Generate a single frame and save it to disk (for parallel processing)
 
         Args:
             task_type (str): Type of frame ('fade' or 'main')
             sub: Subtitle object
             opacity (int): Opacity value for the frame
             frame_index (int): Index of the frame
+            batch_dir (str): Directory to save the frame
 
         Returns:
-            Image: Generated frame
-        """
-        if task_type == "fade":
-            return self.layout.create_frame(current_sub=sub, opacity=opacity)
-        else:
-            return self.layout.create_frame(current_sub=sub)
-
-    def _save_frame(self, frame, frame_path):
-        """
-        Save a frame to disk
-
-        Args:
-            frame: Frame to save
-            frame_path (str): Path to save the frame
+            str: Path to the saved frame
         """
         import numpy as np
         from PIL import Image
-
+        
+        # Generate the frame
+        if task_type == "fade":
+            frame = self.layout.create_frame(current_sub=sub, opacity=opacity)
+        else:
+            frame = self.layout.create_frame(current_sub=sub)
+        
+        # Save the frame
+        frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
+        
         # Convert numpy array to PIL Image and save
         if isinstance(frame, np.ndarray):
             Image.fromarray(frame).save(frame_path, optimize=True)
         else:
             frame.save(frame_path, optimize=True)
-
-    def _write_batch_to_disk(self, frames, batch_index):
-        """
-        Write a batch of frames to disk as a temporary file
-
-        Args:
-            frames (list): List of frames to write
-            batch_index (int): Index of the current batch
-        """
-        import numpy as np
-        from PIL import Image
-
-        # Create a batch directory
-        batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
-        os.makedirs(batch_dir, exist_ok=True)
-
-        # Write each frame to disk
-        for i, frame in enumerate(frames):
-            frame_index = self.total_frames + i
-            frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
-
-            # Convert numpy array to PIL Image and save
-            if isinstance(frame, np.ndarray):
-                Image.fromarray(frame).save(frame_path, optimize=True)
-            else:
-                frame.save(frame_path, optimize=True)
-
-            self.frame_files.append(frame_path)
-
-        self.total_frames += len(frames)
-        print(f"Processed {self.total_frames} frames so far...")
+            
+        return frame_path
 
     def export_video(self, output_path, preset="medium"):
         """
@@ -248,7 +243,7 @@ class VideoGenerator:
             video = video.set_audio(audio)
 
         # Export video with optimized settings
-        print("Encoding video (this may take a while)...")
+        print(f"Encoding video using {os.cpu_count()} threads (this may take a while)...")
         video.write_videofile(
             output_path,
             codec="libx264",
