@@ -213,7 +213,7 @@ class VideoGenerator:
             
         return frame_path
 
-    def export_video(self, output_path, preset="medium"):
+    def export_video(self, output_path, preset="medium", encoder="auto"):
         """
         Export the generated frames as a video
 
@@ -226,35 +226,136 @@ class VideoGenerator:
                           take longer to encode, and vice versa.
                           For more info see:
                           [FFmpeg H.264 Video Encoding Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+            encoder (str): Encoding method to use:
+                          `auto`: Automatically choose the best available method
+                          `ffmpeg`: Use FFmpeg directly (faster)
+                          `moviepy`: Use MoviePy (more compatible)
         """
         import shutil
+        import subprocess
+        import os
+        from pathlib import Path
 
         print(f"Creating video from {len(self.frame_files)} frames...")
 
         # Sort frame files by index to ensure correct order
         self.frame_files.sort()
-
-        # Convert frames to video using the saved frame files
-        video = ImageSequenceClip(self.frame_files, fps=self.fps)
-
-        # Add audio if provided
-        if self.audio_path:
-            audio = AudioFileClip(self.audio_path)
-            video = video.set_audio(audio)
-
-        # Export video with optimized settings
-        print(f"Encoding video using {os.cpu_count()} threads (this may take a while)...")
-        video.write_videofile(
-            output_path,
-            codec="libx264",
-            fps=self.fps,
-            threads=os.cpu_count(),
-            audio_codec="aac",
-            preset=preset,
-            bitrate="5000k",
-            ffmpeg_params=["-pix_fmt", "yuv420p"],
-        )
-
+        
+        # Check if FFmpeg is available
+        ffmpeg_available = False
+        if encoder != "moviepy":  # Skip check if user explicitly wants moviepy
+            try:
+                # Check if FFmpeg is installed
+                subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+                ffmpeg_available = True
+                print("FFmpeg found. Using FFmpeg for video encoding.")
+            except (subprocess.SubprocessError, FileNotFoundError):
+                if encoder == "ffmpeg":
+                    raise RuntimeError("FFmpeg was explicitly requested but is not available in the system PATH.")
+                print("FFmpeg not found in PATH. Falling back to moviepy for video encoding.")
+        elif encoder == "moviepy":
+            print("MoviePy encoder explicitly requested.")
+        
+        # Use FFmpeg if available and not explicitly overridden
+        use_ffmpeg = ffmpeg_available and encoder != "moviepy"
+        
+        if use_ffmpeg:
+            try:
+                # Create a temporary directory for the FFmpeg input file
+                ffmpeg_temp_dir = tempfile.mkdtemp()
+                input_file_path = os.path.join(ffmpeg_temp_dir, "input.txt")
+                
+                # Create an FFmpeg input file listing all frames
+                with open(input_file_path, 'w') as f:
+                    for frame_file in self.frame_files:
+                        f.write(f"file '{os.path.abspath(frame_file)}'\n")
+                        f.write(f"duration {1/self.fps}\n")
+                    # Write the last frame again with a small duration to avoid issues
+                    f.write(f"file '{os.path.abspath(self.frame_files[-1])}'\n")
+                    f.write(f"duration 0.001\n")
+                
+                # First create video without audio
+                temp_video_path = os.path.join(ffmpeg_temp_dir, "temp_video.mp4")
+                
+                # Command to create video from frames
+                video_cmd = [
+                    "ffmpeg",
+                    "-y",
+                    "-f", "concat",
+                    "-safe", "0",
+                    "-i", input_file_path,
+                    "-c:v", "libx264",
+                    "-preset", preset,
+                    "-crf", "23",
+                    "-pix_fmt", "yuv420p",
+                    "-r", str(self.fps),
+                    "-threads", str(os.cpu_count()),
+                    temp_video_path
+                ]
+                
+                print(f"Creating video file using FFmpeg...")
+                subprocess.run(video_cmd, check=True)
+                
+                # If audio is provided, add it in a separate step
+                if self.audio_path and os.path.exists(self.audio_path):
+                    audio_cmd = [
+                        "ffmpeg",
+                        "-y",
+                        "-i", temp_video_path,
+                        "-i", self.audio_path,
+                        "-c:v", "copy",  # Copy video stream without re-encoding
+                        "-c:a", "aac",
+                        "-b:a", "192k",
+                        "-shortest",
+                        output_path
+                    ]
+                    
+                    print(f"Adding audio to video...")
+                    subprocess.run(audio_cmd, check=True)
+                else:
+                    # If no audio, just rename the temp video
+                    shutil.move(temp_video_path, output_path)
+                
+                print(f"Video successfully created at {output_path}")
+                
+                # Clean up FFmpeg temp dir
+                shutil.rmtree(ffmpeg_temp_dir)
+                
+            except Exception as e:
+                print(f"Error during FFmpeg encoding: {e}")
+                if encoder == "ffmpeg":
+                    raise  # Re-raise if FFmpeg was explicitly requested
+                print("Falling back to moviepy for video encoding...")
+                use_ffmpeg = False
+                
+                # Clean up FFmpeg temp dir if it exists
+                if 'ffmpeg_temp_dir' in locals():
+                    try:
+                        shutil.rmtree(ffmpeg_temp_dir)
+                    except Exception:
+                        pass
+        
+        # Use moviepy if FFmpeg is not available, failed, or explicitly requested
+        if not use_ffmpeg:
+            from moviepy.editor import ImageSequenceClip, AudioFileClip
+            
+            print("Using moviepy for video encoding (this may be slower)...")
+            video = ImageSequenceClip(self.frame_files, fps=self.fps)
+            if self.audio_path and os.path.exists(self.audio_path):
+                audio = AudioFileClip(self.audio_path)
+                video = video.set_audio(audio)
+            
+            video.write_videofile(
+                output_path,
+                codec="libx264",
+                fps=self.fps,
+                threads=os.cpu_count(),
+                audio_codec="aac",
+                preset=preset,
+                bitrate="5000k",
+                ffmpeg_params=["-pix_fmt", "yuv420p"],
+            )
+        
         # Clean up temporary files
         try:
             shutil.rmtree(self.temp_dir)
