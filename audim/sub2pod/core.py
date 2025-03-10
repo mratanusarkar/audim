@@ -1,8 +1,10 @@
+import concurrent.futures
 import os
 import tempfile
 
 import pysrt
 from moviepy.editor import AudioFileClip, ImageSequenceClip
+from tqdm import tqdm
 
 
 class VideoGenerator:
@@ -34,7 +36,7 @@ class VideoGenerator:
     It uses a layout object to define the visual arrangement of the video.
     """
 
-    def __init__(self, layout, fps=30, batch_size=300):
+    def __init__(self, layout, fps=30, batch_size=300, max_workers=None):
         """
         Initialize the video generator
 
@@ -43,11 +45,15 @@ class VideoGenerator:
             fps (int): Frames per second for the output video
             batch_size (int): Number of frames to process in a batch before
                               writing to disk
+            max_workers (int, optional): Maximum number of worker processes for
+                                        parallel processing. Default is None
+                                        (uses CPU count)
         """
 
         self.layout = layout
         self.fps = fps
         self.batch_size = batch_size
+        self.max_workers = max_workers
         self.audio_path = None
         self.logo_path = None
         self.title = None
@@ -85,9 +91,8 @@ class VideoGenerator:
         self.frame_files = []
         self.total_frames = 0
 
-        # Process frames in batches
-        current_batch = []
-        batch_count = 0
+        # Prepare frame generation tasks
+        frame_tasks = []
 
         # Create frames for each subtitle
         for sub in subs:
@@ -98,31 +103,89 @@ class VideoGenerator:
             fade_frames = min(15, end_frame - start_frame)
             for i in range(fade_frames):
                 opacity = int((i / fade_frames) * 255)
-                frame = self.layout.create_frame(current_sub=sub, opacity=opacity)
-                current_batch.append(frame)
-
-                # Write batch to disk if it reaches the batch size
-                if len(current_batch) >= self.batch_size:
-                    self._write_batch_to_disk(current_batch, batch_count)
-                    current_batch = []
-                    batch_count += 1
+                frame_tasks.append(("fade", sub, opacity, self.total_frames))
+                self.total_frames += 1
 
             # Add main frames
             for _ in range(start_frame + fade_frames, end_frame):
-                frame = self.layout.create_frame(current_sub=sub)
-                current_batch.append(frame)
+                frame_tasks.append(("main", sub, 255, self.total_frames))
+                self.total_frames += 1
 
-                # Write batch to disk if it reaches the batch size
-                if len(current_batch) >= self.batch_size:
-                    self._write_batch_to_disk(current_batch, batch_count)
-                    current_batch = []
-                    batch_count += 1
+        # Process frames in parallel batches
+        print(f"Generating {self.total_frames} frames...")
 
-        # Write any remaining frames
-        if current_batch:
-            self._write_batch_to_disk(current_batch, batch_count)
+        # Create batch directories in advance
+        batch_count = (self.total_frames + self.batch_size - 1) // self.batch_size
+        for i in range(batch_count):
+            batch_dir = os.path.join(self.temp_dir, f"batch_{i}")
+            os.makedirs(batch_dir, exist_ok=True)
+
+        # Process frames in parallel
+        with concurrent.futures.ProcessPoolExecutor(
+            max_workers=self.max_workers
+        ) as executor:
+            # Submit all frame generation tasks
+            future_to_frame = {
+                executor.submit(
+                    self._generate_frame_task, task_type, sub, opacity, frame_index
+                ): (task_type, sub, opacity, frame_index)
+                for task_type, sub, opacity, frame_index in frame_tasks
+            }
+
+            # Process results as they complete
+            for future in tqdm(
+                concurrent.futures.as_completed(future_to_frame),
+                total=len(future_to_frame),
+                desc="Generating frames",
+            ):
+                frame_index = future_to_frame[future][3]
+                batch_index = frame_index // self.batch_size
+                batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
+                frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
+
+                try:
+                    frame = future.result()
+                    self._save_frame(frame, frame_path)
+                    self.frame_files.append(frame_path)
+                except Exception as e:
+                    print(f"Error processing frame {frame_index}: {e}")
 
         return self
+
+    def _generate_frame_task(self, task_type, sub, opacity, frame_index):
+        """
+        Generate a single frame (for parallel processing)
+
+        Args:
+            task_type (str): Type of frame ('fade' or 'main')
+            sub: Subtitle object
+            opacity (int): Opacity value for the frame
+            frame_index (int): Index of the frame
+
+        Returns:
+            Image: Generated frame
+        """
+        if task_type == "fade":
+            return self.layout.create_frame(current_sub=sub, opacity=opacity)
+        else:
+            return self.layout.create_frame(current_sub=sub)
+
+    def _save_frame(self, frame, frame_path):
+        """
+        Save a frame to disk
+
+        Args:
+            frame: Frame to save
+            frame_path (str): Path to save the frame
+        """
+        import numpy as np
+        from PIL import Image
+
+        # Convert numpy array to PIL Image and save
+        if isinstance(frame, np.ndarray):
+            Image.fromarray(frame).save(frame_path, optimize=True)
+        else:
+            frame.save(frame_path, optimize=True)
 
     def _write_batch_to_disk(self, frames, batch_index):
         """
@@ -132,7 +195,6 @@ class VideoGenerator:
             frames (list): List of frames to write
             batch_index (int): Index of the current batch
         """
-
         import numpy as np
         from PIL import Image
 
@@ -147,26 +209,35 @@ class VideoGenerator:
 
             # Convert numpy array to PIL Image and save
             if isinstance(frame, np.ndarray):
-                Image.fromarray(frame).save(frame_path)
+                Image.fromarray(frame).save(frame_path, optimize=True)
             else:
-                frame.save(frame_path)
+                frame.save(frame_path, optimize=True)
 
             self.frame_files.append(frame_path)
 
         self.total_frames += len(frames)
         print(f"Processed {self.total_frames} frames so far...")
 
-    def export_video(self, output_path):
+    def export_video(self, output_path, preset="medium"):
         """
         Export the generated frames as a video
 
         Args:
             output_path (str): Path for the output video file
+            preset (str): Encoding preset for libx264:
+                          `ultrafast`, `superfast`, `veryfast`, `faster`,
+                          `fast`, `medium`, `slow`, `slower`, `veryslow`.
+                          Slower presets provide better quality but
+                          take longer to encode, and vice versa.
+                          For more info see:
+                          [FFmpeg H.264 Video Encoding Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
         """
-
         import shutil
 
-        print(f"Creating video from {self.total_frames} frames...")
+        print(f"Creating video from {len(self.frame_files)} frames...")
+
+        # Sort frame files by index to ensure correct order
+        self.frame_files.sort()
 
         # Convert frames to video using the saved frame files
         video = ImageSequenceClip(self.frame_files, fps=self.fps)
@@ -176,9 +247,17 @@ class VideoGenerator:
             audio = AudioFileClip(self.audio_path)
             video = video.set_audio(audio)
 
-        # Export video
+        # Export video with optimized settings
+        print("Encoding video (this may take a while)...")
         video.write_videofile(
-            output_path, codec="libx264", fps=self.fps, threads=4, audio_codec="aac"
+            output_path,
+            codec="libx264",
+            fps=self.fps,
+            threads=os.cpu_count(),
+            audio_codec="aac",
+            preset=preset,
+            bitrate="5000k",
+            ffmpeg_params=["-pix_fmt", "yuv420p"],
         )
 
         # Clean up temporary files
