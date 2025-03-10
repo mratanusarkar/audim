@@ -5,7 +5,7 @@ class ProfilePicture:
     """
     Handles user profile pictures or display picture with various shapes and effects
 
-    This component is responsible for displaying the profile picture of the host or guest.
+    This component is responsible for displaying the profile picture of the speaker.
     It may also include various shapes and effects like circle, square, highlight, etc.
     """
 
@@ -16,7 +16,8 @@ class ProfilePicture:
         Args:
             image_path (str): Path to the profile image
             size (tuple): Width and height of the profile picture
-            shape (str): Shape of the profile picture ("circle" or "square"), defaults to "circle"
+            shape (str): Shape of the profile picture ("circle" or "square"),
+            defaults to "circle"
         """
 
         self.image_path = image_path

@@ -6,8 +6,8 @@ class TextRenderer:
     """
     Handles text rendering with various styles and wrapping
 
-    This component is responsible for rendering text on the frame with various styles and wrapping.
-    It can handle different fonts, sizes, colors, and anchor points.
+    This component is responsible for rendering text on the frame with various styles
+    and wrapping. It can handle different fonts, sizes, colors, and anchor points.
     """
 
     def __init__(self):

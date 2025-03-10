@@ -10,8 +10,9 @@ class PodcastLayout(BaseLayout):
     """
     Standard podcast layout with profile pictures and subtitles
 
-    This layout is designed for standard podcast videos with a header section, profile pictures, and subtitles.
-    It provides a flexible structure for adding speakers and creating frames with customizable parameters.
+    This layout is designed for standard podcast videos with a header section,
+    profile pictures, and subtitles. It provides a flexible structure for adding
+    speakers and creating frames with customizable parameters.
     """
 
     def __init__(
@@ -55,11 +56,12 @@ class PodcastLayout(BaseLayout):
 
     def _calculate_positions(self):
         """
-        Calculate positions for all speakers based on the number of speakers and the size of the profile pictures.
-        (mostly for internal use)
+        Calculate positions for all speakers based on the number of speakers and
+        the size of the profile pictures. (mostly for internal use)
 
-        This method calculates the positions of all speakers based on the number of speakers and the size of the profile pictures.
-        It also takes into account the spacing between the speakers and the header height.
+        This method calculates the positions of all speakers based on the number of
+        speakers and the size of the profile pictures. It also takes into account
+        the spacing between the speakers and the header height.
         """
 
         num_speakers = len(self.speakers)
@@ -74,8 +76,9 @@ class PodcastLayout(BaseLayout):
         Calculate dynamic spacing for speaker rows
         (mostly for internal use)
 
-        This method calculates the spacing between the speakers based on the number of speakers and the size of the profile pictures.
-        It also takes into account the spacing between the speakers and the header height.
+        This method calculates the spacing between the speakers based on the number of
+        speakers and the size of the profile pictures. It also takes into account the
+        spacing between the speakers and the header height.
 
         Args:
             num_speakers (int): Number of speakers
@@ -163,7 +166,8 @@ class PodcastLayout(BaseLayout):
         Args:
             current_sub (str): Current subtitle
             opacity (int): Opacity of the subtitle
-            background_color (tuple): Background color in RGB format, defaults to (20, 20, 20)
+            background_color (tuple): Background color in RGB format,
+                                      defaults to (20, 20, 20)
         """
 
         # Create base frame
