@@ -7,8 +7,8 @@ Run the following commands to check and fix code style issues:
 
 ```bash
 # Check and fix code style issues
-ruff check --fix .
 ruff format .
+ruff check --fix .
 ```
 
 ## Run the project
