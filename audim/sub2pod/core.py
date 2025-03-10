@@ -1,3 +1,5 @@
+import os
+import tempfile
 import pysrt
 from moviepy.editor import AudioFileClip, ImageSequenceClip
 
@@ -30,21 +32,25 @@ class VideoGenerator:
     It uses a layout object to define the visual arrangement of the video.
     """
 
-    def __init__(self, layout, fps=30):
+    def __init__(self, layout, fps=30, batch_size=300):
         """
         Initialize the video generator
 
         Args:
             layout: Layout object that defines the visual arrangement
             fps (int): Frames per second for the output video
+            batch_size (int): Number of frames to process in a batch before writing to disk
         """
 
         self.layout = layout
         self.fps = fps
-        self.frames = []
+        self.batch_size = batch_size
         self.audio_path = None
         self.logo_path = None
         self.title = None
+        self.temp_dir = None
+        self.frame_files = []
+        self.total_frames = 0
 
     def generate_from_srt(self, srt_path, audio_path=None, logo_path=None, title=None):
         """
@@ -71,6 +77,15 @@ class VideoGenerator:
         # Load SRT file
         subs = pysrt.open(srt_path)
 
+        # Create temporary directory for frame storage
+        self.temp_dir = tempfile.mkdtemp()
+        self.frame_files = []
+        self.total_frames = 0
+        
+        # Process frames in batches
+        current_batch = []
+        batch_count = 0
+
         # Create frames for each subtitle
         for sub in subs:
             start_frame = sub.start.ordinal // (1000 // self.fps)
@@ -80,15 +95,64 @@ class VideoGenerator:
             fade_frames = min(15, end_frame - start_frame)
             for i in range(fade_frames):
                 opacity = int((i / fade_frames) * 255)
-                self.frames.append(
-                    self.layout.create_frame(current_sub=sub, opacity=opacity)
-                )
+                frame = self.layout.create_frame(current_sub=sub, opacity=opacity)
+                current_batch.append(frame)
+                
+                # Write batch to disk if it reaches the batch size
+                if len(current_batch) >= self.batch_size:
+                    self._write_batch_to_disk(current_batch, batch_count)
+                    current_batch = []
+                    batch_count += 1
 
             # Add main frames
             for _ in range(start_frame + fade_frames, end_frame):
-                self.frames.append(self.layout.create_frame(current_sub=sub))
+                frame = self.layout.create_frame(current_sub=sub)
+                current_batch.append(frame)
+
+                # Write batch to disk if it reaches the batch size
+                if len(current_batch) >= self.batch_size:
+                    self._write_batch_to_disk(current_batch, batch_count)
+                    current_batch = []
+                    batch_count += 1
+
+        # Write any remaining frames
+        if current_batch:
+            self._write_batch_to_disk(current_batch, batch_count)
 
         return self
+
+    def _write_batch_to_disk(self, frames, batch_index):
+        """
+        Write a batch of frames to disk as a temporary file
+        
+        Args:
+            frames (list): List of frames to write
+            batch_index (int): Index of the current batch
+        """
+
+        import numpy as np
+        from PIL import Image
+        import os
+        
+        # Create a batch directory
+        batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
+        os.makedirs(batch_dir, exist_ok=True)
+        
+        # Write each frame to disk
+        for i, frame in enumerate(frames):
+            frame_index = self.total_frames + i
+            frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
+            
+            # Convert numpy array to PIL Image and save
+            if isinstance(frame, np.ndarray):
+                Image.fromarray(frame).save(frame_path)
+            else:
+                frame.save(frame_path)
+                
+            self.frame_files.append(frame_path)
+        
+        self.total_frames += len(frames)
+        print(f"Processed {self.total_frames} frames so far...")
 
     def export_video(self, output_path):
         """
@@ -97,9 +161,13 @@ class VideoGenerator:
         Args:
             output_path (str): Path for the output video file
         """
-
-        # Convert frames to video
-        video = ImageSequenceClip(self.frames, fps=self.fps)
+        
+        import shutil
+        
+        print(f"Creating video from {self.total_frames} frames...")
+        
+        # Convert frames to video using the saved frame files
+        video = ImageSequenceClip(self.frame_files, fps=self.fps)
 
         # Add audio if provided
         if self.audio_path:
@@ -107,6 +175,14 @@ class VideoGenerator:
             video = video.set_audio(audio)
 
         # Export video
-        video.write_videofile(output_path, codec="libx264", fps=self.fps)
+        video.write_videofile(output_path, codec="libx264", fps=self.fps, 
+                             threads=4, audio_codec="aac")
+
+        # Clean up temporary files
+        try:
+            shutil.rmtree(self.temp_dir)
+            print(f"Cleaned up temporary files in {self.temp_dir}")
+        except Exception as e:
+            print(f"Warning: Could not clean up temporary files: {e}")
 
         return output_path
