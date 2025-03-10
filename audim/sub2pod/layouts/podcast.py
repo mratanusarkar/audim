@@ -167,7 +167,7 @@ class PodcastLayout(BaseLayout):
         """
 
         # Create base frame
-        frame, draw = self.create_base_frame(background_color)
+        frame, draw = self._create_base_frame(background_color)
 
         # Draw header
         if self.logo_path:
