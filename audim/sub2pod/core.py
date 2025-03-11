@@ -2,6 +2,8 @@ import os
 import tempfile
 import pysrt
 from moviepy.editor import AudioFileClip, ImageSequenceClip
+import concurrent.futures
+import multiprocessing
 
 
 class VideoGenerator:
@@ -82,77 +84,122 @@ class VideoGenerator:
         self.frame_files = []
         self.total_frames = 0
         
-        # Process frames in batches
-        current_batch = []
-        batch_count = 0
+        # Determine optimal number of workers
+        num_workers = max(1, multiprocessing.cpu_count() - 1)
+        print(f"Using {num_workers} workers for parallel processing")
+        
+        # Process subtitles in parallel batches
+        with concurrent.futures.ProcessPoolExecutor(max_workers=num_workers) as executor:
+            # Prepare subtitle batches for parallel processing
+            sub_batches = []
+            current_batch = []
+            current_batch_frames = 0
+            
+            for sub in subs:
+                start_frame = sub.start.ordinal // (1000 // self.fps)
+                end_frame = sub.end.ordinal // (1000 // self.fps)
+                num_frames = (end_frame - start_frame) + min(15, end_frame - start_frame)  # Including fade frames
+                
+                if current_batch_frames + num_frames > self.batch_size and current_batch:
+                    sub_batches.append(current_batch)
+                    current_batch = []
+                    current_batch_frames = 0
+                
+                current_batch.append(sub)
+                current_batch_frames += num_frames
+            
+            # Add the last batch if not empty
+            if current_batch:
+                sub_batches.append(current_batch)
+            
+            # Process each batch in parallel
+            batch_results = []
+            for batch_idx, batch in enumerate(sub_batches):
+                batch_results.append(
+                    executor.submit(
+                        self._process_subtitle_batch, 
+                        batch, 
+                        batch_idx,
+                        self.layout,
+                        self.fps,
+                        self.temp_dir
+                    )
+                )
+            
+            # Collect results
+            for future in concurrent.futures.as_completed(batch_results):
+                batch_frame_files, batch_frame_count = future.result()
+                self.frame_files.extend(batch_frame_files)
+                self.total_frames += batch_frame_count
+                print(f"Processed {self.total_frames} frames so far...")
+        
+        # Sort frame files by frame number to ensure correct sequence
+        self.frame_files.sort(key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0]))
+        
+        return self
 
-        # Create frames for each subtitle
-        for sub in subs:
-            start_frame = sub.start.ordinal // (1000 // self.fps)
-            end_frame = sub.end.ordinal // (1000 // self.fps)
-
+    def _process_subtitle_batch(self, subs_batch, batch_index, layout, fps, temp_dir):
+        """
+        Process a batch of subtitles in parallel
+        
+        Args:
+            subs_batch (list): List of subtitles to process
+            batch_index (int): Index of the current batch
+            layout: Layout object to use for frame creation
+            fps (int): Frames per second
+            temp_dir (str): Directory to store temporary files
+            
+        Returns:
+            tuple: (list of frame files, number of frames processed)
+        """
+        import numpy as np
+        from PIL import Image
+        
+        # Create a batch directory
+        batch_dir = os.path.join(temp_dir, f"batch_{batch_index}")
+        os.makedirs(batch_dir, exist_ok=True)
+        
+        frame_files = []
+        frame_count = 0
+        
+        # Process each subtitle in the batch
+        for sub in subs_batch:
+            start_frame = sub.start.ordinal // (1000 // fps)
+            end_frame = sub.end.ordinal // (1000 // fps)
+            
             # Add fade-in effect
             fade_frames = min(15, end_frame - start_frame)
             for i in range(fade_frames):
                 opacity = int((i / fade_frames) * 255)
-                frame = self.layout.create_frame(current_sub=sub, opacity=opacity)
-                current_batch.append(frame)
+                frame = layout.create_frame(current_sub=sub, opacity=opacity)
                 
-                # Write batch to disk if it reaches the batch size
-                if len(current_batch) >= self.batch_size:
-                    self._write_batch_to_disk(current_batch, batch_count)
-                    current_batch = []
-                    batch_count += 1
-
-            # Add main frames
-            for _ in range(start_frame + fade_frames, end_frame):
-                frame = self.layout.create_frame(current_sub=sub)
-                current_batch.append(frame)
-
-                # Write batch to disk if it reaches the batch size
-                if len(current_batch) >= self.batch_size:
-                    self._write_batch_to_disk(current_batch, batch_count)
-                    current_batch = []
-                    batch_count += 1
-
-        # Write any remaining frames
-        if current_batch:
-            self._write_batch_to_disk(current_batch, batch_count)
-
-        return self
-
-    def _write_batch_to_disk(self, frames, batch_index):
-        """
-        Write a batch of frames to disk as a temporary file
-        
-        Args:
-            frames (list): List of frames to write
-            batch_index (int): Index of the current batch
-        """
-
-        import numpy as np
-        from PIL import Image
-        import os
-        
-        # Create a batch directory
-        batch_dir = os.path.join(self.temp_dir, f"batch_{batch_index}")
-        os.makedirs(batch_dir, exist_ok=True)
-        
-        # Write each frame to disk
-        for i, frame in enumerate(frames):
-            frame_index = self.total_frames + i
-            frame_path = os.path.join(batch_dir, f"frame_{frame_index:08d}.png")
+                frame_path = os.path.join(batch_dir, f"frame_{start_frame + i:08d}.png")
+                
+                # Convert numpy array to PIL Image and save
+                if isinstance(frame, np.ndarray):
+                    Image.fromarray(frame).save(frame_path)
+                else:
+                    frame.save(frame_path)
+                    
+                frame_files.append(frame_path)
+                frame_count += 1
             
-            # Convert numpy array to PIL Image and save
-            if isinstance(frame, np.ndarray):
-                Image.fromarray(frame).save(frame_path)
-            else:
-                frame.save(frame_path)
+            # Add main frames
+            for frame_idx in range(start_frame + fade_frames, end_frame):
+                frame = layout.create_frame(current_sub=sub)
                 
-            self.frame_files.append(frame_path)
+                frame_path = os.path.join(batch_dir, f"frame_{frame_idx:08d}.png")
+                
+                # Convert numpy array to PIL Image and save
+                if isinstance(frame, np.ndarray):
+                    Image.fromarray(frame).save(frame_path)
+                else:
+                    frame.save(frame_path)
+                    
+                frame_files.append(frame_path)
+                frame_count += 1
         
-        self.total_frames += len(frames)
-        print(f"Processed {self.total_frames} frames so far...")
+        return frame_files, frame_count
 
     def export_video(self, output_path):
         """
@@ -172,11 +219,32 @@ class VideoGenerator:
         # Add audio if provided
         if self.audio_path:
             audio = AudioFileClip(self.audio_path)
+            
+            # Ensure video and audio durations match
+            video_duration = video.duration
+            audio_duration = audio.duration
+            
+            # Use the shorter duration to ensure sync
+            final_duration = min(video_duration, audio_duration)
+            
+            # Trim both video and audio to the same duration
+            video = video.subclip(0, final_duration)
+            audio = audio.subclip(0, final_duration)
+            
+            # Set audio to video
             video = video.set_audio(audio)
+            
+            print(f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)")
 
-        # Export video
-        video.write_videofile(output_path, codec="libx264", fps=self.fps, 
-                             threads=4, audio_codec="aac")
+        # Export video with higher quality settings
+        video.write_videofile(
+            output_path, 
+            codec="libx264", 
+            fps=self.fps, 
+            threads=max(4, os.cpu_count() - 1),  # Use more threads for encoding
+            audio_codec="aac",
+            bitrate="8000k"  # Higher bitrate for better quality
+        )
 
         # Clean up temporary files
         try:
