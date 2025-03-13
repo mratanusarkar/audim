@@ -47,6 +47,7 @@ from audim.sub2pod.layouts.podcast import PodcastLayout
 from audim.sub2pod.core import VideoGenerator
 
 # Create a podcast layout
+print("Creating layout...")
 layout = PodcastLayout(
     video_width=1920,
     video_height=1080,
@@ -54,10 +55,12 @@ layout = PodcastLayout(
 )
 
 # Add speakers
+print("Adding speakers...")
 layout.add_speaker("Host", "input/host_dp.png")
 layout.add_speaker("Guest", "input/guest_dp.png")
 
 # Generate video
+print("Generating video...")
 generator = VideoGenerator(layout, fps=30)
 generator.generate_from_srt(
     srt_path="input/podcast.srt",
@@ -67,6 +70,7 @@ generator.generate_from_srt(
 )
 
 # Export the final video
+print("Exporting video...")
 datetime = datetime.now().strftime("%Y%m%d%H%M%S")
 generator.export_video(f"output/podcast_{datetime}.mp4")
 ```

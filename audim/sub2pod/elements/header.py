@@ -7,8 +7,9 @@ class Header:
     """
     Header component for podcast layouts
 
-    This component is responsible for displaying the header at the top of the podcast video frame.
-    It may include various elements like logo, title, host profile, guest profile, etc.
+    This component is responsible for displaying the header at the top of the
+    podcast video frame. It may include various elements like logo, title,
+    host profile, guest profile, etc.
     """
 
     def __init__(self, height=150, background_color=(30, 30, 30)):
@@ -18,7 +19,8 @@ class Header:
         Args:
             height (int): Height of the header, defaults to 150
             background_color (tuple): RGB background color, defaults to RGB (30, 30, 30)
-            text_renderer (TextRenderer): optional text renderer for the header, defaults to a new instance
+            text_renderer (TextRenderer): optional text renderer for the header,
+                                          defaults to a new instance
             logo (Image): optional logo image, defaults to None
             logo_size (tuple): optional size of the logo, defaults to (100, 100)
         """
