@@ -225,35 +225,9 @@ class VideoGenerator:
         Args:
             output_path (str): Path for the output video file
         """
-        
         import shutil
         
         print(f"Creating video from {self.total_frames} frames...")
-        
-        # Determine if we should use GPU acceleration if available
-        try:
-            # Check for NVIDIA GPU with NVENC support
-            nvidia_check = subprocess.run(
-                ["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-            )
-            has_nvidia = nvidia_check.returncode == 0
-        except FileNotFoundError:
-            has_nvidia = False
-        
-        # Prepare output directory
-        output_dir = os.path.dirname(output_path)
-        if output_dir and not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        
-        # Sort frames by number to ensure correct sequence
-        self.frame_files.sort(key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0]))
-        
-        # Create a temporary file listing all frames
-        frames_list_file = os.path.join(self.temp_dir, "frames_list.txt")
-        with open(frames_list_file, 'w') as f:
-            for frame_file in self.frame_files:
-                f.write(f"file '{frame_file}'\n")
-                f.write(f"duration {1/self.fps}\n")
         
         # Calculate video duration
         video_duration = self.total_frames / self.fps
@@ -262,6 +236,7 @@ class VideoGenerator:
         audio_duration = None
         if self.audio_path:
             try:
+                from moviepy.editor import AudioFileClip
                 audio = AudioFileClip(self.audio_path)
                 audio_duration = audio.duration
                 audio.close()
@@ -274,7 +249,62 @@ class VideoGenerator:
             final_duration = min(video_duration, audio_duration)
             print(f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)")
         
-        # Determine optimal FFmpeg settings
+        # Sort frames by number to ensure correct sequence
+        self.frame_files.sort(key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0]))
+        
+        # Export video using FFmpeg or MoviePy
+        try:
+            # Try FFmpeg first (faster, with potential GPU acceleration)
+            self._export_video_with_ffmpeg(output_path, final_duration)
+        except Exception as e:
+            # If FFmpeg fails, fall back to MoviePy
+            print(f"FFmpeg export failed: {e}")
+            print("Falling back to MoviePy for video encoding...")
+            self._export_video_with_moviepy(output_path, final_duration)
+        
+        # Clean up temporary files
+        try:
+            shutil.rmtree(self.temp_dir)
+            print(f"Cleaned up temporary files in {self.temp_dir}")
+        except Exception as e:
+            print(f"Warning: Could not clean up temporary files: {e}")
+        
+        return output_path
+
+    def _export_video_with_ffmpeg(self, output_path, duration):
+        """
+        Export video using FFmpeg directly with potential GPU acceleration
+        
+        Args:
+            output_path (str): Path for the output video file
+            duration (float): Duration of the video in seconds
+        """
+        import subprocess
+        import os
+        
+        # Prepare output directory
+        output_dir = os.path.dirname(output_path)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        # Create a temporary file listing all frames
+        frames_list_file = os.path.join(self.temp_dir, "frames_list.txt")
+        with open(frames_list_file, 'w') as f:
+            for frame_file in self.frame_files:
+                f.write(f"file '{frame_file}'\n")
+                f.write(f"duration {1/self.fps}\n")
+        
+        # Check for NVIDIA GPU with NVENC support
+        has_nvidia = False
+        try:
+            nvidia_check = subprocess.run(
+                ["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            has_nvidia = nvidia_check.returncode == 0
+        except FileNotFoundError:
+            pass
+        
+        # Determine optimal thread count
         threads = max(4, os.cpu_count() - 1)
         
         # Base FFmpeg command
@@ -283,14 +313,14 @@ class VideoGenerator:
             "-f", "concat",
             "-safe", "0",
             "-i", frames_list_file,
-            "-t", str(final_duration)
+            "-t", str(duration)
         ]
         
         # Add audio if provided
         if self.audio_path:
             ffmpeg_cmd.extend([
                 "-i", self.audio_path,
-                "-t", str(final_duration),
+                "-t", str(duration),
                 "-map", "0:v",
                 "-map", "1:a"
             ])
@@ -310,8 +340,8 @@ class VideoGenerator:
             print(f"Using CPU encoding with {threads} threads")
             ffmpeg_cmd.extend([
                 "-c:v", "libx264",
-                "-preset", "faster",  # Use 'faster' for better speed/quality balance
-                "-crf", "23",  # Lower CRF = higher quality (18-28 is good range)
+                "-preset", "faster",
+                "-crf", "23",
                 "-threads", str(threads)
             ])
         
@@ -329,28 +359,19 @@ class VideoGenerator:
             output_path
         ])
         
-        # Run FFmpeg directly
+        # Run FFmpeg
         print("Starting video encoding with FFmpeg...")
-        try:
-            subprocess.run(ffmpeg_cmd, check=True)
-            print(f"Video successfully encoded to {output_path}")
-        except subprocess.CalledProcessError as e:
-            print(f"Error during video encoding: {e}")
-            # Fallback to MoviePy if FFmpeg direct call fails
-            print("Falling back to MoviePy for video encoding...")
-            self._export_video_with_moviepy(output_path, final_duration)
-        
-        # Clean up temporary files
-        try:
-            shutil.rmtree(self.temp_dir)
-            print(f"Cleaned up temporary files in {self.temp_dir}")
-        except Exception as e:
-            print(f"Warning: Could not clean up temporary files: {e}")
-        
-        return output_path
+        subprocess.run(ffmpeg_cmd, check=True)
+        print(f"Video successfully encoded to {output_path}")
 
     def _export_video_with_moviepy(self, output_path, duration):
-        """Fallback method to export video using MoviePy"""
+        """
+        Fallback method to export video using MoviePy
+        
+        Args:
+            output_path (str): Path for the output video file
+            duration (float): Duration of the video in seconds
+        """
         from moviepy.editor import AudioFileClip, ImageSequenceClip
         
         # Convert frames to video using the saved frame files
