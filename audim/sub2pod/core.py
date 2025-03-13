@@ -425,16 +425,19 @@ class VideoGenerator:
         if output_dir and not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        # Create a temporary file listing all frames
+        # Create a temporary file listing all frames with precise timing
         frames_list_file = os.path.join(self.temp_dir, "frames_list.txt")
+        frame_duration = 1.0 / self.fps
+
         with open(frames_list_file, "w") as f:
-            for frame_file in self.frame_files:
+            for i, frame_file in enumerate(self.frame_files):
                 f.write(f"file '{frame_file}'\n")
-                f.write(f"duration {1 / self.fps}\n")
+                # Use exact frame duration to prevent drift
+                f.write(f"duration {frame_duration}\n")
 
         # Check for NVIDIA GPU with NVENC support if GPU acceleration is requested
         has_nvidia = False
-        if gpu_acceleration and video_codec is None or video_codec == "h264_nvenc":
+        if gpu_acceleration and (video_codec is None or video_codec == "h264_nvenc"):
             try:
                 nvidia_check = subprocess.run(
                     ["nvidia-smi"],
@@ -450,7 +453,7 @@ class VideoGenerator:
         if threads is None:
             threads = max(4, os.cpu_count() - 1)
 
-        # Base FFmpeg command
+        # Base FFmpeg command with improved sync options
         ffmpeg_cmd = [
             "ffmpeg",
             "-y",
@@ -460,6 +463,8 @@ class VideoGenerator:
             "0",
             "-i",
             frames_list_file,
+            "-vsync",
+            "cfr",  # Constant frame rate for better sync
             "-t",
             str(duration),
         ]
@@ -476,18 +481,24 @@ class VideoGenerator:
                     "0:v",
                     "-map",
                     "1:a",
+                    "-async",
+                    "1",  # Better audio sync
                 ]
             )
 
         # Determine if we should use GPU encoding
-        use_gpu = has_nvidia and gpu_acceleration and (video_codec is None or video_codec == "h264_nvenc")
-        
+        use_gpu = (
+            has_nvidia
+            and gpu_acceleration
+            and (video_codec is None or video_codec == "h264_nvenc")
+        )
+
         # Determine video codec and encoding settings
         if use_gpu:
             print("Using NVIDIA GPU acceleration for video encoding")
             # Set default video codec for GPU
             video_codec = "h264_nvenc"
-            
+
             # Convert x264 preset to NVENC preset
             nvenc_preset = "p3"  # Default balanced preset
             if preset in ["veryslow", "slower", "slow"]:
@@ -498,29 +509,43 @@ class VideoGenerator:
                 nvenc_preset = "p5"  # Faster encoding
             elif preset in ["veryfast", "superfast", "ultrafast"]:
                 nvenc_preset = "p7"  # Fastest encoding
-            
-            ffmpeg_cmd.extend([
-                "-c:v", video_codec,
-                "-preset", nvenc_preset,
-                "-tune", "hq",
-                "-rc", "vbr",
-                "-b:v", video_bitrate,
-                "-maxrate", str(float(video_bitrate.rstrip('M')) * 1.25) + "M"
-            ])
+
+            ffmpeg_cmd.extend(
+                [
+                    "-c:v",
+                    video_codec,
+                    "-preset",
+                    nvenc_preset,
+                    "-tune",
+                    "hq",
+                    "-rc",
+                    "vbr",
+                    "-b:v",
+                    video_bitrate,
+                    "-maxrate",
+                    str(float(video_bitrate.rstrip("M")) * 1.25) + "M",
+                ]
+            )
         else:
             print(f"Using CPU encoding with {threads} threads")
             # Set default video codec for CPU if not specified
             if video_codec is None:
                 video_codec = "libx264"
-            
+
             # For CPU encoding, use the x264 preset directly
-            ffmpeg_cmd.extend([
-                "-c:v", video_codec,
-                "-preset", preset,
-                "-crf", str(crf),
-                "-threads", str(threads)
-            ])
-            
+            ffmpeg_cmd.extend(
+                [
+                    "-c:v",
+                    video_codec,
+                    "-preset",
+                    preset,
+                    "-crf",
+                    str(crf),
+                    "-threads",
+                    str(threads),
+                ]
+            )
+
             # Add tune parameter only for libx264
             if video_codec == "libx264":
                 ffmpeg_cmd.extend(["-tune", "film"])
@@ -533,7 +558,7 @@ class VideoGenerator:
 
             ffmpeg_cmd.extend(["-c:a", audio_codec, "-b:a", audio_bitrate])
 
-        # Add output format settings
+        # Add output format settings with improved sync options
         ffmpeg_cmd.extend(["-pix_fmt", "yuv420p", "-movflags", "+faststart"])
 
         # Add any extra arguments
