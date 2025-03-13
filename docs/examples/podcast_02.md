@@ -136,3 +136,26 @@ Here's how the generated video looks like upon rendering:
   </video>
 </div>
 
+## Code Breakdown
+
+1. **Layout Creation**: We create a `PodcastLayout` with Full HD resolution (1920×1080) and enable speaker name display.
+2. **Speaker Configuration**: We add two speakers with their respective profile pictures.
+3. **Video Generation**: We initialize a `VideoGenerator` with our layout and set the frame rate to 30 FPS.
+4. **Content Processing**: The generator processes our SRT and audio files, incorporating the logo and title.
+5. **Performance Optimization**: We use `cpu_core_utilization="max"` to leverage all available CPU cores for faster frame generation + native system FFmpeg with NVIDIA GPU acceleration for faster video encoding and rendering.
+6. **Export**: The final video is saved with a timestamp in the filename for easy versioning.
+
+## Troubleshooting
+
+If you encounter issues:
+
+- Ensure your SRT file has proper speaker tags in the format `[SpeakerName]`
+- Verify that speaker names in the SRT match exactly with those added via `add_speaker()`
+- Check that all input files exist and are in the correct format
+- For performance issues, try adjusting the `cpu_core_utilization` parameter
+
+## See Also
+
+- [Basic Podcast Example](/examples/podcast_01)
+- [API Documentation for VideoGenerator](/audim/sub2pod/core)
+- [API Documentation for PodcastLayout](/audim/sub2pod/layouts/podcast)
