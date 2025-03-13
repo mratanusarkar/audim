@@ -8,6 +8,16 @@ import tempfile
 import numpy as np
 import pysrt
 from PIL import Image
+from tqdm import tqdm
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(name)s (%(levelname)s) - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+logger = logging.getLogger('VideoGenerator')
 
 
 class VideoGenerator:
@@ -96,6 +106,7 @@ class VideoGenerator:
             self.layout.title = title
 
         # Load SRT file
+        logger.info(f"Loading subtitles from {srt_path}")
         subs = pysrt.open(srt_path)
 
         # Create temporary directory for frame storage
@@ -115,7 +126,7 @@ class VideoGenerator:
         else:
             raise ValueError(f"Invalid CPU core utilities: {cpu_core_utilization}")
 
-        print(f"Using {num_workers} workers for parallel processing")
+        logger.info(f"Using {num_workers} CPU cores for parallel processing")
 
         # Process subtitles in parallel batches
         with concurrent.futures.ProcessPoolExecutor(
@@ -148,6 +159,8 @@ class VideoGenerator:
             if current_batch:
                 sub_batches.append(current_batch)
 
+            logger.info(f"Processing subtitle to generate frames in {len(sub_batches)} batches")
+            
             # Process each batch in parallel
             batch_results = []
             for batch_idx, batch in enumerate(sub_batches):
@@ -162,18 +175,21 @@ class VideoGenerator:
                     )
                 )
 
-            # Collect results
-            for future in concurrent.futures.as_completed(batch_results):
-                batch_frame_files, batch_frame_count = future.result()
-                self.frame_files.extend(batch_frame_files)
-                self.total_frames += batch_frame_count
-                print(f"Processed {self.total_frames} frames so far...")
+            # Collect results with progress bar
+            with tqdm(total=len(batch_results), desc="Processing batch", unit="batch") as pbar:
+                for future in concurrent.futures.as_completed(batch_results):
+                    batch_frame_files, batch_frame_count = future.result()
+                    self.frame_files.extend(batch_frame_files)
+                    self.total_frames += batch_frame_count
+                    pbar.update(1)
+                    pbar.set_postfix({"frames processed": self.total_frames})
 
         # Sort frame files by frame number to ensure correct sequence
         self.frame_files.sort(
             key=lambda x: int(os.path.basename(x).split("_")[1].split(".")[0])
         )
-
+        
+        logger.info(f"Frame generation completed: Total {self.total_frames} frames created")
         return self
 
     def _process_subtitle_batch(self, subs_batch, batch_index, layout, fps, temp_dir):
@@ -286,7 +302,7 @@ class VideoGenerator:
                 See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all available options
         """
 
-        print(f"Creating video from {self.total_frames} frames...")
+        logger.info(f"Starting video generation process with {self.total_frames} frames")
 
         # Calculate video duration
         video_duration = self.total_frames / self.fps
@@ -302,15 +318,15 @@ class VideoGenerator:
                 audio_duration = audio.duration
                 audio.close()
             except Exception as e:
-                print(f"Warning: Could not determine audio duration: {e}")
+                logger.warning(f"Could not determine audio duration: {e}")
 
         # Use the shorter duration to ensure sync
         final_duration = video_duration
         if audio_duration:
             final_duration = min(video_duration, audio_duration)
-            print(
-                f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)"
-            )
+            logger.info(f"Video duration: {final_duration:.2f}s (adjusted to match audio)")
+        else:
+            logger.info(f"Video duration: {final_duration:.2f}s")
 
         # Sort frames by number to ensure correct sequence
         self.frame_files.sort(
@@ -324,6 +340,7 @@ class VideoGenerator:
         # Determine which encoder to use
         if encoder == "auto":
             try:
+                logger.info("Attempting video export with FFmpeg encoding")
                 self._export_video_with_ffmpeg(
                     output_path,
                     final_duration,
@@ -338,8 +355,8 @@ class VideoGenerator:
                     extra_ffmpeg_args,
                 )
             except Exception as e:
-                print(f"FFmpeg export failed: {e}")
-                print("Falling back to MoviePy for video encoding...")
+                logger.warning(f"FFmpeg export failed: {e}")
+                logger.info("Falling back to MoviePy for video encoding")
                 self._export_video_with_moviepy(
                     output_path,
                     final_duration,
@@ -351,6 +368,7 @@ class VideoGenerator:
                     threads,
                 )
         elif encoder == "ffmpeg":
+            logger.info("Starting video export using native FFmpeg")
             self._export_video_with_ffmpeg(
                 output_path,
                 final_duration,
@@ -365,6 +383,7 @@ class VideoGenerator:
                 extra_ffmpeg_args,
             )
         elif encoder == "moviepy":
+            logger.info("Starting video export using module MoviePy")
             self._export_video_with_moviepy(
                 output_path,
                 final_duration,
@@ -376,6 +395,7 @@ class VideoGenerator:
                 threads,
             )
         else:
+            logger.error(f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'")
             raise ValueError(
                 f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'"
             )
@@ -383,10 +403,11 @@ class VideoGenerator:
         # Clean up temporary files
         try:
             shutil.rmtree(self.temp_dir)
-            print(f"Cleaned up temporary files in {self.temp_dir}")
+            logger.info(f"Cleaned up temporary files in {self.temp_dir}")
         except Exception as e:
-            print(f"Warning: Could not clean up temporary files: {e}")
+            logger.warning(f"Could not clean up temporary files: {e}")
 
+        logger.info(f"Video generation completed! Exported to: {output_path}")
         return output_path
 
     def _export_video_with_ffmpeg(
@@ -429,6 +450,7 @@ class VideoGenerator:
         frames_list_file = os.path.join(self.temp_dir, "frames_list.txt")
         frame_duration = 1.0 / self.fps
 
+        logger.info("Preparing frame list for FFmpeg")
         with open(frames_list_file, "w") as f:
             for i, frame_file in enumerate(self.frame_files):
                 f.write(f"file '{frame_file}'\n")
@@ -495,7 +517,7 @@ class VideoGenerator:
 
         # Determine video codec and encoding settings
         if use_gpu:
-            print("Using NVIDIA GPU acceleration for video encoding")
+            logger.info("Using NVIDIA GPU acceleration for video encoding")
             # Set default video codec for GPU
             video_codec = "h264_nvenc"
 
@@ -527,7 +549,7 @@ class VideoGenerator:
                 ]
             )
         else:
-            print(f"Using CPU encoding with {threads} threads")
+            logger.info(f"Using CPU encoding with {threads} threads")
             # Set default video codec for CPU if not specified
             if video_codec is None:
                 video_codec = "libx264"
@@ -569,10 +591,39 @@ class VideoGenerator:
         ffmpeg_cmd.append(output_path)
 
         # Run FFmpeg
-        print("Starting video encoding with FFmpeg...")
-        print(f"FFmpeg command: {' '.join(ffmpeg_cmd)}")
-        subprocess.run(ffmpeg_cmd, check=True)
-        print(f"Video successfully encoded to {output_path}")
+        logger.info("Starting FFmpeg encoding process")
+        logger.debug(f"FFmpeg command: {' '.join(ffmpeg_cmd)}")
+        
+        # Run FFmpeg with progress indication
+        process = subprocess.Popen(
+            ffmpeg_cmd, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.STDOUT, 
+            universal_newlines=True
+        )
+        
+        # Simple progress indicator since FFmpeg output is complex
+        with tqdm(total=100, desc="Encoding video", unit="%") as pbar:
+            last_progress = 0
+            for line in process.stdout:
+                # Try to extract progress information from FFmpeg output
+                if "time=" in line:
+                    try:
+                        time_str = line.split("time=")[1].split()[0]
+                        h, m, s = time_str.split(':')
+                        current_time = float(h) * 3600 + float(m) * 60 + float(s)
+                        progress = min(int(current_time / duration * 100), 100)
+                        if progress > last_progress:
+                            pbar.update(progress - last_progress)
+                            last_progress = progress
+                    except:
+                        pass
+        
+        process.wait()
+        if process.returncode != 0:
+            raise subprocess.CalledProcessError(process.returncode, ffmpeg_cmd)
+            
+        logger.info(f"Video successfully encoded to {output_path}")
 
     def _export_video_with_moviepy(
         self,
@@ -612,6 +663,7 @@ class VideoGenerator:
         if threads is None:
             threads = max(4, os.cpu_count() - 1)
 
+        logger.info("Loading frames for MoviePy")
         # Convert frames to video using the saved frame files
         video = ImageSequenceClip(self.frame_files, fps=self.fps)
 
@@ -623,6 +675,7 @@ class VideoGenerator:
             # Import locally since this is a heavier dependency
             from moviepy.editor import AudioFileClip
 
+            logger.info(f"Adding audio from {self.audio_path}")
             audio = AudioFileClip(self.audio_path)
             audio = audio.subclip(0, duration)
             video = video.set_audio(audio)
@@ -635,7 +688,7 @@ class VideoGenerator:
             ffmpeg_params.extend(["-b:v", video_bitrate])
 
         # Export video
-        print("Starting video encoding with MoviePy...")
+        logger.info(f"Starting MoviePy encoding with {video_codec} codec")
         video.write_videofile(
             output_path,
             codec=video_codec,
@@ -644,5 +697,5 @@ class VideoGenerator:
             audio_codec=audio_codec,
             bitrate=video_bitrate,
             ffmpeg_params=ffmpeg_params,
+            logger="bar",
         )
-        print(f"Video successfully encoded to {output_path}")
