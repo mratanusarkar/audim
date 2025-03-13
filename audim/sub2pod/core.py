@@ -76,7 +76,8 @@ class VideoGenerator:
             audio_path (str, optional): Path to the audio file
             logo_path (str, optional): Path to the logo image
             title (str, optional): Title for the video
-            cpu_core_utilization (str, optional): `single`, `half`, `most`, `max`
+            cpu_core_utilization (str, optional): `'single'`, `'half'`, `'most'`, `'max'`
+
                 - `single`: Uses 1 CPU core
                 - `half`: Uses half of available CPU cores
                 - `most`: (default) Uses all available CPU cores except one
@@ -236,13 +237,55 @@ class VideoGenerator:
 
         return frame_files, frame_count
 
-    def export_video(self, output_path):
+    def export_video(
+        self,
+        output_path,
+        encoder="auto",
+        video_codec=None,
+        audio_codec=None,
+        video_bitrate="8M",
+        audio_bitrate="192k",
+        preset="medium",
+        crf=23,
+        threads=None,
+        gpu_acceleration=True,
+        extra_ffmpeg_args=None,
+    ):
         """
         Export the generated frames as a video
 
         Args:
             output_path (str): Path for the output video file
+            encoder (str): Encoding method to use: `'ffmpeg'`, `'moviepy'`, or `'auto'` (default)
+            video_codec (str, optional): Video codec to use (default: `'h264_nvenc'` for GPU, `'libx264'` for CPU)
+                See [FFmpeg H.264 Guide](https://trac.ffmpeg.org/wiki/Encode/H.264) for CPU options
+                See [NVIDIA FFmpeg Guide](https://developer.nvidia.com/blog/nvidia-ffmpeg-transcoding-guide/) for GPU options
+            audio_codec (str, optional): Audio codec to use (default: `'aac'`)
+                See [FFmpeg AAC Guide](https://trac.ffmpeg.org/wiki/Encode/AAC) for audio codec options
+            video_bitrate (str, optional): Video bitrate (default: `'8M'`)
+            audio_bitrate (str, optional): Audio bitrate (default: `'192k'`)
+            preset (str, optional): Encoding preset (default: `'medium'`)
+                For CPU encoding (libx264):
+                    Options: `'ultrafast'`, `'superfast'`, `'veryfast'`, `'faster'`, `'fast'`,
+                             `'medium'`, `'slow'`, `'slower'`, `'veryslow'`
+                    Slower presets give better compression/quality at the cost of encoding time.
+                    See [FFmpeg Preset Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+                For GPU encoding (NVENC):
+                    Will be automatically converted to NVENC presets:
+                    `'slow'`/`'slower'`/`'veryslow'` → `'p1'` (highest quality)
+                    `'medium'` → `'p3'` (balanced)
+                    `'fast'`/`'faster'` → `'p5'` (faster encoding)
+                    `'veryfast'`/`'superfast'`/`'ultrafast'` → `'p7'` (fastest encoding)
+                    See [NVIDIA FFmpeg Integration](https://docs.nvidia.com/video-technologies/video-codec-sdk/12.0/ffmpeg-with-nvidia-gpu/index.html)
+            crf (int, optional): Constant Rate Factor for quality (default: `23`, lower is better quality)
+                Range: `0-51`, where lower values mean better quality and larger file size
+                Recommended range: `18-28`. See [CRF Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#crf)
+            threads (int, optional): Number of encoding threads (default: CPU count - 1)
+            gpu_acceleration (bool, optional): Whether to use GPU acceleration if available (default: `True`)
+            extra_ffmpeg_args (list, optional): Additional FFmpeg arguments as a list
+                See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all available options
         """
+
         print(f"Creating video from {self.total_frames} frames...")
 
         # Calculate video duration
@@ -252,6 +295,7 @@ class VideoGenerator:
         audio_duration = None
         if self.audio_path:
             try:
+                # Import locally since this is a heavier dependency
                 from moviepy.editor import AudioFileClip
 
                 audio = AudioFileClip(self.audio_path)
@@ -265,7 +309,7 @@ class VideoGenerator:
         if audio_duration:
             final_duration = min(video_duration, audio_duration)
             print(
-                f"Video duration: {final_duration:.2f} seconds(adjusted to match audio)"
+                f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)"
             )
 
         # Sort frames by number to ensure correct sequence
@@ -273,15 +317,68 @@ class VideoGenerator:
             key=lambda x: int(os.path.basename(x).split("_")[1].split(".")[0])
         )
 
-        # Export video using FFmpeg or MoviePy
-        try:
-            # Try FFmpeg first (faster, with potential GPU acceleration)
-            self._export_video_with_ffmpeg(output_path, final_duration)
-        except Exception as e:
-            # If FFmpeg fails, fall back to MoviePy
-            print(f"FFmpeg export failed: {e}")
-            print("Falling back to MoviePy for video encoding...")
-            self._export_video_with_moviepy(output_path, final_duration)
+        # Set default threads if not specified
+        if threads is None:
+            threads = max(4, os.cpu_count() - 1)
+
+        # Determine which encoder to use
+        if encoder == "auto":
+            try:
+                self._export_video_with_ffmpeg(
+                    output_path,
+                    final_duration,
+                    video_codec,
+                    audio_codec,
+                    video_bitrate,
+                    audio_bitrate,
+                    preset,
+                    crf,
+                    threads,
+                    gpu_acceleration,
+                    extra_ffmpeg_args,
+                )
+            except Exception as e:
+                print(f"FFmpeg export failed: {e}")
+                print("Falling back to MoviePy for video encoding...")
+                self._export_video_with_moviepy(
+                    output_path,
+                    final_duration,
+                    video_codec,
+                    audio_codec,
+                    video_bitrate,
+                    audio_bitrate,
+                    preset,
+                    threads,
+                )
+        elif encoder == "ffmpeg":
+            self._export_video_with_ffmpeg(
+                output_path,
+                final_duration,
+                video_codec,
+                audio_codec,
+                video_bitrate,
+                audio_bitrate,
+                preset,
+                crf,
+                threads,
+                gpu_acceleration,
+                extra_ffmpeg_args,
+            )
+        elif encoder == "moviepy":
+            self._export_video_with_moviepy(
+                output_path,
+                final_duration,
+                video_codec,
+                audio_codec,
+                video_bitrate,
+                audio_bitrate,
+                preset,
+                threads,
+            )
+        else:
+            raise ValueError(
+                f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'"
+            )
 
         # Clean up temporary files
         try:
@@ -292,14 +389,37 @@ class VideoGenerator:
 
         return output_path
 
-    def _export_video_with_ffmpeg(self, output_path, duration):
+    def _export_video_with_ffmpeg(
+        self,
+        output_path,
+        duration,
+        video_codec=None,
+        audio_codec=None,
+        video_bitrate="8M",
+        audio_bitrate="192k",
+        preset="medium",
+        crf=23,
+        threads=None,
+        gpu_acceleration=True,
+        extra_args=None,
+    ):
         """
         Export video using FFmpeg directly with potential GPU acceleration
 
         Args:
             output_path (str): Path for the output video file
             duration (float): Duration of the video in seconds
+            video_codec (str, optional): Video codec to use
+            audio_codec (str, optional): Audio codec to use
+            video_bitrate (str, optional): Video bitrate
+            audio_bitrate (str, optional): Audio bitrate
+            preset (str, optional): Encoding preset
+            crf (int, optional): Constant Rate Factor for quality
+            threads (int, optional): Number of encoding threads
+            gpu_acceleration (bool): Whether to use GPU acceleration
+            extra_args (list, optional): Additional FFmpeg arguments
         """
+
         # Prepare output directory
         output_dir = os.path.dirname(output_path)
         if output_dir and not os.path.exists(output_dir):
@@ -312,21 +432,23 @@ class VideoGenerator:
                 f.write(f"file '{frame_file}'\n")
                 f.write(f"duration {1 / self.fps}\n")
 
-        # Check for NVIDIA GPU with NVENC support
+        # Check for NVIDIA GPU with NVENC support if GPU acceleration is requested
         has_nvidia = False
-        try:
-            nvidia_check = subprocess.run(
-                ["nvidia-smi"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            has_nvidia = nvidia_check.returncode == 0
-        except FileNotFoundError:
-            pass
+        if gpu_acceleration:
+            try:
+                nvidia_check = subprocess.run(
+                    ["nvidia-smi"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                has_nvidia = nvidia_check.returncode == 0
+            except FileNotFoundError:
+                pass
 
-        # Determine optimal thread count
-        threads = max(4, os.cpu_count() - 1)
+        # Set default threads if not specified
+        if threads is None:
+            threads = max(4, os.cpu_count() - 1)
 
         # Base FFmpeg command
         ffmpeg_cmd = [
@@ -357,35 +479,54 @@ class VideoGenerator:
                 ]
             )
 
-        # Add encoding settings
-        if has_nvidia:
+        # Determine video codec and encoding settings
+        if has_nvidia and gpu_acceleration:
             print("Using NVIDIA GPU acceleration for video encoding")
+            # Set default video codec for GPU if not specified
+            if video_codec is None:
+                video_codec = "h264_nvenc"
+
+            # Convert x264 preset to NVENC preset
+            nvenc_preset = "p3"  # Default balanced preset
+            if preset in ["veryslow", "slower", "slow"]:
+                nvenc_preset = "p1"  # Highest quality
+            elif preset == "medium":
+                nvenc_preset = "p3"  # Balanced
+            elif preset in ["fast", "faster"]:
+                nvenc_preset = "p5"  # Faster encoding
+            elif preset in ["veryfast", "superfast", "ultrafast"]:
+                nvenc_preset = "p7"  # Fastest encoding
+
             ffmpeg_cmd.extend(
                 [
                     "-c:v",
-                    "h264_nvenc",
+                    video_codec,
                     "-preset",
-                    "p7",
+                    nvenc_preset,
                     "-tune",
                     "hq",
                     "-rc",
                     "vbr",
                     "-b:v",
-                    "8M",
+                    video_bitrate,
                     "-maxrate",
-                    "10M",
+                    str(float(video_bitrate.rstrip("M")) * 1.25) + "M",
                 ]
             )
         else:
             print(f"Using CPU encoding with {threads} threads")
+            # Set default video codec for CPU if not specified
+            if video_codec is None:
+                video_codec = "libx264"
+
             ffmpeg_cmd.extend(
                 [
                     "-c:v",
-                    "libx264",
+                    video_codec,
                     "-preset",
-                    "faster",
+                    preset,
                     "-crf",
-                    "23",
+                    str(crf),
                     "-threads",
                     str(threads),
                 ]
@@ -393,27 +534,65 @@ class VideoGenerator:
 
         # Add audio encoding settings if audio is provided
         if self.audio_path:
-            ffmpeg_cmd.extend(["-c:a", "aac", "-b:a", "192k"])
+            # Set default audio codec if not specified
+            if audio_codec is None:
+                audio_codec = "aac"
+
+            ffmpeg_cmd.extend(["-c:a", audio_codec, "-b:a", audio_bitrate])
 
         # Add output format settings
-        ffmpeg_cmd.extend(
-            ["-pix_fmt", "yuv420p", "-movflags", "+faststart", output_path]
-        )
+        ffmpeg_cmd.extend(["-pix_fmt", "yuv420p", "-movflags", "+faststart"])
+
+        # Add any extra arguments
+        if extra_args:
+            ffmpeg_cmd.extend(extra_args)
+
+        # Add output path
+        ffmpeg_cmd.append(output_path)
 
         # Run FFmpeg
         print("Starting video encoding with FFmpeg...")
+        print(f"FFmpeg command: {' '.join(ffmpeg_cmd)}")
         subprocess.run(ffmpeg_cmd, check=True)
         print(f"Video successfully encoded to {output_path}")
 
-    def _export_video_with_moviepy(self, output_path, duration):
+    def _export_video_with_moviepy(
+        self,
+        output_path,
+        duration,
+        video_codec=None,
+        audio_codec=None,
+        video_bitrate="8M",
+        audio_bitrate="192k",
+        preset="medium",
+        threads=None,
+    ):
         """
         Fallback method to export video using MoviePy
 
         Args:
             output_path (str): Path for the output video file
             duration (float): Duration of the video in seconds
+            video_codec (str, optional): Video codec to use
+            audio_codec (str, optional): Audio codec to use
+            video_bitrate (str, optional): Video bitrate
+            audio_bitrate (str, optional): Audio bitrate
+            preset (str, optional): Encoding preset (x264 preset names)
+            threads (int, optional): Number of encoding threads
         """
-        from moviepy.editor import AudioFileClip, ImageSequenceClip
+
+        # Import locally since this is a heavier dependency
+        from moviepy.editor import ImageSequenceClip
+
+        # Set default codecs if not specified
+        if video_codec is None:
+            video_codec = "libx264"
+        if audio_codec is None:
+            audio_codec = "aac"
+
+        # Set default threads if not specified
+        if threads is None:
+            threads = max(4, os.cpu_count() - 1)
 
         # Convert frames to video using the saved frame files
         video = ImageSequenceClip(self.frame_files, fps=self.fps)
@@ -423,16 +602,29 @@ class VideoGenerator:
 
         # Add audio if provided
         if self.audio_path:
+            # Import locally since this is a heavier dependency
+            from moviepy.editor import AudioFileClip
+
             audio = AudioFileClip(self.audio_path)
             audio = audio.subclip(0, duration)
             video = video.set_audio(audio)
 
+        # Prepare ffmpeg parameters for MoviePy
+        ffmpeg_params = ["-preset", preset]
+
+        # Add bitrate parameter if specified
+        if video_bitrate:
+            ffmpeg_params.extend(["-b:v", video_bitrate])
+
         # Export video
+        print("Starting video encoding with MoviePy...")
         video.write_videofile(
             output_path,
-            codec="libx264",
+            codec=video_codec,
             fps=self.fps,
-            threads=max(4, os.cpu_count() - 1),
-            audio_codec="aac",
-            bitrate="8000k",
+            threads=threads,
+            audio_codec=audio_codec,
+            bitrate=video_bitrate,
+            ffmpeg_params=ffmpeg_params,
         )
+        print(f"Video successfully encoded to {output_path}")
