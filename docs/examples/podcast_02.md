@@ -5,8 +5,7 @@
 > - **Last Updated**: March 14, 2025
 > - **Compatible with**: Audim v0.0.2
 
-
-This example demonstrates how to create a professional-looking podcast video using Audim's Sub2Pod module, featuring real speakers with profile pictures, custom branding, and high-quality output.
+This example demonstrates how to create a professional-looking podcast video using Audim's `Sub2Pod` module, featuring real speakers with profile pictures, custom branding, and high-quality output.
 
 ## Overview
 
@@ -17,43 +16,46 @@ In this tutorial, we'll transform a conversation between Grant Sanderson (from [
 3. Generating the video with **Audim**
 4. Reviewing the final output
 
-Note: The conversation between Grant and Sal is taken from [this podcast](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s).
+> Note: The conversation between Grant and Sal is taken from [this podcast](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s).
 
 ## Input Files
 
-### Audio File
+### 1. Podcast Audio File
+
+We need to have the audio recording of the podcast that we want to convert to a video.
 
 Below is a sample of the podcast audio we'll be using:
 
 <div style="margin: 20px 0;">
   <audio controls style="width: 100%;">
-    <source src="./assets/podcast_02/podcast.mp3" type="audio/mpeg">
+    <source src="/examples/assets/podcast_02/podcast.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
   <p style="text-align: center; font-style: italic; margin-top: 5px;">Audio snippet from "Sal Khan: Beyond Khan Academy | 3b1b Podcast #2"</p>
 </div>
 
-### Subtitle File (SRT)
+### 2. Podcast Subtitles File (.SRT)
 
-The SRT file contains the transcription with speaker tags. The SRT file should follow the standard [SubRip Subtitle format](https://en.wikipedia.org/wiki/SubRip) with added speaker tags as expected by Audim.
+The SRT file should contain the transcription with speaker tags for the package to understand the speaker for each text. The SRT file should follow the standard [SubRip Subtitle format](https://en.wikipedia.org/wiki/SubRip) with added speaker tags as expected by Audim.
 
 Below is the SRT file used for this example:
 
-## Podcast Subtitles
-
 <div style="max-height: 400px; overflow: auto; border: 1px solid #ddd; padding: 10px;">
-<pre>
-00:00:01,500 --> 00:00:04,000
-Welcome to our podcast!
-
-00:00:04,500 --> 00:00:07,000
-Today, we're going to talk about something interesting.
-
-...
-</pre>
+    <pre id="srt-container"></pre>
 </div>
 
-### Other Files
+<script>
+fetch("/examples/assets/podcast_02/podcast.srt")
+.then(response => response.text())
+.then(text => {
+    document.getElementById("srt-container").textContent = text;
+})
+.catch(error => console.error("Error loading subtitles:", error));
+</script>
+
+### 3. Other Files
+
+Along with the audio and subtitles files, we also need the following files:
 
 - Profile Picture of Grant Sanderson
 - Profile Picture of Sal Khan
@@ -127,11 +129,11 @@ Encoding video:  99%|███████████████████�
 
 ## Output Video
 
-Here's how the generated video looks like upon rendering:
+Here's how the generated video looks like upon completion of the rendering process:
 
 <div style="text-align: center; margin: 20px 0;">
   <video controls style="width: 100%;">
-    <source src="./assets/podcast_02/podcast.mp4" type="video/mp4">
+    <source src="/examples/assets/podcast_02/podcast.mp4" type="video/mp4">
     Your browser does not support the video element.
   </video>
 </div>
