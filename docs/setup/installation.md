@@ -14,7 +14,23 @@ git clone https://github.com/mratanusarkar/audim.git
 cd audim
 ```
 
-### 2. Install `uv` and setup project environment:
+### 2. Install FFmpeg locally (optional)
+
+Using local FFmpeg is optional.
+It is recommended to install FFmpeg locally as it will speed up the video encoding process.
+
+On Ubuntu, install FFmpeg using:
+
+```bash
+sudo apt install ffmpeg libx264-dev
+```
+
+On Windows and other platforms, download and install FFmpeg from the official website:
+
+- [Download FFmpeg](https://ffmpeg.org/download.html)
+- Make sure FFmpeg is in your system PATH
+
+### 3. Install `uv` and setup project environment:
 
 > **Note**: If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
 >
@@ -35,7 +51,7 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-### 3. Create input and output directories:
+### 4. Create input and output directories:
 
 ```bash
 mkdir ./input ./output
