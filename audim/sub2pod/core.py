@@ -54,7 +54,7 @@ class VideoGenerator:
         self.frame_files = []
         self.total_frames = 0
 
-    def generate_from_srt(self, srt_path, audio_path=None, logo_path=None, title=None):
+    def generate_from_srt(self, srt_path, audio_path=None, logo_path=None, title=None, cpu_core_utilization="most"):
         """
         Generate video frames from an SRT file
 
@@ -63,6 +63,11 @@ class VideoGenerator:
             audio_path (str, optional): Path to the audio file
             logo_path (str, optional): Path to the logo image
             title (str, optional): Title for the video
+            cpu_core_utilization (str, optional): `single`, `half`, `most`, `max`
+                - `single`: Uses 1 CPU core
+                - `half`: Uses half of available CPU cores
+                - `most`: (default) Uses all available CPU cores except one
+                - `max`: Uses all available CPU cores for maximum performance
         """
 
         # Store paths for later use
@@ -85,7 +90,17 @@ class VideoGenerator:
         self.total_frames = 0
         
         # Determine optimal number of workers
-        num_workers = max(1, multiprocessing.cpu_count() - 1)
+        if cpu_core_utilization == "single":
+            num_workers = 1
+        elif cpu_core_utilization == "half":
+            num_workers = max(1, multiprocessing.cpu_count() // 2)
+        elif cpu_core_utilization == "most":
+            num_workers = max(1, multiprocessing.cpu_count() - 1)
+        elif cpu_core_utilization == "max":
+            num_workers = max(1, multiprocessing.cpu_count())
+        else:
+            raise ValueError(f"Invalid CPU core utilities: {cpu_core_utilization}")
+        
         print(f"Using {num_workers} workers for parallel processing")
         
         # Process subtitles in parallel batches
