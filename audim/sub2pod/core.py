@@ -4,6 +4,8 @@ import pysrt
 from moviepy.editor import AudioFileClip, ImageSequenceClip
 import concurrent.futures
 import multiprocessing
+import subprocess
+from pathlib import Path
 
 
 class VideoGenerator:
@@ -228,44 +230,147 @@ class VideoGenerator:
         
         print(f"Creating video from {self.total_frames} frames...")
         
-        # Convert frames to video using the saved frame files
-        video = ImageSequenceClip(self.frame_files, fps=self.fps)
-
+        # Determine if we should use GPU acceleration if available
+        try:
+            # Check for NVIDIA GPU with NVENC support
+            nvidia_check = subprocess.run(
+                ["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            has_nvidia = nvidia_check.returncode == 0
+        except FileNotFoundError:
+            has_nvidia = False
+        
+        # Prepare output directory
+        output_dir = os.path.dirname(output_path)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        # Sort frames by number to ensure correct sequence
+        self.frame_files.sort(key=lambda x: int(os.path.basename(x).split('_')[1].split('.')[0]))
+        
+        # Create a temporary file listing all frames
+        frames_list_file = os.path.join(self.temp_dir, "frames_list.txt")
+        with open(frames_list_file, 'w') as f:
+            for frame_file in self.frame_files:
+                f.write(f"file '{frame_file}'\n")
+                f.write(f"duration {1/self.fps}\n")
+        
+        # Calculate video duration
+        video_duration = self.total_frames / self.fps
+        
+        # Determine audio duration if provided
+        audio_duration = None
+        if self.audio_path:
+            try:
+                audio = AudioFileClip(self.audio_path)
+                audio_duration = audio.duration
+                audio.close()
+            except Exception as e:
+                print(f"Warning: Could not determine audio duration: {e}")
+        
+        # Use the shorter duration to ensure sync
+        final_duration = video_duration
+        if audio_duration:
+            final_duration = min(video_duration, audio_duration)
+            print(f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)")
+        
+        # Determine optimal FFmpeg settings
+        threads = max(4, os.cpu_count() - 1)
+        
+        # Base FFmpeg command
+        ffmpeg_cmd = [
+            "ffmpeg", "-y",
+            "-f", "concat",
+            "-safe", "0",
+            "-i", frames_list_file,
+            "-t", str(final_duration)
+        ]
+        
         # Add audio if provided
         if self.audio_path:
-            audio = AudioFileClip(self.audio_path)
-            
-            # Ensure video and audio durations match
-            video_duration = video.duration
-            audio_duration = audio.duration
-            
-            # Use the shorter duration to ensure sync
-            final_duration = min(video_duration, audio_duration)
-            
-            # Trim both video and audio to the same duration
-            video = video.subclip(0, final_duration)
-            audio = audio.subclip(0, final_duration)
-            
-            # Set audio to video
-            video = video.set_audio(audio)
-            
-            print(f"Video duration: {final_duration:.2f} seconds (adjusted to match audio)")
-
-        # Export video with higher quality settings
-        video.write_videofile(
-            output_path, 
-            codec="libx264", 
-            fps=self.fps, 
-            threads=max(4, os.cpu_count() - 1),  # Use more threads for encoding
-            audio_codec="aac",
-            bitrate="8000k"  # Higher bitrate for better quality
-        )
-
+            ffmpeg_cmd.extend([
+                "-i", self.audio_path,
+                "-t", str(final_duration),
+                "-map", "0:v",
+                "-map", "1:a"
+            ])
+        
+        # Add encoding settings
+        if has_nvidia:
+            print("Using NVIDIA GPU acceleration for video encoding")
+            ffmpeg_cmd.extend([
+                "-c:v", "h264_nvenc",
+                "-preset", "p7",
+                "-tune", "hq",
+                "-rc", "vbr",
+                "-b:v", "8M",
+                "-maxrate", "10M"
+            ])
+        else:
+            print(f"Using CPU encoding with {threads} threads")
+            ffmpeg_cmd.extend([
+                "-c:v", "libx264",
+                "-preset", "faster",  # Use 'faster' for better speed/quality balance
+                "-crf", "23",  # Lower CRF = higher quality (18-28 is good range)
+                "-threads", str(threads)
+            ])
+        
+        # Add audio encoding settings if audio is provided
+        if self.audio_path:
+            ffmpeg_cmd.extend([
+                "-c:a", "aac",
+                "-b:a", "192k"
+            ])
+        
+        # Add output format settings
+        ffmpeg_cmd.extend([
+            "-pix_fmt", "yuv420p",
+            "-movflags", "+faststart",
+            output_path
+        ])
+        
+        # Run FFmpeg directly
+        print("Starting video encoding with FFmpeg...")
+        try:
+            subprocess.run(ffmpeg_cmd, check=True)
+            print(f"Video successfully encoded to {output_path}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error during video encoding: {e}")
+            # Fallback to MoviePy if FFmpeg direct call fails
+            print("Falling back to MoviePy for video encoding...")
+            self._export_video_with_moviepy(output_path, final_duration)
+        
         # Clean up temporary files
         try:
             shutil.rmtree(self.temp_dir)
             print(f"Cleaned up temporary files in {self.temp_dir}")
         except Exception as e:
             print(f"Warning: Could not clean up temporary files: {e}")
-
+        
         return output_path
+
+    def _export_video_with_moviepy(self, output_path, duration):
+        """Fallback method to export video using MoviePy"""
+        from moviepy.editor import AudioFileClip, ImageSequenceClip
+        
+        # Convert frames to video using the saved frame files
+        video = ImageSequenceClip(self.frame_files, fps=self.fps)
+        
+        # Trim video to match duration
+        video = video.subclip(0, duration)
+        
+        # Add audio if provided
+        if self.audio_path:
+            audio = AudioFileClip(self.audio_path)
+            audio = audio.subclip(0, duration)
+            video = video.set_audio(audio)
+        
+        # Export video
+        video.write_videofile(
+            output_path,
+            codec="libx264",
+            fps=self.fps,
+            threads=max(4, os.cpu_count() - 1),
+            audio_codec="aac",
+            bitrate="8000k"
+        )
