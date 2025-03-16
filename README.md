@@ -1,11 +1,29 @@
 # Audim
 
-Animation engine for audio-based and voice-based podcast videos.
+[![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
+
+**Au**dio Po**d**cast An**im**ation Engine
+
+_An animation and video rendering engine for audio-based and voice-based podcast videos._
+
+---
+
+Audim is an engine for precise programmatic animation and rendering of podcast videos from audio-based and voice-based file recordings.
+
+## Features
+
+- Precise programmatic animations.
+- Rendering of videos.
+- Layout based scenes.
+- Support for audio to subtitle generation.
+- Support for video to subtitle and scene elements generation.
+- Support for subtitle and scene elements to video generation.
 
 ## Prerequisites
 
 - Python ≥ 3.10
 - Conda
+- FFmpeg (optional, for faster video encoding)
 
 ## Setup
 
@@ -17,8 +35,7 @@ git clone https://github.com/mratanusarkar/audim.git
 
 ### 2. Install FFmpeg locally (optional)
 
-Using local FFmpeg is optional.
-It is recommended to install FFmpeg locally as it will speed up the video encoding process.
+Using local FFmpeg is optional but recommended for speeding up the video encoding process.
 
 On Ubuntu, install FFmpeg using:
 
@@ -29,7 +46,7 @@ sudo apt install ffmpeg libx264-dev
 On Windows and other platforms, download and install FFmpeg from the official website:
 
 - [Download FFmpeg](https://ffmpeg.org/download.html)
-- Make sure FFmpeg is in your system PATH
+- Ensure FFmpeg is in your system PATH
 
 ### 3. Install `uv` and setup project environment:
 
@@ -52,7 +69,7 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-### 4. Code Quality
+## Code Quality
 
 Before committing, please ensure that the code is formatted and styled correctly.
 Run the following commands to check and fix code style issues:
