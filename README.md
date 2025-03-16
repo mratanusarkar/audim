@@ -6,7 +6,7 @@ _An animation and video rendering engine for audio-based and voice-based podcast
 
 ---
 
-Audim is an engine for precise programmatic animation of audio-based and voice-based podcast videos.
+Audim is an engine for precise programmatic animation and rendering videos of audio-based and voice-based podcast videos.
 
 ## Prerequisites
 
