@@ -69,6 +69,15 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
+### 4. Build and deploy documentation
+
+You can build and serve the documentation by running:
+
+```bash
+uv pip install -e .[docs]
+mkdocs serve
+```
+
 ## Code Quality
 
 Before committing, please ensure that the code is formatted and styled correctly.
