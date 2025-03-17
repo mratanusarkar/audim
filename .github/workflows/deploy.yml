@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -35,7 +36,7 @@ jobs:
       - name: install dependencies
         run: |
           pip install --upgrade pip uv
-          uv pip install .[docs]
+          uv pip install --system .[docs]
 
       - name: build and deploy documentation
         run: mkdocs gh-deploy --force
