@@ -23,3 +23,12 @@ Run with:
 ```bash
 python run.py
 ```
+
+## Build and serve the documentation
+
+You can build and serve the documentation by running:
+
+```bash
+uv pip install -e .[docs]
+mkdocs serve
+```
