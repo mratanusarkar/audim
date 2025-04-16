@@ -55,17 +55,17 @@ class Highlight:
     - "none": No highlight effect
     """
     
-    def __init__(self, effect_type="pulse", **kwargs):
+    def __init__(self, effect_type="none", **kwargs):
         """
         Initialize a highlight effect
         
         Args:
             effect_type (str): Type of highlight effect
-                "pulse": Pulsing highlight (default)
+                "pulse": Pulsing highlight
                 "glow": Glowing highlight
                 "underline": Underline highlight
                 "box": Box highlight
-                "none": No highlight
+                "none": No highlight (default)
             **kwargs: Additional parameters for the specific effect:
                 color (tuple): RGBA color for the highlight
                 padding (int): Padding around the highlighted area

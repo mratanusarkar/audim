@@ -50,15 +50,15 @@ class Transition:
     - "none": No transition effect
     """
     
-    def __init__(self, effect_type="fade", **kwargs):
+    def __init__(self, effect_type="none", **kwargs):
         """
         Initialize a transition effect
         
         Args:
             effect_type (str): Type of transition effect
-                "fade": Fade-in transition (default)
+                "fade": Fade-in transition
                 "slide": Slide-in transition
-                "none": No transition
+                "none": No transition (default)
             **kwargs: Additional parameters for the specific effect:
                 frames (int): Number of frames for the transition
                 direction (str): Direction for slide transition ("left", "right", "up", "down")

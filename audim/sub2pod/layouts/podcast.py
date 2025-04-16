@@ -115,6 +115,9 @@ class PodcastLayout(BaseLayout):
             subtitle (Subtitle): Current subtitle
             opacity (int): Opacity of the subtitle (0-255)
             subtitle_info (dict, optional): Dictionary with subtitle position and duration info
+            
+        Returns:
+            Image: The frame with subtitle and highlight effect applied
         """
 
         speaker, text = subtitle.text.split("] ")
@@ -170,6 +173,8 @@ class PodcastLayout(BaseLayout):
                     self.active_subtitle_area,
                     progress=progress
                 )
+        
+        return frame
 
     def add_speaker(self, name, image_path, shape="circle"):
         """
@@ -253,7 +258,7 @@ class PodcastLayout(BaseLayout):
         # Add subtitle if there's a current subtitle
         if current_sub:
             # Pass the subtitle_info dictionary as an additional parameter
-            self._draw_subtitle(frame, draw, current_sub, opacity, subtitle_info)
+            frame = self._draw_subtitle(frame, draw, current_sub, opacity, subtitle_info)
             
         # If we have a transition effect and opacity is not max,
         # apply the full transition effect to the frame
