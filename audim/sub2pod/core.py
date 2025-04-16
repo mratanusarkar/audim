@@ -218,12 +218,33 @@ class VideoGenerator:
         for sub in subs_batch:
             start_frame = sub.start.ordinal // (1000 // fps)
             end_frame = sub.end.ordinal // (1000 // fps)
+            
+            # Calculate subtitle duration (in seconds)
+            subtitle_duration = (sub.end.ordinal - sub.start.ordinal) / 1000.0
 
-            # Add fade-in effect
-            fade_frames = min(15, end_frame - start_frame)
+            # Get transition frames count from layout's transition effect
+            transition_frames = 15  # Default
+            if hasattr(layout, 'transition_effect') and layout.transition_effect:
+                transition_frames = layout.transition_effect.frames
+
+            # Add transition frames
+            fade_frames = min(transition_frames, end_frame - start_frame)
             for i in range(fade_frames):
-                opacity = int((i / fade_frames) * 255)
-                frame = layout.create_frame(current_sub=sub, opacity=opacity)
+                # Calculate progress for transition effect
+                progress = i / fade_frames
+                # Convert progress to opacity for backward compatibility
+                opacity = int(progress * 255)
+                
+                # Calculate subtitle position (in seconds)
+                subtitle_position = i / fps
+                
+                # Create frame with transition effect passing position info as kwargs
+                frame = layout.create_frame(
+                    current_sub=sub, 
+                    opacity=opacity,
+                    subtitle_position=subtitle_position,
+                    subtitle_duration=subtitle_duration
+                )
 
                 frame_path = os.path.join(batch_dir, f"frame_{start_frame + i:08d}.png")
 
@@ -238,7 +259,15 @@ class VideoGenerator:
 
             # Add main frames
             for frame_idx in range(start_frame + fade_frames, end_frame):
-                frame = layout.create_frame(current_sub=sub)
+                # Calculate subtitle position for current frame
+                subtitle_position = (frame_idx - start_frame) / fps
+                
+                # Create frame passing position info as kwargs
+                frame = layout.create_frame(
+                    current_sub=sub,
+                    subtitle_position=subtitle_position,
+                    subtitle_duration=subtitle_duration
+                )
 
                 frame_path = os.path.join(batch_dir, f"frame_{frame_idx:08d}.png")
 
