@@ -72,6 +72,8 @@ nav:
         - Header: 'audim/sub2pod/elements/header.md'
         - Profile: 'audim/sub2pod/elements/profile.md'
         - Text: 'audim/sub2pod/elements/text.md'
+      - Effects:
+        - Transitions: 'audim/sub2pod/effects/transitions.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
