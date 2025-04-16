@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from PIL import Image, ImageDraw
+from audim.sub2pod.effects import Transition, Highlight
 
 
 class BaseLayout(ABC):
@@ -22,6 +23,46 @@ class BaseLayout(ABC):
 
         self.video_width = video_width
         self.video_height = video_height
+        # Default transition effect
+        self.transition_effect = Transition("fade")
+        # No default highlight effect
+        self.highlight_effect = None
+
+    def set_transition_effect(self, effect_type, **kwargs):
+        """
+        Set the transition effect for this layout
+        
+        Args:
+            effect_type (str): Type of transition effect
+                "fade": Fade-in transition (default)
+                "slide": Slide-in transition
+                "none": No transition
+            **kwargs: Additional parameters for the effect
+                frames (int): Number of frames for the transition
+                direction (str): Direction for slide transition ("left", "right", "up", "down")
+        """
+        self.transition_effect = Transition(effect_type, **kwargs)
+        
+    def set_highlight_effect(self, effect_type, **kwargs):
+        """
+        Set the highlight effect for this layout
+        
+        Args:
+            effect_type (str): Type of highlight effect
+                "pulse": Pulsing highlight 
+                "glow": Glowing highlight
+                "underline": Underline highlight
+                "box": Box highlight
+                "none": No highlight
+            **kwargs: Additional parameters for the effect
+                color (tuple): RGBA color for the highlight
+                padding (int): Padding around the highlighted area
+                min_size (float): For pulse, minimum size factor (e.g., 0.8)
+                max_size (float): For pulse, maximum size factor (e.g., 1.2)
+                blur_radius (int): Blur radius for glow effect
+            thickness (int): Line thickness for underline/box
+        """
+        self.highlight_effect = Highlight(effect_type, **kwargs)
 
     @abstractmethod
     def add_speaker(self, name, image_path):
