@@ -74,6 +74,7 @@ nav:
         - Text: 'audim/sub2pod/elements/text.md'
       - Effects:
         - Transitions: 'audim/sub2pod/effects/transitions.md'
+        - Highlights: 'audim/sub2pod/effects/highlights.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
