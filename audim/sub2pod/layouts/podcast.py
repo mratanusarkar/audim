@@ -113,12 +113,15 @@ class PodcastLayout(BaseLayout):
             frame (Image): Frame to draw on
             draw (ImageDraw): Draw object to draw on the frame
             subtitle (Subtitle): Current subtitle
-            opacity (int): Opacity of the subtitle
+            opacity (int): Opacity of the subtitle (0-255)
             subtitle_info (dict, optional): Dictionary with subtitle position and duration info
         """
 
         speaker, text = subtitle.text.split("] ")
         speaker = speaker.replace("[", "").strip()
+
+        # Ensure opacity is a valid integer
+        opacity = max(0, min(255, int(opacity)))
 
         # Highlight active speaker
         if speaker in self.speakers:
@@ -207,7 +210,10 @@ class PodcastLayout(BaseLayout):
             subtitle_info['position'] = kwargs['subtitle_position']
         if 'subtitle_duration' in kwargs:
             subtitle_info['duration'] = kwargs['subtitle_duration']
-            
+        
+        # Ensure the opacity is a valid integer
+        opacity_int = max(0, min(255, int(opacity)))
+        
         # If we have a transition effect and opacity is specified, 
         # use the transition effect to calculate opacity
         if hasattr(self, 'transition_effect') and opacity != 255:

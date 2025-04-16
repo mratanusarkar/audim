@@ -143,6 +143,15 @@ class Transition:
         Returns:
             The modified frame with slide-in effect applied
         """
+        # If caller just wants the opacity value (for backwards compatibility), 
+        # calculate it based on progress
+        if kwargs.get('opacity_only', False):
+            return int(progress * 255)
+            
+        # If no frame provided, just return the opacity
+        if frame is None:
+            return int(progress * 255)
+            
         # Convert numpy array to PIL if needed
         if isinstance(frame, np.ndarray):
             frame = Image.fromarray(frame)
@@ -170,8 +179,18 @@ class Transition:
         elif self.direction == 'down':
             offset_y = int((progress - 1.0) * height)
         
+        # Also apply a fade-in effect with the slide for smoother transition
+        opacity = int(progress * 255)
+        frame_copy = frame.copy()
+        
+        # Apply opacity to the frame
+        if frame_copy.mode == 'RGBA':
+            alpha = frame_copy.split()[3]
+            alpha = Image.eval(alpha, lambda a: min(a, opacity))
+            frame_copy.putalpha(alpha)
+        
         # Paste the frame at the offset position
-        result.paste(frame, (offset_x, offset_y), frame)
+        result.paste(frame_copy, (offset_x, offset_y), frame_copy)
         
         # Convert back to numpy array if input was numpy
         if isinstance(kwargs.get('original_frame'), np.ndarray):
