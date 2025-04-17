@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
 from PIL import Image, ImageDraw
-from audim.sub2pod.effects import Transition, Highlight
+
+from audim.sub2pod.effects import Highlight, Transition
 
 
 class BaseLayout(ABC):
@@ -31,7 +32,7 @@ class BaseLayout(ABC):
     def set_transition_effect(self, effect_type, **kwargs):
         """
         Set the transition effect for this layout
-        
+
         Args:
             effect_type (str): Type of transition effect
                 "fade": Fade-in transition (default)
@@ -39,17 +40,18 @@ class BaseLayout(ABC):
                 "none": No transition
             **kwargs: Additional parameters for the effect
                 frames (int): Number of frames for the transition
-                direction (str): Direction for slide transition ("left", "right", "up", "down")
+                direction (str): Direction for slide transition
+                ("left", "right", "up", "down")
         """
         self.transition_effect = Transition(effect_type, **kwargs)
-        
+
     def set_highlight_effect(self, effect_type, **kwargs):
         """
         Set the highlight effect for this layout
-        
+
         Args:
             effect_type (str): Type of highlight effect
-                "pulse": Pulsing highlight 
+                "pulse": Pulsing highlight
                 "glow": Glowing highlight
                 "underline": Underline highlight
                 "box": Box highlight

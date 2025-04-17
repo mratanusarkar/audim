@@ -1,4 +1,5 @@
 import concurrent.futures
+import logging
 import multiprocessing
 import os
 import shutil
@@ -9,15 +10,14 @@ import numpy as np
 import pysrt
 from PIL import Image
 from tqdm import tqdm
-import logging
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='[%(asctime)s] %(name)s (%(levelname)s) - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format="[%(asctime)s] %(name)s (%(levelname)s) - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
-logger = logging.getLogger('VideoGenerator')
+logger = logging.getLogger("VideoGenerator")
 
 
 class VideoGenerator:
@@ -86,7 +86,8 @@ class VideoGenerator:
             audio_path (str, optional): Path to the audio file
             logo_path (str, optional): Path to the logo image
             title (str, optional): Title for the video
-            cpu_core_utilization (str, optional): `'single'`, `'half'`, `'most'`, `'max'`
+            cpu_core_utilization (str, optional): `'single'`, `'half'`, `'most'`,
+                `'max'`
 
                 - `single`: Uses 1 CPU core
                 - `half`: Uses half of available CPU cores
@@ -159,8 +160,10 @@ class VideoGenerator:
             if current_batch:
                 sub_batches.append(current_batch)
 
-            logger.info(f"Processing subtitle to generate frames in {len(sub_batches)} batches")
-            
+            logger.info(
+                f"Processing subtitle to generate frames in {len(sub_batches)} batches"
+            )
+
             # Process each batch in parallel
             batch_results = []
             for batch_idx, batch in enumerate(sub_batches):
@@ -176,7 +179,9 @@ class VideoGenerator:
                 )
 
             # Collect results with progress bar
-            with tqdm(total=len(batch_results), desc="Processing batch", unit="batch") as pbar:
+            with tqdm(
+                total=len(batch_results), desc="Processing batch", unit="batch"
+            ) as pbar:
                 for future in concurrent.futures.as_completed(batch_results):
                     batch_frame_files, batch_frame_count = future.result()
                     self.frame_files.extend(batch_frame_files)
@@ -188,8 +193,10 @@ class VideoGenerator:
         self.frame_files.sort(
             key=lambda x: int(os.path.basename(x).split("_")[1].split(".")[0])
         )
-        
-        logger.info(f"Frame generation completed: Total {self.total_frames} frames created")
+
+        logger.info(
+            f"Frame generation completed: Total {self.total_frames} frames created"
+        )
         return self
 
     def _process_subtitle_batch(self, subs_batch, batch_index, layout, fps, temp_dir):
@@ -218,13 +225,13 @@ class VideoGenerator:
         for sub in subs_batch:
             start_frame = sub.start.ordinal // (1000 // fps)
             end_frame = sub.end.ordinal // (1000 // fps)
-            
+
             # Calculate subtitle duration (in seconds)
             subtitle_duration = (sub.end.ordinal - sub.start.ordinal) / 1000.0
 
             # Get transition frames count from layout's transition effect
             transition_frames = 15  # Default
-            if hasattr(layout, 'transition_effect') and layout.transition_effect:
+            if hasattr(layout, "transition_effect") and layout.transition_effect:
                 transition_frames = layout.transition_effect.frames
 
             # Add transition frames
@@ -234,16 +241,16 @@ class VideoGenerator:
                 progress = i / fade_frames
                 # Convert progress to opacity for backward compatibility
                 opacity = int(progress * 255)
-                
+
                 # Calculate subtitle position (in seconds)
                 subtitle_position = i / fps
-                
+
                 # Create frame with transition effect passing position info as kwargs
                 frame = layout.create_frame(
-                    current_sub=sub, 
+                    current_sub=sub,
                     opacity=opacity,
                     subtitle_position=subtitle_position,
-                    subtitle_duration=subtitle_duration
+                    subtitle_duration=subtitle_duration,
                 )
 
                 frame_path = os.path.join(batch_dir, f"frame_{start_frame + i:08d}.png")
@@ -261,12 +268,12 @@ class VideoGenerator:
             for frame_idx in range(start_frame + fade_frames, end_frame):
                 # Calculate subtitle position for current frame
                 subtitle_position = (frame_idx - start_frame) / fps
-                
+
                 # Create frame passing position info as kwargs
                 frame = layout.create_frame(
                     current_sub=sub,
                     subtitle_position=subtitle_position,
-                    subtitle_duration=subtitle_duration
+                    subtitle_duration=subtitle_duration,
                 )
 
                 frame_path = os.path.join(batch_dir, f"frame_{frame_idx:08d}.png")
@@ -301,37 +308,62 @@ class VideoGenerator:
 
         Args:
             output_path (str): Path for the output video file
-            encoder (str): Encoding method to use: `'ffmpeg'`, `'moviepy'`, or `'auto'` (default)
-            video_codec (str, optional): Video codec to use (default: `'h264_nvenc'` for GPU, `'libx264'` for CPU)
-                See [FFmpeg H.264 Guide](https://trac.ffmpeg.org/wiki/Encode/H.264) for CPU options
-                See [NVIDIA FFmpeg Guide](https://developer.nvidia.com/blog/nvidia-ffmpeg-transcoding-guide/) for GPU options
+            encoder (str): Encoding method to use:
+                `'ffmpeg'`, `'moviepy'`, or `'auto'` (default)
+            video_codec (str, optional): Video codec to use
+                (default: `'h264_nvenc'` for GPU, `'libx264'` for CPU)
+
+                - See [FFmpeg H.264 Guide](https://trac.ffmpeg.org/wiki/Encode/H.264)
+                  for CPU options
+                - See [NVIDIA FFmpeg Guide](https://developer.nvidia.com/blog/nvidia-ffmpeg-transcoding-guide/)
+                  for GPU options
+
             audio_codec (str, optional): Audio codec to use (default: `'aac'`)
-                See [FFmpeg AAC Guide](https://trac.ffmpeg.org/wiki/Encode/AAC) for audio codec options
+
+                - See [FFmpeg AAC Guide](https://trac.ffmpeg.org/wiki/Encode/AAC)
+                  for audio codec options
+
             video_bitrate (str, optional): Video bitrate (default: `'8M'`)
             audio_bitrate (str, optional): Audio bitrate (default: `'192k'`)
             preset (str, optional): Encoding preset (default: `'medium'`)
+                
                 For CPU encoding (libx264):
-                    Options: `'ultrafast'`, `'superfast'`, `'veryfast'`, `'faster'`, `'fast'`,
-                             `'medium'`, `'slow'`, `'slower'`, `'veryslow'`
-                    Slower presets give better compression/quality at the cost of encoding time.
-                    See [FFmpeg Preset Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+                    Options: `'ultrafast'`, `'superfast'`, `'veryfast'`, `'faster'`,
+                             `'fast'`, `'medium'`, `'slow'`, `'slower'`, `'veryslow'`
+                    Slower presets give better compression/quality at the cost of
+                    encoding time.
+                    
+                - See [FFmpeg Preset Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+
                 For GPU encoding (NVENC):
                     Will be automatically converted to NVENC presets:
                     `'slow'`/`'slower'`/`'veryslow'` → `'p1'` (highest quality)
                     `'medium'` → `'p3'` (balanced)
                     `'fast'`/`'faster'` → `'p5'` (faster encoding)
                     `'veryfast'`/`'superfast'`/`'ultrafast'` → `'p7'` (fastest encoding)
-                    See [NVIDIA FFmpeg Integration](https://docs.nvidia.com/video-technologies/video-codec-sdk/12.0/ffmpeg-with-nvidia-gpu/index.html)
-            crf (int, optional): Constant Rate Factor for quality (default: `23`, lower is better quality)
-                Range: `0-51`, where lower values mean better quality and larger file size
-                Recommended range: `18-28`. See [CRF Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#crf)
+                    
+                - See [NVIDIA FFmpeg Integration](https://docs.nvidia.com/video-technologies/video-codec-sdk/12.0/ffmpeg-with-nvidia-gpu/index.html)
+
+            crf (int, optional): Constant Rate Factor for quality
+                (default: `23`, lower is better quality)
+
+                - Range: `0-51`, where lower values mean better quality and larger
+                  file size
+                - Recommended range: `18-28`.
+                - See [CRF Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#crf)
+
             threads (int, optional): Number of encoding threads (default: CPU count - 1)
-            gpu_acceleration (bool, optional): Whether to use GPU acceleration if available (default: `True`)
+            gpu_acceleration (bool, optional): Whether to use GPU acceleration
+                if available (default: `True`)
             extra_ffmpeg_args (list, optional): Additional FFmpeg arguments as a list
-                See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all available options
+
+                - See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all
+                  available options
         """
 
-        logger.info(f"Starting video generation process with {self.total_frames} frames")
+        logger.info(
+            f"Starting video generation process with {self.total_frames} frames"
+        )
 
         # Calculate video duration
         video_duration = self.total_frames / self.fps
@@ -353,7 +385,9 @@ class VideoGenerator:
         final_duration = video_duration
         if audio_duration:
             final_duration = min(video_duration, audio_duration)
-            logger.info(f"Video duration: {final_duration:.2f}s (adjusted to match audio)")
+            logger.info(
+                f"Video duration: {final_duration:.2f}s (adjusted to match audio)"
+            )
         else:
             logger.info(f"Video duration: {final_duration:.2f}s")
 
@@ -424,7 +458,9 @@ class VideoGenerator:
                 threads,
             )
         else:
-            logger.error(f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'")
+            logger.error(
+                f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'"
+            )
             raise ValueError(
                 f"Invalid encoder: {encoder}. Choose 'ffmpeg', 'moviepy', or 'auto'"
             )
@@ -622,15 +658,15 @@ class VideoGenerator:
         # Run FFmpeg
         logger.info("Starting FFmpeg encoding process")
         logger.debug(f"FFmpeg command: {' '.join(ffmpeg_cmd)}")
-        
+
         # Run FFmpeg with progress indication
         process = subprocess.Popen(
-            ffmpeg_cmd, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.STDOUT, 
-            universal_newlines=True
+            ffmpeg_cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
         )
-        
+
         # Simple progress indicator since FFmpeg output is complex
         with tqdm(total=100, desc="Encoding video", unit="%") as pbar:
             last_progress = 0
@@ -639,19 +675,19 @@ class VideoGenerator:
                 if "time=" in line:
                     try:
                         time_str = line.split("time=")[1].split()[0]
-                        h, m, s = time_str.split(':')
+                        h, m, s = time_str.split(":")
                         current_time = float(h) * 3600 + float(m) * 60 + float(s)
                         progress = min(int(current_time / duration * 100), 100)
                         if progress > last_progress:
                             pbar.update(progress - last_progress)
                             last_progress = progress
-                    except:
+                    except Exception:
                         pass
-        
+
         process.wait()
         if process.returncode != 0:
             raise subprocess.CalledProcessError(process.returncode, ffmpeg_cmd)
-            
+
         logger.info(f"Video successfully encoded to {output_path}")
 
     def _export_video_with_moviepy(
