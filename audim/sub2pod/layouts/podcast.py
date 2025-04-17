@@ -53,7 +53,7 @@ class PodcastLayout(BaseLayout):
         self.dp_positions = {}
         self.logo_path = None
         self.title = "My Podcast"
-        
+
         # Store the active subtitle area for highlighting
         self.active_subtitle_area = None
 
@@ -115,7 +115,7 @@ class PodcastLayout(BaseLayout):
             subtitle (Subtitle): Current subtitle
             opacity (int): Opacity of the subtitle (0-255)
             subtitle_info (dict, optional): Dictionary with subtitle position and duration info
-            
+
         Returns:
             Image: The frame with subtitle and highlight effect applied
         """
@@ -143,9 +143,9 @@ class PodcastLayout(BaseLayout):
             estimated_text_height = 100  # Approximate height for highlighting
             self.active_subtitle_area = (
                 text_x,
-                text_y - estimated_text_height/2,
+                text_y - estimated_text_height / 2,
                 text_x + text_width,
-                text_y + estimated_text_height/2
+                text_y + estimated_text_height / 2,
             )
 
             # Draw the subtitle text
@@ -158,22 +158,28 @@ class PodcastLayout(BaseLayout):
                 color=(255, 255, 255, opacity),
                 anchor="lm",
             )
-            
+
             # Apply highlight effect if configured
             if self.highlight_effect and self.active_subtitle_area:
                 # Get progress value from subtitle_info or use a default
                 progress = 0.0
-                if subtitle_info and 'position' in subtitle_info and 'duration' in subtitle_info:
+                if (
+                    subtitle_info
+                    and "position" in subtitle_info
+                    and "duration" in subtitle_info
+                ):
                     # Calculate progress as a ratio of position to duration
-                    progress = subtitle_info['position'] / subtitle_info['duration'] if subtitle_info['duration'] > 0 else 0.0
-                
+                    progress = (
+                        subtitle_info["position"] / subtitle_info["duration"]
+                        if subtitle_info["duration"] > 0
+                        else 0.0
+                    )
+
                 # Apply the highlight effect
                 frame = self.highlight_effect.apply(
-                    frame, 
-                    self.active_subtitle_area,
-                    progress=progress
+                    frame, self.active_subtitle_area, progress=progress
                 )
-        
+
         return frame
 
     def add_speaker(self, name, image_path, shape="circle"):
@@ -208,27 +214,29 @@ class PodcastLayout(BaseLayout):
                 subtitle_position (float): Current position within subtitle in seconds
                 subtitle_duration (float): Total duration of subtitle in seconds
         """
-        # Instead of modifying the subtitle object, we'll add the position and duration 
+        # Instead of modifying the subtitle object, we'll add the position and duration
         # to a local dictionary that we'll use in _draw_subtitle
         subtitle_info = {}
-        if 'subtitle_position' in kwargs:
-            subtitle_info['position'] = kwargs['subtitle_position']
-        if 'subtitle_duration' in kwargs:
-            subtitle_info['duration'] = kwargs['subtitle_duration']
-        
+        if "subtitle_position" in kwargs:
+            subtitle_info["position"] = kwargs["subtitle_position"]
+        if "subtitle_duration" in kwargs:
+            subtitle_info["duration"] = kwargs["subtitle_duration"]
+
         # Ensure the opacity is a valid integer
         opacity_int = max(0, min(255, int(opacity)))
-        
-        # If we have a transition effect and opacity is specified, 
+
+        # If we have a transition effect and opacity is specified,
         # use the transition effect to calculate opacity
-        if hasattr(self, 'transition_effect') and opacity != 255:
+        if hasattr(self, "transition_effect") and opacity != 255:
             # Calculate progress from opacity
             progress = opacity / 255.0
             # Use transition effect to apply the transition
             if self.transition_effect:
                 # We'll handle the opacity ourselves in this method,
                 # so just get the calculated opacity from the effect
-                opacity = self.transition_effect.apply(None, progress, opacity_only=True)
+                opacity = self.transition_effect.apply(
+                    None, progress, opacity_only=True
+                )
 
         # Create base frame
         frame, draw = self._create_base_frame(background_color)
@@ -258,11 +266,17 @@ class PodcastLayout(BaseLayout):
         # Add subtitle if there's a current subtitle
         if current_sub:
             # Pass the subtitle_info dictionary as an additional parameter
-            frame = self._draw_subtitle(frame, draw, current_sub, opacity, subtitle_info)
-            
+            frame = self._draw_subtitle(
+                frame, draw, current_sub, opacity, subtitle_info
+            )
+
         # If we have a transition effect and opacity is not max,
         # apply the full transition effect to the frame
-        if hasattr(self, 'transition_effect') and self.transition_effect and opacity != 255:
+        if (
+            hasattr(self, "transition_effect")
+            and self.transition_effect
+            and opacity != 255
+        ):
             progress = opacity / 255.0
             frame = self.transition_effect.apply(frame, progress)
 
