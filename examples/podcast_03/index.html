@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -22,7 +22,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -1393,12 +1393,17 @@
 <p>This example explores Audim's implementation of the "progressive disclosure of complexity" design principle through the <code>effects</code> module in the <code>sub2pod</code> package. We'll demonstrate how Audim provides a smooth learning curve for users of all experience levels.</p>
 <h2 id="what-is-progressive-disclosure-of-complexity">What is Progressive Disclosure of Complexity?</h2>
 <p>Progressive disclosure of complexity is a design principle that gradually reveals advanced functionality as users become more experienced with a system. This concept originated in UI design but has been adapted for API design in software libraries.</p>
-<p>Specially in module or library design, this principle is realized by creating higher level APIs and lower level APIs. While the lower level APIs are granular, fundamental, small and rigid catering to specific functionalities of the module or library. The higher level APIs are complex and formed by combining the lower level APIs catering to specific end user requirements and use cases.</p>
-<p>This results in end users using the higher level APIs with ease, getting out of the box experience, while also being able to dig deeper into the lower level APIs for specific customizations when needed.</p>
 <p>As described by design experts:</p>
 <blockquote>
-<p>"Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user." - <a href="https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure">Interaction Design Foundation</a></p>
-<p>"A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step." - <a href="https://x.com/fchollet/status/1231285340335267840">François Chollet</a></p>
+<p>"Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user."</p>
+<p>— <a href="https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure">Interaction Design Foundation</a></p>
+</blockquote>
+<p>Specially in module or library design, this principle is realized by creating higher level APIs and lower level APIs. While the lower level APIs are granular, fundamental, small and rigid catering to specific functionalities of the module or library. The higher level APIs are complex and formed by combining the lower level APIs catering to specific end user requirements and use cases.</p>
+<p>This results in end users using the higher level APIs with ease, getting out of the box experience, while also being able to dig deeper into the lower level APIs for specific customizations when needed.</p>
+<p>The best way to put it is to quote the creator of Keras:</p>
+<blockquote>
+<p>"A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step."</p>
+<p>— <a href="https://x.com/fchollet/status/1231285340335267840">François Chollet</a></p>
 </blockquote>
 <p>This approach is used by many popular libraries like <a href="https://keras.io/getting_started/about/#keras-follows-the-principle-of-progressive-disclosure-of-complexity">Keras</a>, <a href="https://huggingface.co/blog/transformers-design-philosophy">Hugging Face Transformers</a>, <a href="https://huggingface.co/docs/diffusers/en/conceptual/philosophy">Hugging Face Diffusers</a> and many more allowing users to:</p>
 <ul>
@@ -1487,29 +1492,37 @@
     J --&gt; L[BaseHighlight]</code></pre>
 <h2 id="why-this-is-powerful">Why this is powerful?</h2>
 <h3 id="1-progressive-disclosure-of-complexity">1. Progressive Disclosure of Complexity</h3>
-<p>This approach creates a natural hierarchy of complexity:
-- <strong>Simple level</strong>: Users choose a pre-configured layout with default effects
-- <strong>Intermediate level</strong>: Users customize effects for elements on existing layouts
-- <strong>Advanced level</strong>: Users create custom layouts with custom elements and effects</p>
+<p>This approach creates a natural hierarchy of complexity:</p>
+<ul>
+<li><strong>Simple level</strong>: Users choose a pre-configured layout with default effects</li>
+<li><strong>Intermediate level</strong>: Users customize effects for elements on existing layouts</li>
+<li><strong>Advanced level</strong>: Users create custom layouts with custom elements and effects</li>
+</ul>
 <p>This matches how video editors typically work - first selecting templates, then adjusting effects, and finally creating custom compositions when needed.</p>
 <h3 id="2-end-user-experience">2. End User Experience</h3>
-<p>For video creators and editors, this model is intuitive because:
-- It follows familiar mental models from tools like OBS, Premiere Pro, and After Effects
-- Effects are naturally tied to how content appears (the layout)
-- The separation keeps the API clean while maintaining flexibility
-- Users can think in terms of "scenes" (layouts) that have both positioning and visual effects</p>
+<p>For video creators and editors, this model is intuitive because:</p>
+<ul>
+<li>It follows familiar mental models from tools like OBS, Premiere Pro, and After Effects</li>
+<li>Effects are naturally tied to how content appears (the layout)</li>
+<li>The separation keeps the API clean while maintaining flexibility</li>
+<li>Users can think in terms of "scenes" (layouts) that have both positioning and visual effects</li>
+</ul>
 <h3 id="3-developer-experience">3. Developer Experience</h3>
-<p>For developers and power users, this architecture provides:
-- Clear extension points for adding new features
-- Well-defined interfaces between components
-- Easy testing and maintenance of individual components
-- Ability to mix and match different levels of abstraction</p>
+<p>For developers and power users, this architecture provides:</p>
+<ul>
+<li>Clear extension points for adding new features</li>
+<li>Well-defined interfaces between components</li>
+<li>Easy testing and maintenance of individual components</li>
+<li>Ability to mix and match different levels of abstraction</li>
+</ul>
 <h3 id="4-performance-and-maintainability">4. Performance and Maintainability</h3>
-<p>The layered architecture also benefits the codebase itself:
-- Each layer can be optimized independently
-- Changes in one layer don't affect others
-- Easier to add new features without breaking existing code
-- Better separation of concerns</p>
+<p>The layered architecture also benefits the codebase itself:</p>
+<ul>
+<li>Each layer can be optimized independently</li>
+<li>Changes in one layer don't affect others</li>
+<li>Easier to add new features without breaking existing code</li>
+<li>Better separation of concerns</li>
+</ul>
 <h2 id="how-the-new-effects-module-implements-progressive-disclosure">How the new <code>effects</code> module Implements Progressive Disclosure</h2>
 <p>Audim's <code>effects</code> module provides transition and highlight effects for videos with three distinct levels of complexity:</p>
 <ol>
