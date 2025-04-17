@@ -51,6 +51,11 @@ markdown_extensions:
   - admonition
   - attr_list
   - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -72,8 +77,12 @@ nav:
         - Header: 'audim/sub2pod/elements/header.md'
         - Profile: 'audim/sub2pod/elements/profile.md'
         - Text: 'audim/sub2pod/elements/text.md'
+      - Effects:
+        - Transitions: 'audim/sub2pod/effects/transitions.md'
+        - Highlights: 'audim/sub2pod/effects/highlights.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
+    - Podcast 03: 'examples/podcast_03.md'
 
 repo_url: https://github.com/mratanusarkar/audim
