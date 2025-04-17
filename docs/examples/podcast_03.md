@@ -11,15 +11,21 @@ This example explores Audim's implementation of the "progressive disclosure of c
 
 Progressive disclosure of complexity is a design principle that gradually reveals advanced functionality as users become more experienced with a system. This concept originated in UI design but has been adapted for API design in software libraries.
 
+As described by design experts:
+
+> "Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user."
+> 
+> — [Interaction Design Foundation](https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure)
+
 Specially in module or library design, this principle is realized by creating higher level APIs and lower level APIs. While the lower level APIs are granular, fundamental, small and rigid catering to specific functionalities of the module or library. The higher level APIs are complex and formed by combining the lower level APIs catering to specific end user requirements and use cases.
 
 This results in end users using the higher level APIs with ease, getting out of the box experience, while also being able to dig deeper into the lower level APIs for specific customizations when needed.
 
-As described by design experts:
+The best way to put it is to quote the creator of Keras:
 
-> "Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user." - [Interaction Design Foundation](https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure)
-
-> "A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step." - [François Chollet](https://x.com/fchollet/status/1231285340335267840)
+> "A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step."
+> 
+> — [François Chollet](https://x.com/fchollet/status/1231285340335267840)
 
 This approach is used by many popular libraries like [Keras](https://keras.io/getting_started/about/#keras-follows-the-principle-of-progressive-disclosure-of-complexity), [Hugging Face Transformers](https://huggingface.co/blog/transformers-design-philosophy), [Hugging Face Diffusers](https://huggingface.co/docs/diffusers/en/conceptual/philosophy) and many more allowing users to:
 
@@ -110,6 +116,7 @@ graph TD
 ### 1. Progressive Disclosure of Complexity
 
 This approach creates a natural hierarchy of complexity:
+
 - **Simple level**: Users choose a pre-configured layout with default effects
 - **Intermediate level**: Users customize effects for elements on existing layouts
 - **Advanced level**: Users create custom layouts with custom elements and effects
@@ -119,6 +126,7 @@ This matches how video editors typically work - first selecting templates, then 
 ### 2. End User Experience
 
 For video creators and editors, this model is intuitive because:
+
 - It follows familiar mental models from tools like OBS, Premiere Pro, and After Effects
 - Effects are naturally tied to how content appears (the layout)
 - The separation keeps the API clean while maintaining flexibility
@@ -127,6 +135,7 @@ For video creators and editors, this model is intuitive because:
 ### 3. Developer Experience
 
 For developers and power users, this architecture provides:
+
 - Clear extension points for adding new features
 - Well-defined interfaces between components
 - Easy testing and maintenance of individual components
@@ -135,6 +144,7 @@ For developers and power users, this architecture provides:
 ### 4. Performance and Maintainability
 
 The layered architecture also benefits the codebase itself:
+
 - Each layer can be optimized independently
 - Changes in one layer don't affect others
 - Easier to add new features without breaking existing code
