@@ -3,7 +3,7 @@
 > - **Author**: [@mratanusarkar](https://github.com/mratanusarkar)
 > - **Created**: April 16, 2025
 > - **Last Updated**: April 17, 2025
-> - **Compatible with**: Audim v0.0.1
+> - **Compatible with**: Audim v0.0.3
 
 This example explores Audim's implementation of the "progressive disclosure of complexity" design principle through the `effects` module in the `sub2pod` package. We'll demonstrate how Audim provides a smooth learning curve for users of all experience levels.
 
@@ -19,6 +19,8 @@ As described by design experts:
 
 > "Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user." - [Interaction Design Foundation](https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure)
 
+> "A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step." - [François Chollet](https://x.com/fchollet/status/1231285340335267840)
+
 This approach is used by many popular libraries like [Keras](https://keras.io/getting_started/about/#keras-follows-the-principle-of-progressive-disclosure-of-complexity), [Hugging Face Transformers](https://huggingface.co/blog/transformers-design-philosophy), [Hugging Face Diffusers](https://huggingface.co/docs/diffusers/en/conceptual/philosophy) and many more allowing users to:
 
 - Start simple with sensible defaults
@@ -27,24 +29,83 @@ This approach is used by many popular libraries like [Keras](https://keras.io/ge
 
 ## How Audim's `sub2pod` submodule Implements Progressive Disclosure
 
-Audim's `sub2pod` submodule implements progressive disclosure of complexity as follows:
+Audim's `sub2pod` submodule implements progressive disclosure of complexity through a carefully designed hierarchy of abstractions:
 
-- The end user is expected to use the `VideoGenerator` object in the `core` module to render and generate the final video.
-- The end user is expected to use the highest level API: `PodcastLayout` object in the `layouts` module.
-- The `PodcastLayout` object internally uses the `elements` and `effects` modules.
-- An implementation of podcast is given out of the box with the `PodcastLayout` object.
-- If the end user wishes to create their own custom layout, they can do so by using the `BaseLayout` class.
-- Similarly, if users need further customizations of the fundamental elements and effects, they can dig deeper into the `elements` and `effects` modules.
-- Each of these modules comes with their own args and kwargs to allow for further customization and fine-tuning of the elements and effects.
-- Power users can also implement their own custom elements and effects by subclassing the `BaseElement` and `BaseEffect` classes.
-- So, by providing API abstractions from higher levels to the lower levels, Audim's `sub2pod` submodule allows users to:
-  - Start using and generation podcast videos out of the box with sensible defaults
-  - Incrementally discover more advanced features and customizations when needed
-  - Access the full power of the library when needed with fine-tuned control over the layouts, elements and effects
-  - Power users can also implement their own custom layouts, elements and effects by subclassing the `BaseLayout`, `BaseElement` and `BaseEffect` classes.
+1. **High-Level API (`VideoGenerator` & `PodcastLayout`)**
+    - `VideoGenerator` takes care of video generation and rendering
+    - `PodcastLayout` takes care of how each frames in the video will look like
+    - Provides out-of-the-box functionality for podcast video generation
+    - Offers sensible defaults for all parameters
+    - Perfect for users who want to get started quickly
+
+2. **Mid-Level API (`BaseLayout`)**
+    - Allows customization of layouts, elements in the layout and it's effects
+    - Provides string-based configuration for common use cases
+    - Enables users to put together various elements and effects to create their own layouts
+    - It's like a lego or a puzzle piece where lower level elements and effects can be used to create new layouts
+    - Ideal for users who want to customize their videos
+
+3. **Lower-Level API (`Header`, `Profile`, `Text` Elements and `Transition`, `Highlight` Effects)**
+    - Offers complete control over each elements and effects
+    - These elements are the fundamental building blocks that Audim provides
+    - These effects are the fundamental animations that Audim provides
+    - These elements and effects can be combined to create new layouts and animations
+
+4. **Lowest-Level API (`BaseElement` & `BaseEffect`)**
+    - Offers complete control over rendering and effects
+    - Allows creation of custom elements and effects
+    - Provides access to all parameters and methods
+    - Designed for power users and developers
+
+So, by providing API abstractions from higher levels to the lower levels, Audim's `sub2pod` submodule allows users to:
+
+- Start using and generation podcast videos out of the box with sensible defaults
+- Incrementally discover more advanced features and customizations when needed
+- Access the full power of the library when needed with fine-tuned control over the layouts, elements and effects
+- Power users can also implement their own custom layouts, elements and effects by overriding `BaseLayout`, `BaseElement` and `BaseEffect` classes.
+
+This layered approach creates a natural progression path for users:
+
+```python
+# Level 1: High-Level API (Simple)
+layout = PodcastLayout(...)
+generator = VideoGenerator(layout)
+generator.generate_from_srt(...)
+```
+
+```python
+# Level 2: Mid-Level API (Customization)
+layout.set_transition_effect("fade")
+layout.set_highlight_effect("none")
+```
+
+```python
+# Level 3: Low-Level API
+class CustomEffect(BaseEffect):
+    # Override for full customization and control
+    def apply(self, frame, progress):
+        # Custom effect implementation
+        pass
+```
+
+So, the abstraction layers and inheritance hierarchy of Audim's `sub2pod` submodule can be visualized as follows:
+
+```mermaid
+graph TD
+    A[VideoGenerator] --> B[PodcastLayout]
+    B --> C[BaseLayout]
+    C --> D[Elements]
+    C --> E[Effects]
+    D --> F[Header]
+    D --> G[ProfilePicture]
+    D --> H[TextRenderer]
+    E --> I[Transition]
+    E --> J[Highlight]
+    I --> K[BaseTransition]
+    J --> L[BaseHighlight]
+```
 
 ## Why this is powerful?
-
 
 ### 1. Progressive Disclosure of Complexity
 
@@ -63,6 +124,21 @@ For video creators and editors, this model is intuitive because:
 - The separation keeps the API clean while maintaining flexibility
 - Users can think in terms of "scenes" (layouts) that have both positioning and visual effects
 
+### 3. Developer Experience
+
+For developers and power users, this architecture provides:
+- Clear extension points for adding new features
+- Well-defined interfaces between components
+- Easy testing and maintenance of individual components
+- Ability to mix and match different levels of abstraction
+
+### 4. Performance and Maintainability
+
+The layered architecture also benefits the codebase itself:
+- Each layer can be optimized independently
+- Changes in one layer don't affect others
+- Easier to add new features without breaking existing code
+- Better separation of concerns
 
 ## How the new `effects` module Implements Progressive Disclosure
 
@@ -86,7 +162,7 @@ The simplest way to use Audim is with default settings. The `PodcastLayout` auto
 from audim.sub2pod.layouts.podcast import PodcastLayout
 from audim.sub2pod.core import VideoGenerator
 
-# Create a podcast layout with default fade transition
+# Create a podcast layout with default effects
 layout = PodcastLayout(
     video_width=1920, 
     video_height=1080,
@@ -100,7 +176,7 @@ layout.add_speaker("Guest", "input/guest.png")
 # Create generator with this layout
 generator = VideoGenerator(layout)
 
-# The layout will automatically use the default fade transition
+# The layout will automatically use the default effects
 # No explicit configuration needed!
 ```
 
@@ -119,8 +195,8 @@ layout = PodcastLayout(
 )
 
 # Simple customization - just specify effect type
-layout.set_transition_effect("slide")  # Use slide transition instead of fade
-layout.set_highlight_effect("glow")    # Add glow effect to emphasized text
+layout.set_transition_effect("fade")
+layout.set_highlight_effect("glow")
 
 # Add speakers and generate video as before
 ```
@@ -202,6 +278,15 @@ datetime = datetime.now().strftime("%Y%m%d%H%M%S")
 generator.export_video(f"output/podcast_underline_{datetime}.mp4")
 ```
 
+Here's how the generated video looks like upon completion of the rendering process:
+
+<div style="text-align: center; margin: 20px 0;">
+  <video controls style="width: 100%;">
+    <source src="/examples/assets/podcast_02/podcast.mp4" type="video/mp4">
+    Your browser does not support the video element.
+  </video>
+</div>
+
 ## Available Effects
 
 ### Transition Effects
@@ -248,7 +333,7 @@ The progressive disclosure pattern in Audim helps different types of users:
 
 If you encounter issues with effects:
 
-- Verify you're using Audim v0.0.1 or later
+- Verify you're using Audim v0.0.3 or later
 - Check that effect names are spelled correctly (e.g., "fade" not "fading")
 - For slide transitions with text, ensure your text color includes an opacity value
 - When using highlight effects, ensure the subtitle area is properly defined
