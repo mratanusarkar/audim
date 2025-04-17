@@ -137,7 +137,8 @@ class TextRenderer:
         if color is None:
             return (0, 0, 0, 255)
 
-        # If color is a single int, return it as is (used for opacity, grayscale or palette value)
+        # If color is a single int, return it as is 
+        # (used for opacity, grayscale or palette value)
         if isinstance(color, int):
             return color
 

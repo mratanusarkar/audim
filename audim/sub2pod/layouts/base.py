@@ -40,7 +40,8 @@ class BaseLayout(ABC):
                 "none": No transition
             **kwargs: Additional parameters for the effect
                 frames (int): Number of frames for the transition
-                direction (str): Direction for slide transition ("left", "right", "up", "down")
+                direction (str): Direction for slide transition
+                ("left", "right", "up", "down")
         """
         self.transition_effect = Transition(effect_type, **kwargs)
 

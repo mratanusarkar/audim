@@ -1,8 +1,9 @@
 """
 Transition effects for videos
 
-This module provides transition effects that can be applied to frames during video generation.
-Transitions are used for fade-in, fade-out, dissolve and other similar effects between frames.
+This module provides transition effects that can be applied to frames during video
+generation. Transitions are used for fade-in, fade-out, dissolve and other similar
+effects between frames.
 """
 
 import numpy as np
@@ -61,7 +62,8 @@ class Transition:
                 "none": No transition (default)
             **kwargs: Additional parameters for the specific effect:
                 frames (int): Number of frames for the transition
-                direction (str): Direction for slide transition ("left", "right", "up", "down")
+                direction (str): Direction for slide transition
+                ("left", "right", "up", "down")
         """
         self.effect_type = effect_type.lower()
         self.frames = kwargs.get("frames", 15)
@@ -75,7 +77,8 @@ class Transition:
             frame: The frame to apply the effect to (PIL Image or numpy array)
             progress (float): Progress of the transition, from 0.0 to 1.0
             **kwargs: Additional arguments that may include:
-                opacity_only (bool): If True, just return the opacity value (for fade effect)
+                opacity_only (bool): If True, just return the opacity value
+                (for fade effect)
 
         Returns:
             The modified frame with the transition effect applied

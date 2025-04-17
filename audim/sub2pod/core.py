@@ -86,7 +86,8 @@ class VideoGenerator:
             audio_path (str, optional): Path to the audio file
             logo_path (str, optional): Path to the logo image
             title (str, optional): Title for the video
-            cpu_core_utilization (str, optional): `'single'`, `'half'`, `'most'`, `'max'`
+            cpu_core_utilization (str, optional): `'single'`, `'half'`, `'most'`,
+                `'max'`
 
                 - `single`: Uses 1 CPU core
                 - `half`: Uses half of available CPU cores
@@ -307,34 +308,57 @@ class VideoGenerator:
 
         Args:
             output_path (str): Path for the output video file
-            encoder (str): Encoding method to use: `'ffmpeg'`, `'moviepy'`, or `'auto'` (default)
-            video_codec (str, optional): Video codec to use (default: `'h264_nvenc'` for GPU, `'libx264'` for CPU)
-                See [FFmpeg H.264 Guide](https://trac.ffmpeg.org/wiki/Encode/H.264) for CPU options
-                See [NVIDIA FFmpeg Guide](https://developer.nvidia.com/blog/nvidia-ffmpeg-transcoding-guide/) for GPU options
+            encoder (str): Encoding method to use:
+                `'ffmpeg'`, `'moviepy'`, or `'auto'` (default)
+            video_codec (str, optional): Video codec to use
+                (default: `'h264_nvenc'` for GPU, `'libx264'` for CPU)
+
+                - See [FFmpeg H.264 Guide](https://trac.ffmpeg.org/wiki/Encode/H.264)
+                  for CPU options
+                - See [NVIDIA FFmpeg Guide](https://developer.nvidia.com/blog/nvidia-ffmpeg-transcoding-guide/)
+                  for GPU options
+
             audio_codec (str, optional): Audio codec to use (default: `'aac'`)
-                See [FFmpeg AAC Guide](https://trac.ffmpeg.org/wiki/Encode/AAC) for audio codec options
+
+                - See [FFmpeg AAC Guide](https://trac.ffmpeg.org/wiki/Encode/AAC)
+                  for audio codec options
+
             video_bitrate (str, optional): Video bitrate (default: `'8M'`)
             audio_bitrate (str, optional): Audio bitrate (default: `'192k'`)
             preset (str, optional): Encoding preset (default: `'medium'`)
+                
                 For CPU encoding (libx264):
-                    Options: `'ultrafast'`, `'superfast'`, `'veryfast'`, `'faster'`, `'fast'`,
-                             `'medium'`, `'slow'`, `'slower'`, `'veryslow'`
-                    Slower presets give better compression/quality at the cost of encoding time.
-                    See [FFmpeg Preset Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+                    Options: `'ultrafast'`, `'superfast'`, `'veryfast'`, `'faster'`,
+                             `'fast'`, `'medium'`, `'slow'`, `'slower'`, `'veryslow'`
+                    Slower presets give better compression/quality at the cost of
+                    encoding time.
+                    
+                - See [FFmpeg Preset Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#a2.Chooseapresetandtune)
+
                 For GPU encoding (NVENC):
                     Will be automatically converted to NVENC presets:
                     `'slow'`/`'slower'`/`'veryslow'` → `'p1'` (highest quality)
                     `'medium'` → `'p3'` (balanced)
                     `'fast'`/`'faster'` → `'p5'` (faster encoding)
                     `'veryfast'`/`'superfast'`/`'ultrafast'` → `'p7'` (fastest encoding)
-                    See [NVIDIA FFmpeg Integration](https://docs.nvidia.com/video-technologies/video-codec-sdk/12.0/ffmpeg-with-nvidia-gpu/index.html)
-            crf (int, optional): Constant Rate Factor for quality (default: `23`, lower is better quality)
-                Range: `0-51`, where lower values mean better quality and larger file size
-                Recommended range: `18-28`. See [CRF Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#crf)
+                    
+                - See [NVIDIA FFmpeg Integration](https://docs.nvidia.com/video-technologies/video-codec-sdk/12.0/ffmpeg-with-nvidia-gpu/index.html)
+
+            crf (int, optional): Constant Rate Factor for quality
+                (default: `23`, lower is better quality)
+
+                - Range: `0-51`, where lower values mean better quality and larger
+                  file size
+                - Recommended range: `18-28`.
+                - See [CRF Guide](https://trac.ffmpeg.org/wiki/Encode/H.264#crf)
+
             threads (int, optional): Number of encoding threads (default: CPU count - 1)
-            gpu_acceleration (bool, optional): Whether to use GPU acceleration if available (default: `True`)
+            gpu_acceleration (bool, optional): Whether to use GPU acceleration
+                if available (default: `True`)
             extra_ffmpeg_args (list, optional): Additional FFmpeg arguments as a list
-                See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all available options
+
+                - See [FFmpeg Documentation](https://ffmpeg.org/ffmpeg.html) for all
+                  available options
         """
 
         logger.info(
@@ -657,7 +681,7 @@ class VideoGenerator:
                         if progress > last_progress:
                             pbar.update(progress - last_progress)
                             last_progress = progress
-                    except:
+                    except Exception:
                         pass
 
         process.wait()

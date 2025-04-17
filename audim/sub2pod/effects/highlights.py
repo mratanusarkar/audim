@@ -2,7 +2,8 @@
 Highlight effects for videos
 
 This module provides highlight effects that can be applied to text or other elements
-during video generation. Highlights are used to emphasize important parts of the content.
+during video generation. Highlights are used to emphasize important parts of the
+content.
 """
 
 import math
@@ -19,7 +20,8 @@ class BaseHighlight:
         Initialize the highlight effect
 
         Args:
-            color (tuple): RGBA color for the highlight (default: semi-transparent yellow)
+            color (tuple): RGBA color for the highlight
+                (default: semi-transparent yellow)
             padding (int): Padding around the highlighted area in pixels
         """
         self.color = color

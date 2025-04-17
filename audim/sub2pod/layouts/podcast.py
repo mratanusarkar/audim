@@ -114,7 +114,8 @@ class PodcastLayout(BaseLayout):
             draw (ImageDraw): Draw object to draw on the frame
             subtitle (Subtitle): Current subtitle
             opacity (int): Opacity of the subtitle (0-255)
-            subtitle_info (dict, optional): Dictionary with subtitle position and duration info
+            subtitle_info (dict, optional): Dictionary with subtitle position
+                and duration info
 
         Returns:
             Image: The frame with subtitle and highlight effect applied
@@ -223,7 +224,7 @@ class PodcastLayout(BaseLayout):
             subtitle_info["duration"] = kwargs["subtitle_duration"]
 
         # Ensure the opacity is a valid integer
-        opacity_int = max(0, min(255, int(opacity)))
+        opacity = max(0, min(255, int(opacity)))
 
         # If we have a transition effect and opacity is specified,
         # use the transition effect to calculate opacity
