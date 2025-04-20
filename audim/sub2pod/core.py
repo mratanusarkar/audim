@@ -109,7 +109,12 @@ class VideoGenerator:
         # Load SRT file
         logger.info(f"Loading subtitles from {srt_path}")
         subs = pysrt.open(srt_path)
-
+        
+        # Determine if we need to normalize the timestamps
+        # Find the minimum start time (ordinal) from all subtitles
+        min_start_ordinal = min(sub.start.ordinal for sub in subs) if subs else 0
+        logger.info(f"SRT starts at {min_start_ordinal} milliseconds")
+        
         # Create temporary directory for frame storage
         self.temp_dir = tempfile.mkdtemp()
         self.frame_files = []
@@ -139,8 +144,11 @@ class VideoGenerator:
             current_batch_frames = 0
 
             for sub in subs:
-                start_frame = sub.start.ordinal // (1000 // self.fps)
-                end_frame = sub.end.ordinal // (1000 // self.fps)
+                # Calculate the frame numbers normalized to start from frame 0
+                # This ensures compatibility with SRTs that start at any timestamp
+                start_frame = (sub.start.ordinal - min_start_ordinal) // (1000 // self.fps)
+                end_frame = (sub.end.ordinal - min_start_ordinal) // (1000 // self.fps)
+                
                 num_frames = (end_frame - start_frame) + min(
                     15, end_frame - start_frame
                 )  # Including fade frames
@@ -149,7 +157,7 @@ class VideoGenerator:
                     current_batch_frames + num_frames > self.batch_size
                     and current_batch
                 ):
-                    sub_batches.append(current_batch)
+                    sub_batches.append((current_batch, min_start_ordinal))
                     current_batch = []
                     current_batch_frames = 0
 
@@ -158,7 +166,7 @@ class VideoGenerator:
 
             # Add the last batch if not empty
             if current_batch:
-                sub_batches.append(current_batch)
+                sub_batches.append((current_batch, min_start_ordinal))
 
             logger.info(
                 f"Processing subtitle to generate frames in {len(sub_batches)} batches"
@@ -166,7 +174,7 @@ class VideoGenerator:
 
             # Process each batch in parallel
             batch_results = []
-            for batch_idx, batch in enumerate(sub_batches):
+            for batch_idx, (batch, offset) in enumerate(sub_batches):
                 batch_results.append(
                     executor.submit(
                         self._process_subtitle_batch,
@@ -175,6 +183,7 @@ class VideoGenerator:
                         self.layout,
                         self.fps,
                         self.temp_dir,
+                        offset,
                     )
                 )
 
@@ -199,7 +208,7 @@ class VideoGenerator:
         )
         return self
 
-    def _process_subtitle_batch(self, subs_batch, batch_index, layout, fps, temp_dir):
+    def _process_subtitle_batch(self, subs_batch, batch_index, layout, fps, temp_dir, time_offset=0):
         """
         Process a batch of subtitles in parallel
 
@@ -209,6 +218,7 @@ class VideoGenerator:
             layout: Layout object to use for frame creation
             fps (int): Frames per second
             temp_dir (str): Directory to store temporary files
+            time_offset (int): Time offset in milliseconds to normalize timestamps
 
         Returns:
             tuple: (list of frame files, number of frames processed)
@@ -223,8 +233,9 @@ class VideoGenerator:
 
         # Process each subtitle in the batch
         for sub in subs_batch:
-            start_frame = sub.start.ordinal // (1000 // fps)
-            end_frame = sub.end.ordinal // (1000 // fps)
+            # Normalize timestamps to start from time zero
+            start_frame = (sub.start.ordinal - time_offset) // (1000 // fps)
+            end_frame = (sub.end.ordinal - time_offset) // (1000 // fps)
 
             # Calculate subtitle duration (in seconds)
             subtitle_duration = (sub.end.ordinal - sub.start.ordinal) / 1000.0
