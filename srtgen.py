@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+
 import os
-import whisperx
 import torch
-import re
 import datetime
+import whisperx
+from whisperx.SubtitlesProcessor import SubtitlesProcessor
 from typing import List, Dict, Any, Tuple, Optional
+
 
 def format_timestamp(seconds: float) -> str:
     """Convert seconds to SRT timestamp format (HH:MM:SS,mmm)"""
@@ -123,21 +125,16 @@ def process_audio(
             for segment in result["segments"]:
                 segment["speaker"] = "Speaker"
         
-        # 6. Format and save SRT
-        print(f"Saving SRT to {output_file}...")
-        with open(output_file, "w", encoding="utf-8") as f:
-            for i, segment in enumerate(result["segments"], 1):
-                speaker = segment.get("speaker", "Speaker")
-                # Replace SPEAKER_0, SPEAKER_1, etc. with simple Speaker labels
-                speaker_label = re.sub(r"SPEAKER_\d+", lambda m: f"Speaker {int(m.group(0).split('_')[1])+1}", speaker)
-                
-                start_time = format_timestamp(segment["start"])
-                end_time = format_timestamp(segment["end"])
-                text = f"[{speaker_label}] {segment['text'].strip()}"
-                
-                f.write(f"{i}\n")
-                f.write(f"{start_time} --> {end_time}\n")
-                f.write(f"{text}\n\n")
+        # 6. Subtitles processor
+        subtitles_processor = SubtitlesProcessor(
+            segments=result["segments"],
+            lang=detected_language,
+            max_line_length=70,
+            min_char_length_splitter=50
+        )
+        
+        # Save with advanced splitting for better subtitle formatting
+        subtitles_processor.save(output_file, advanced_splitting=True)
         
         print(f"Successfully created SRT file: {output_file}")
         
