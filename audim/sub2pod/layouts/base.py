@@ -13,17 +13,22 @@ class BaseLayout(ABC):
     It provides a common interface for adding speakers and creating frames and scenes.
     """
 
-    def __init__(self, video_width=1920, video_height=1080):
+    def __init__(self, video_width=1920, video_height=1080, content_horizontal_offset=0):
         """
         Initialize the base layout
 
         Args:
             video_width (int): Width of the video
             video_height (int): Height of the video
+            content_horizontal_offset (int): Horizontal offset for the content
+                (positive values move content right, negative values move content left).
+                This allows shifting the main content (display pictures and subtitles)
+                within the frame while keeping the header fixed.
         """
 
         self.video_width = video_width
         self.video_height = video_height
+        self.content_horizontal_offset = content_horizontal_offset
         # Default transition effect
         self.transition_effect = Transition("fade")
         # No default highlight effect
@@ -65,6 +70,22 @@ class BaseLayout(ABC):
             thickness (int): Line thickness for underline/box
         """
         self.highlight_effect = Highlight(effect_type, **kwargs)
+
+    def set_content_offset(self, offset):
+        """
+        Set horizontal offset for the main content area
+        
+        This method allows shifting the main content (display pictures and subtitles)
+        horizontally within the frame while keeping the header fixed.
+        Useful for adjusting the layout based on subtitle length.
+        
+        Args:
+            offset (int): Horizontal offset in pixels.
+            Positive values move content right, 
+            negative values move content left.
+        """
+        self.content_horizontal_offset = offset
+        return self
 
     @abstractmethod
     def add_speaker(self, name, image_path):
