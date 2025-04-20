@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import os
-import torch
-import datetime
 import whisperx
 from whisperx.SubtitlesProcessor import SubtitlesProcessor
+import torch
+import datetime
 from typing import List, Dict, Any, Tuple, Optional
+import re
 
 
 def format_timestamp(seconds: float) -> str:
@@ -125,17 +126,45 @@ def process_audio(
             for segment in result["segments"]:
                 segment["speaker"] = "Speaker"
         
-        # 6. Subtitles processor
+        # 6. Process subtitles with SubtitlesProcessor for line length control
+        print("Processing subtitles for optimal line length...")
         subtitles_processor = SubtitlesProcessor(
             segments=result["segments"],
             lang=detected_language,
             max_line_length=70,
             min_char_length_splitter=50
         )
-        
-        # Save with advanced splitting for better subtitle formatting
-        subtitles_processor.save(output_file, advanced_splitting=True)
-        
+
+        processed_segments = subtitles_processor.process_segments(advanced_splitting=True)
+
+        # 7. Format and save SRT with Audim speaker tags
+        print(f"Saving SRT to {output_file}...")
+        with open(output_file, "w", encoding="utf-8") as f:
+            for i, segment in enumerate(processed_segments, 1):
+                # Find the original segment that this processed segment came from
+                # by finding which original segment contains this timestamp
+                original_segment = next(
+                    (s for s in result["segments"] if 
+                     s["start"] <= segment["start"] and s["end"] >= segment["start"]),
+                    {"speaker": "Speaker"}
+                )
+                
+                speaker = original_segment.get("speaker", "Speaker")
+                # Replace SPEAKER_0, SPEAKER_1, etc. with simple Speaker labels
+                speaker_label = re.sub(
+                    r"SPEAKER_\d+", 
+                    lambda m: f"Speaker {int(m.group(0).split('_')[1])+1}", 
+                    speaker
+                )
+                
+                start_time = format_timestamp(segment["start"])
+                end_time = format_timestamp(segment["end"])
+                text = f"[{speaker_label}] {segment['text'].strip()}"
+                
+                f.write(f"{i}\n")
+                f.write(f"{start_time} --> {end_time}\n")
+                f.write(f"{text}\n\n")
+
         print(f"Successfully created SRT file: {output_file}")
         
     except Exception as e:
