@@ -22,6 +22,7 @@ class PodcastLayout(BaseLayout):
         header_height=150,
         dp_size=(120, 120),
         show_speaker_names=True,
+        content_horizontal_offset=0,
     ):
         """
         Initialize podcast layout
@@ -32,6 +33,9 @@ class PodcastLayout(BaseLayout):
             header_height (int): Height of the header section
             dp_size (tuple): Size of profile pictures
             show_speaker_names (bool): Whether to show speaker names
+            content_horizontal_offset (int): Horizontal offset for the content
+                (positive values move content right,
+                negative values move content left)
         """
 
         super().__init__(video_width, video_height)
@@ -43,6 +47,7 @@ class PodcastLayout(BaseLayout):
         self.dp_margin_left = 40
         self.text_margin = 50
         self.name_margin = 30
+        self.content_horizontal_offset = content_horizontal_offset
 
         # Initialize components
         self.header = Header(height=header_height)
@@ -56,6 +61,20 @@ class PodcastLayout(BaseLayout):
 
         # Store the active subtitle area for highlighting
         self.active_subtitle_area = None
+
+    def set_content_offset(self, offset):
+        """
+        Set horizontal offset for the content (display pictures and subtitles)
+
+        Args:
+            offset (int): Horizontal offset in pixels.
+                Positive values move content right, 
+                negative values move content left.
+        """
+        self.content_horizontal_offset = offset
+        # Recalculate positions with the new offset
+        self._calculate_positions()
+        return self
 
     def _calculate_positions(self):
         """
@@ -72,7 +91,8 @@ class PodcastLayout(BaseLayout):
 
         for i, speaker in enumerate(self.speakers.keys()):
             y_pos = start_y + (i * (self.dp_size[1] + spacing))
-            self.dp_positions[speaker] = (self.dp_margin_left, y_pos)
+            x_pos = self.dp_margin_left + self.content_horizontal_offset
+            self.dp_positions[speaker] = (x_pos, y_pos)
 
     def _calculate_layout(self, num_speakers, min_spacing=40):
         """
@@ -136,9 +156,21 @@ class PodcastLayout(BaseLayout):
             )
 
             # Calculate text position
-            text_x = self.dp_margin_left + self.dp_size[0] + self.text_margin
+            text_x = self.dp_margin_left + self.dp_size[0] + self.text_margin + self.content_horizontal_offset
             text_y = speaker_pos[1] + (self.dp_size[1] // 2)
-            text_width = self.video_width - text_x - self.text_margin
+            
+            # Adjust text width based on horizontal offset to ensure it stays within the frame
+            # If offset is negative (moves content left), we have more space for text
+            # If offset is positive (moves content right), we have less space for text
+            if self.content_horizontal_offset > 0:
+                # Reduce available text width when moved right
+                text_width = self.video_width - text_x - self.text_margin
+            else:
+                # Increase available text width when moved left (but ensure it doesn't go off screen)
+                text_width = min(
+                    self.video_width - text_x - self.text_margin,
+                    self.video_width - self.text_margin * 2
+                )
 
             # Store text area for possible highlight effects
             estimated_text_height = 100  # Approximate height for highlighting
