@@ -5,7 +5,6 @@ This module provides the high-level API for generating subtitles from audio file
 """
 
 import os
-from typing import Optional
 
 from audim.aud2sub.transcribers.base import BaseTranscriber
 

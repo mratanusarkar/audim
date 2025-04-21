@@ -3,7 +3,6 @@ Base class for transcriber implementations.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 
 class BaseTranscriber(ABC):

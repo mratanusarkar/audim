@@ -5,13 +5,13 @@ This module provides a complete implementation for podcast transcription
 using WhisperX for transcription, diarization, and formatting.
 """
 
-import os
-import torch
 import datetime
-import re
 import gc
-from typing import Dict, List, Any, Optional
+import os
+import re
+from typing import Optional
 
+import torch
 import whisperx
 from whisperx.SubtitlesProcessor import SubtitlesProcessor
 
@@ -38,7 +38,8 @@ class PodcastTranscriber(BaseTranscriber):
     using WhisperX for ASR, diarization, and subtitle formatting.
 
     Args:
-        model_name: WhisperX model name (tiny, base, small, medium, large, large-v2, large-v3)
+        model_name: WhisperX model name
+            (tiny, base, small, medium, large, large-v2, large-v3)
         language: Language code (e.g., 'en', 'hi', 'bn') or None for auto-detection
         device: Device to run inference on (cpu, cuda, mps)
         compute_type: Compute type (float16, float32, int8)
@@ -50,7 +51,8 @@ class PodcastTranscriber(BaseTranscriber):
         min_char_length_splitter: Minimum characters before line splitting
         show_speaker_names: Whether to show speaker names in subtitles
         speaker_name_pattern: Pattern for formatting speaker names
-        clear_gpu_memory: Whether to clear GPU memory after completing major processing steps
+        clear_gpu_memory: Whether to clear GPU memory after completing
+            major processing steps
     """
 
     def __init__(
@@ -278,7 +280,8 @@ class PodcastTranscriber(BaseTranscriber):
                 text = segment["text"].strip()
 
                 if self.show_speaker_names:
-                    text = f"{self.speaker_name_pattern.format(speaker=speaker_label)} {text}"
+                    prefix = self.speaker_name_pattern.format(speaker=speaker_label)
+                    text = f"{prefix} {text}"
 
                 f.write(f"{i}\n")
                 f.write(f"{start_time} --> {end_time}\n")
