@@ -67,7 +67,7 @@ class Subtitle:
         
         return subs
     
-    def preview_replacement(self, srt_file, speakers, limit=5):
+    def preview_replacement(self, srt_file, speakers, limit=5, pretty_print=True):
         """
         Preview the speaker replacements without modifying the file
         
@@ -76,6 +76,7 @@ class Subtitle:
             speakers (list or dict): Either a list of speaker names in order
                                     or a dictionary mapping speaker numbers/names to actual names
             limit (int): Maximum number of subtitles to display in preview
+            pretty_print (bool): Whether to print a formatted preview to console
                         
         Returns:
             list: List of tuples with (original_text, modified_text)
@@ -90,5 +91,20 @@ class Subtitle:
             if i >= limit:
                 break
             preview.append((orig.text, mod.text))
+        
+        if pretty_print:
+            print(f"\n{'='*50}\nSPEAKER REPLACEMENT PREVIEW ({limit} entries max)\n{'='*50}")
+            
+            for i, (orig, mod) in enumerate(preview, 1):
+                # Highlight the differences
+                print(f"\n#{i}: ")
+                print(f"  BEFORE: {orig}")
+                print(f"  AFTER : {mod}")
+                
+                # Only print divider if not the last item
+                if i < len(preview):
+                    print(f"  {'-'*48}")
+            
+            print(f"\n{'='*50}\n")
         
         return preview 
