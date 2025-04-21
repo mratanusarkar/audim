@@ -1,5 +1,3 @@
-import re
-import os
 import pysrt
 
 
@@ -18,9 +16,9 @@ class Subtitle:
         Args:
             srt_file (str): Path to the SRT file
             speakers (list or dict): Either a list of speaker names in order
-                                    or a dictionary mapping speaker numbers/names to actual names
+                or a dictionary mapping speaker numbers/names to actual names
             in_place (bool): Whether to modify the file in place (default: True)
-                            If False, returns modified subs without saving
+                If False, returns modified subs without saving
 
         Returns:
             pysrt.SubRipFile: The modified subtitles object
@@ -78,7 +76,7 @@ class Subtitle:
         Args:
             srt_file (str): Path to the SRT file
             speakers (list or dict): Either a list of speaker names in order
-                                    or a dictionary mapping speaker numbers/names to actual names
+                or a dictionary mapping speaker numbers/names to actual names
             limit (int): Maximum number of subtitles to display in preview
             pretty_print (bool): Whether to print a formatted preview to console
 
@@ -99,7 +97,9 @@ class Subtitle:
 
         if pretty_print:
             print(
-                f"\n{'=' * 50}\nSPEAKER REPLACEMENT PREVIEW ({limit} entries max)\n{'=' * 50}"
+                f"\n{'=' * 50}\n"
+                f"SPEAKER REPLACEMENT PREVIEW ({limit} entries max)\n"
+                f"{'=' * 50}"
             )
 
             for i, (orig, mod) in enumerate(preview, 1):

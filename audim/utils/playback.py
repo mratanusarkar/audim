@@ -1,6 +1,6 @@
-import time
 import threading
-from datetime import datetime, timedelta
+import time
+from datetime import datetime
 
 import pysrt
 from pydub import AudioSegment
@@ -48,7 +48,7 @@ class Playback:
             )
             duration = end_seconds - start_seconds
 
-            # If next subtitle doesn't start immediately after this one ends, clear screen
+            # If next subtitle doesn't start immediately, clear screen
             if duration > 0:
                 time.sleep(duration)
                 print("\033[H\033[J", end="")
