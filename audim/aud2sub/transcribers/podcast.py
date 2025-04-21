@@ -10,6 +10,7 @@ import gc
 import os
 import re
 from typing import Optional
+from pathlib import Path
 
 import torch
 import whisperx
@@ -47,6 +48,8 @@ class PodcastTranscriber(BaseTranscriber):
         min_speakers: Minimum number of speakers
         max_speakers: Maximum number of speakers
         hf_token: HuggingFace token for accessing diarization models
+            If not provided, will try to use HF_TOKEN environment variable
+            or the token stored by huggingface-cli login
         max_line_length: Maximum length of subtitle lines
         min_char_length_splitter: Minimum characters before line splitting
         show_speaker_names: Whether to show speaker names in subtitles
@@ -94,7 +97,9 @@ class PodcastTranscriber(BaseTranscriber):
         # Diarization parameters
         self.min_speakers = min_speakers
         self.max_speakers = max_speakers
-        self.hf_token = hf_token
+        
+        # HuggingFace token handling (following best practices)
+        self.hf_token = self._resolve_huggingface_token(hf_token)
 
         # Formatting parameters
         self.max_line_length = max_line_length
@@ -111,6 +116,40 @@ class PodcastTranscriber(BaseTranscriber):
         self._segments_with_speakers = None
         self._processed_segments = None
         self._detected_language = None
+
+    def _resolve_huggingface_token(self, provided_token: Optional[str] = None) -> Optional[str]:
+        """
+        Resolve HuggingFace token from various sources with priority:
+        1. Directly provided token
+        2. HF_TOKEN environment variable
+        3. Token stored by huggingface-cli login
+
+        Args:
+            provided_token: Token directly provided to the method
+
+        Returns:
+            Resolved token or None if no token is found
+        """
+        # Priority 1: Directly provided token
+        if provided_token:
+            return provided_token
+            
+        # Priority 2: Environment variable
+        env_token = os.environ.get("HF_TOKEN")
+        if env_token:
+            return env_token
+            
+        # Priority 3: Token stored by huggingface-cli login
+        try:
+            from huggingface_hub.constants import HF_TOKEN_PATH
+            token_path = Path(HF_TOKEN_PATH)
+            if token_path.exists():
+                return token_path.read_text().strip()
+        except (ImportError, Exception):
+            # If huggingface_hub is not installed or any other error occurs
+            pass
+            
+        return None
 
     def _clear_gpu_memory(self, message: str = None) -> None:
         """
@@ -213,7 +252,11 @@ class PodcastTranscriber(BaseTranscriber):
             if self.clear_gpu_memory and self.device == "cuda":
                 del diarize_model
         else:
-            print("Warning: No HuggingFace token provided. Skipping diarization.")
+            print("Warning: No HuggingFace token found. Skipping diarization.")
+            print("To use diarization, provide a huggingface token by one of these methods:")
+            print("  1. Pass directly: transcriber = PodcastTranscriber(hf_token='your_token')")
+            print("  2. Set environment variable: export HF_TOKEN='your_token'")
+            print("  3. Login with CLI using: huggingface-cli login")
             self._segments_with_speakers = self._transcript_result["segments"]
             for segment in self._segments_with_speakers:
                 segment["speaker"] = "Speaker"
@@ -349,6 +392,9 @@ class PodcastTranscriber(BaseTranscriber):
     def set_huggingface_token(self, hf_token: str) -> None:
         """
         Set the HuggingFace token for diarization.
+        
+        Note: It's recommended to use environment variables or the HuggingFace CLI
+        login for better security rather than hardcoding tokens in your code.
 
         Args:
             hf_token: HuggingFace token
