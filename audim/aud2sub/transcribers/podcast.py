@@ -9,6 +9,7 @@ import os
 import torch
 import datetime
 import re
+import gc
 from typing import Dict, List, Any, Optional
 
 import whisperx
@@ -45,6 +46,7 @@ class PodcastTranscriber(BaseTranscriber):
         min_char_length_splitter: Minimum characters before line splitting
         show_speaker_names: Whether to show speaker names in subtitles
         speaker_name_pattern: Pattern for formatting speaker names
+        clear_gpu_memory: Whether to clear GPU memory after completing major processing steps
     """
     
     def __init__(
@@ -61,6 +63,7 @@ class PodcastTranscriber(BaseTranscriber):
         min_char_length_splitter: int = 50,
         show_speaker_names: bool = True,
         speaker_name_pattern: str = "[{speaker}]",
+        clear_gpu_memory: bool = False,
     ):
         # ASR Model parameters
         self.model_name = model_name
@@ -93,12 +96,30 @@ class PodcastTranscriber(BaseTranscriber):
         self.show_speaker_names = show_speaker_names
         self.speaker_name_pattern = speaker_name_pattern
         
+        # Memory management
+        self.clear_gpu_memory = clear_gpu_memory
+        
         # Results storage
         self._transcript_result = None
         self._diarize_segments = None
         self._segments_with_speakers = None
         self._processed_segments = None
         self._detected_language = None
+    
+    def _clear_gpu_memory(self, message: str = None) -> None:
+        """Clear GPU memory by collecting garbage and emptying CUDA cache.
+        
+        Args:
+            message: Optional message to display when clearing memory
+        """
+        if not self.clear_gpu_memory or self.device != "cuda":
+            return
+            
+        if message:
+            print(f"Clearing GPU memory: {message}")
+        
+        gc.collect()
+        torch.cuda.empty_cache()
     
     def process_audio(self, audio_path: str) -> None:
         """Process audio file to generate transcription with diarization.
@@ -133,6 +154,11 @@ class PodcastTranscriber(BaseTranscriber):
         self._detected_language = result["language"]
         print(f"Detected language: {self._detected_language}")
         
+        # Clear GPU memory after transcription if requested
+        self._clear_gpu_memory("after transcription")
+        if self.clear_gpu_memory and self.device == "cuda":
+            del model
+        
         # 4. Align whisper output
         print("Aligning whisper output...")
         align_model, align_metadata = whisperx.load_align_model(
@@ -150,6 +176,11 @@ class PodcastTranscriber(BaseTranscriber):
         )
         
         self._transcript_result = result
+        
+        # Clear GPU memory after alignment if requested
+        self._clear_gpu_memory("after alignment")
+        if self.clear_gpu_memory and self.device == "cuda":
+            del align_model
         
         # 5. Speaker diarization
         if self.hf_token:
@@ -170,6 +201,11 @@ class PodcastTranscriber(BaseTranscriber):
             print("Assigning speaker labels to segments...")
             result = whisperx.assign_word_speakers(self._diarize_segments, self._transcript_result)
             self._segments_with_speakers = result["segments"]
+            
+            # Clear GPU memory after diarization if requested
+            self._clear_gpu_memory("after diarization")
+            if self.clear_gpu_memory and self.device == "cuda":
+                del diarize_model
         else:
             print("Warning: No HuggingFace token provided. Skipping diarization.")
             self._segments_with_speakers = self._transcript_result["segments"]
@@ -186,6 +222,9 @@ class PodcastTranscriber(BaseTranscriber):
         )
 
         self._processed_segments = subtitles_processor.process_segments(advanced_splitting=True)
+        
+        # Final memory cleanup
+        self._clear_gpu_memory("final cleanup")
         
         print("Audio processing completed successfully.")
     
@@ -306,3 +345,11 @@ class PodcastTranscriber(BaseTranscriber):
         """
         self.max_line_length = max_length
         self.min_char_length_splitter = min_split_length
+        
+    def set_memory_management(self, clear_gpu_memory: bool) -> None:
+        """Configure memory management.
+        
+        Args:
+            clear_gpu_memory: Whether to clear GPU memory after major processing steps
+        """
+        self.clear_gpu_memory = clear_gpu_memory
