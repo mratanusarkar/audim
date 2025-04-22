@@ -70,6 +70,8 @@ nav:
   - Audim:
     - aud2sub:
       - Core: 'audim/aud2sub/core.md'
+      - Transcribers:
+        - Base: 'audim/aud2sub/transcribers/base.md'
     - Sub2Pod:
       - Core: 'audim/sub2pod/core.md'
       - Layouts:
