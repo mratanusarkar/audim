@@ -1,7 +1,3 @@
-"""
-Base class for transcriber implementations.
-"""
-
 from abc import ABC, abstractmethod
 
 

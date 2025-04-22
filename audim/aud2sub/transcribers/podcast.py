@@ -1,10 +1,3 @@
-"""
-Podcast transcriber implementation using WhisperX.
-
-This module provides a complete implementation for podcast transcription
-using WhisperX for transcription, diarization, and formatting.
-"""
-
 import datetime
 import gc
 import os
