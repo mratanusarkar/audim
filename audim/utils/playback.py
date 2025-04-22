@@ -18,6 +18,10 @@ class Playback:
     def _srt_audio_player(self, subs, start_time):
         """
         Play audio with subtitles in CLI in realtime and in sync
+
+        Args:
+            subs (list): List of pysrt.SubRipItem objects
+            start_time (datetime): Start time of the playback
         """
 
         for sub in subs:

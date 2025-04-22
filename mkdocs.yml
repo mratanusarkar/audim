@@ -68,7 +68,7 @@ nav:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
   - Audim:
-    - aud2sub:
+    - Aud2Sub:
       - Core: 'audim/aud2sub/core.md'
       - Transcribers:
         - Base: 'audim/aud2sub/transcribers/base.md'
@@ -85,6 +85,8 @@ nav:
       - Effects:
         - Transitions: 'audim/sub2pod/effects/transitions.md'
         - Highlights: 'audim/sub2pod/effects/highlights.md'
+    - Utils:
+      - Playback: 'audim/utils/playback.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
