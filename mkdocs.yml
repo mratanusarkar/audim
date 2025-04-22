@@ -68,6 +68,8 @@ nav:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
   - Audim:
+    - aud2sub:
+      - Core: 'audim/aud2sub/core.md'
     - Sub2Pod:
       - Core: 'audim/sub2pod/core.md'
       - Layouts:

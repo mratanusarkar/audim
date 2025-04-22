@@ -1,9 +1,3 @@
-"""
-Core subtitle generator for Audim.
-
-This module provides the high-level API for generating subtitles from audio files.
-"""
-
 import os
 
 from audim.aud2sub.transcribers.base import BaseTranscriber
