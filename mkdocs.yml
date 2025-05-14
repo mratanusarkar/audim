@@ -88,6 +88,7 @@ nav:
     - Utils:
       - Playback: 'audim/utils/playback.md'
       - Subtitle: 'audim/utils/subtitle.md'
+      - Extract: 'audim/utils/extract.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
