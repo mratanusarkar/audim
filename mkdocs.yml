@@ -88,10 +88,12 @@ nav:
     - Utils:
       - Playback: 'audim/utils/playback.md'
       - Subtitle: 'audim/utils/subtitle.md'
+      - Extract: 'audim/utils/extract.md'
   - Examples:
     - Podcast 01: 'examples/podcast_01.md'
     - Podcast 02: 'examples/podcast_02.md'
     - Podcast 03: 'examples/podcast_03.md'
     - Podcast 04: 'examples/podcast_04.md'
+    - Podcast 05: 'examples/podcast_05.md'
 
 repo_url: https://github.com/mratanusarkar/audim
