@@ -3,7 +3,7 @@ import os
 import subprocess
 
 
-def extract_audio(input_path, output_path, output_format='wav', bitrate='192k') -> str | None:
+def extract_audio(input_path, output_path, output_format='wav', bitrate='192k', sample_rate=44100) -> str | None:
     """
     Extract audio from a video file with no loss in quality.
     
@@ -12,7 +12,8 @@ def extract_audio(input_path, output_path, output_format='wav', bitrate='192k') 
         output_path (str): Path to save the output audio file
         output_format (str): Format of the output audio file. e.g.: mp3, wav, flac (default: wav)
         bitrate (str): Bitrate for the output audio. e.g.: 128k, 192k, 320k (default: 192k)
-    
+        sample_rate (int): Sample rate for the output audio. e.g.: 44100, 48000, 96000 (default: 44100)
+
     Returns:
         str | None: Path to the output audio file if extraction was successful, None otherwise
     """
@@ -31,7 +32,7 @@ def extract_audio(input_path, output_path, output_format='wav', bitrate='192k') 
         "-vn",
         "-acodec", get_audio_codec(output_format),
         "-ab", bitrate,
-        "-ar", "44100",
+        "-ar", str(sample_rate),
         "-y",
         output_path
     ]
