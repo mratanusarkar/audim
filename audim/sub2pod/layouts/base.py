@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from PIL import Image, ImageDraw
 
 from audim.sub2pod.effects import Highlight, Transition
+from audim.sub2pod.elements.watermark import Watermark
 
 
 class BaseLayout(ABC):
@@ -29,10 +30,16 @@ class BaseLayout(ABC):
         self.video_width = video_width
         self.video_height = video_height
         self.content_horizontal_offset = content_horizontal_offset
+
         # Default transition effect
         self.transition_effect = Transition("fade")
+
         # No default highlight effect
         self.highlight_effect = None
+        
+        # Default watermark (enabled)
+        self.watermark = Watermark()
+        self.show_watermark = True
 
     def set_transition_effect(self, effect_type, **kwargs):
         """
@@ -48,6 +55,7 @@ class BaseLayout(ABC):
                 direction (str): Direction for slide transition
                 ("left", "right", "up", "down")
         """
+
         self.transition_effect = Transition(effect_type, **kwargs)
 
     def set_highlight_effect(self, effect_type, **kwargs):
@@ -69,6 +77,7 @@ class BaseLayout(ABC):
                 blur_radius (int): Blur radius for glow effect
             thickness (int): Line thickness for underline/box
         """
+
         self.highlight_effect = Highlight(effect_type, **kwargs)
 
     def set_content_offset(self, offset):
@@ -84,7 +93,109 @@ class BaseLayout(ABC):
             Positive values move content right, 
             negative values move content left.
         """
+
         self.content_horizontal_offset = offset
+        return self
+
+    def enable_watermark(self, show=True):
+        """
+        Enable or disable the watermark
+        
+        Args:
+            show (bool): Whether to show the watermark
+        """
+
+        self.show_watermark = show
+        if show and self.watermark is None:
+            self.watermark = Watermark()
+        return self
+
+    def set_watermark_text(self, text):
+        """
+        Set the watermark text
+        
+        Args:
+            text (str): Text to display as watermark
+        """
+
+        if self.watermark is None:
+            self.watermark = Watermark(text=text)
+        else:
+            self.watermark.set_text(text)
+        return self
+
+    def set_watermark_position(self, position):
+        """
+        Set the watermark position
+        
+        Args:
+            position (str): Position of the watermark
+                'bottom-left', 'bottom-center', or 'bottom-right'
+        """
+
+        if self.watermark is None:
+            self.watermark = Watermark(position=position)
+        else:
+            self.watermark.set_position(position)
+        return self
+
+    def set_watermark_color(self, color):
+        """
+        Set the watermark color
+        
+        Args:
+            color (tuple): RGB color of the watermark text
+        """
+
+        if self.watermark is None:
+            self.watermark = Watermark(color=color)
+        else:
+            self.watermark.set_color(color)
+        return self
+
+    def set_watermark_opacity(self, opacity):
+        """
+        Set the watermark opacity
+        
+        Args:
+            opacity (int): Opacity of the watermark (0-255)
+        """
+
+        if self.watermark is None:
+            self.watermark = Watermark(opacity=opacity)
+        else:
+            self.watermark.set_opacity(opacity)
+        return self
+
+    def set_watermark_properties(self, **kwargs):
+        """
+        Set multiple watermark properties at once
+        
+        Args:
+            **kwargs: Keyword arguments for watermark properties:
+                text (str): Watermark text
+                position (str): Watermark position
+                color (tuple): RGB color
+                opacity (int): Opacity
+                font_size (int): Font size
+                margin (int): Margin from edges
+        """
+
+        if self.watermark is None:
+            self.watermark = Watermark(**kwargs)
+        else:
+            if "text" in kwargs:
+                self.watermark.set_text(kwargs["text"])
+            if "position" in kwargs:
+                self.watermark.set_position(kwargs["position"])
+            if "color" in kwargs:
+                self.watermark.set_color(kwargs["color"])
+            if "opacity" in kwargs:
+                self.watermark.set_opacity(kwargs["opacity"])
+            if "font_size" in kwargs:
+                self.watermark.set_font_size(kwargs["font_size"])
+            if "margin" in kwargs:
+                self.watermark.margin = kwargs["margin"]
         return self
 
     @abstractmethod
