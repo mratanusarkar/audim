@@ -3,6 +3,7 @@ import numpy as np
 from ..elements.header import Header
 from ..elements.profile import ProfilePicture
 from ..elements.text import TextRenderer
+from ..elements.watermark import Watermark
 from .base import BaseLayout
 
 
@@ -23,6 +24,7 @@ class PodcastLayout(BaseLayout):
         dp_size=(120, 120),
         show_speaker_names=True,
         content_horizontal_offset=0,
+        show_watermark=True,
     ):
         """
         Initialize podcast layout
@@ -36,6 +38,7 @@ class PodcastLayout(BaseLayout):
             content_horizontal_offset (int): Horizontal offset for the content
                 (positive values move content right,
                 negative values move content left)
+            show_watermark (bool): Whether to show the watermark
         """
 
         super().__init__(video_width, video_height)
@@ -52,6 +55,12 @@ class PodcastLayout(BaseLayout):
         # Initialize components
         self.header = Header(height=header_height)
         self.text_renderer = TextRenderer()
+        
+        # Initialize watermark
+        self.show_watermark = show_watermark
+        if show_watermark:
+            # Opposite of background color (which is typically dark)
+            self.watermark = Watermark(color=(255, 255, 255))
 
         # Store profile pictures and positions
         self.speakers = {}
@@ -301,6 +310,12 @@ class PodcastLayout(BaseLayout):
             # Pass the subtitle_info dictionary as an additional parameter
             frame = self._draw_subtitle(
                 frame, draw, current_sub, opacity, subtitle_info
+            )
+
+        # Draw watermark if enabled
+        if self.show_watermark and self.watermark:
+            self.watermark.draw(
+                frame, draw, self.video_width, self.video_height, opacity
             )
 
         # If we have a transition effect and opacity is not max,

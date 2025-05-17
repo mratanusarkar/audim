@@ -82,6 +82,7 @@ nav:
         - Header: 'audim/sub2pod/elements/header.md'
         - Profile: 'audim/sub2pod/elements/profile.md'
         - Text: 'audim/sub2pod/elements/text.md'
+        - Watermark: 'audim/sub2pod/elements/watermark.md'
       - Effects:
         - Transitions: 'audim/sub2pod/effects/transitions.md'
         - Highlights: 'audim/sub2pod/effects/highlights.md'
