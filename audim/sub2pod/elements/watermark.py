@@ -112,9 +112,19 @@ class Watermark:
             frame_opacity (int): Opacity of the entire frame (for transitions)
         """
 
+        # Ensure opacity values are valid integers
+        watermark_opacity = max(0, min(255, self.opacity))
+        frame_opacity = max(0, min(255, frame_opacity))
+        
         # Calculate final opacity (product of watermark opacity and frame opacity)
-        final_opacity = int((self.opacity / 255) * frame_opacity)
-        color_with_opacity = self.color + (final_opacity,)
+        # Use a proportion to maintain proper alpha blending
+        final_opacity = int((watermark_opacity / 255.0) * (frame_opacity / 255.0) * 255)
+        
+        # Create the color tuple with the final opacity
+        if isinstance(self.color, tuple) and len(self.color) >= 3:
+            color_with_opacity = self.color[:3] + (final_opacity,)
+        else:
+            color_with_opacity = (255, 255, 255, final_opacity)
         
         # Calculate position based on the selected position
         # for anchor keys, see: https://pillow.readthedocs.io/en/latest/handbook/text-anchors.html
