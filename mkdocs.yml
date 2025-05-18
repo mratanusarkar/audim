@@ -93,6 +93,7 @@ nav:
       - Extract: 'audim/utils/extract.md'
   - Dev Blog:
     - Index: 'devblog/index.md'
+    - v0.0.7: 'devblog/v0.0.7.md'
     - v0.0.6: 'devblog/v0.0.6.md'
     - v0.0.5: 'devblog/v0.0.5.md'
     - v0.0.3: 'devblog/v0.0.3.md'
