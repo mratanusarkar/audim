@@ -1,0 +1,2228 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../v0.0.5/">
+      
+      
+        <link rel="next" href="../v0.0.2/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>v0.0.3 - Audim</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#advanced-video-effects-with-progressive-disclosure-of-complexity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Audim" class="md-header__button md-logo" aria-label="Audim" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Audim
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              v0.0.3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mratanusarkar/audim" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Audim" class="md-nav__button md-logo" aria-label="Audim" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Audim
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mratanusarkar/audim" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Setup
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Setup
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Development
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Audim
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Audim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Index
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Aud2Sub
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Aud2Sub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/aud2sub/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Transcribers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Transcribers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/aud2sub/transcribers/base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/aud2sub/transcribers/podcast/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Podcast
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sub2Pod
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Sub2Pod
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Layouts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Layouts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/layouts/base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/layouts/podcast/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Podcast
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Elements
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Elements
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/elements/header/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Header
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/elements/profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Profile
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/elements/text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Text
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/elements/watermark/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Watermark
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Effects
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Effects
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/effects/transitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transitions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/sub2pod/effects/highlights/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Highlights
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Utils
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/utils/playback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playback
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/utils/subtitle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Subtitle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audim/utils/extract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Extract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Dev Blog
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Dev Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Index
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.0.7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.0.6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.0.5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    v0.0.3
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.3
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-progressive-disclosure-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Progressive Disclosure of Complexity?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-audims-sub2pod-submodule-implements-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Audim's sub2pod submodule Implements Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-is-powerful" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why this is powerful?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why this is powerful?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-progressive-disclosure-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Progressive Disclosure of Complexity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-end-user-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. End User Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-developer-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Developer Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-performance-and-maintainability" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Performance and Maintainability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-new-effects-module-implements-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      How the new effects module Implements Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-three-levels-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Three Levels of Complexity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Three Levels of Complexity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level-1-default-usage-no-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 1: Default Usage (No Configuration)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-2-simple-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 2: Simple Customization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3-advanced-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 3: Advanced Customization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-implementation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Full Implementation Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available Effects
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Effects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transition-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transition Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#highlight-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Highlight Effects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Impact
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.0.2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../v0.0.1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v0.0.1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-progressive-disclosure-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Progressive Disclosure of Complexity?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-audims-sub2pod-submodule-implements-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Audim's sub2pod submodule Implements Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-is-powerful" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why this is powerful?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why this is powerful?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-progressive-disclosure-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Progressive Disclosure of Complexity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-end-user-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. End User Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-developer-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Developer Experience
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-performance-and-maintainability" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Performance and Maintainability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-new-effects-module-implements-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      How the new effects module Implements Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-three-levels-of-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Three Levels of Complexity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Three Levels of Complexity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#level-1-default-usage-no-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 1: Default Usage (No Configuration)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-2-simple-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 2: Simple Customization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#level-3-advanced-customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Level 3: Advanced Customization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-implementation-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Full Implementation Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available Effects
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Effects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transition-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transition Effects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#highlight-effects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Highlight Effects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benefits-of-progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of Progressive Disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Impact
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="advanced-video-effects-with-progressive-disclosure-of-complexity">Advanced Video Effects with Progressive Disclosure of Complexity</h1>
+<blockquote>
+<ul>
+<li><strong>Author</strong>: <a href="https://github.com/mratanusarkar">@mratanusarkar</a></li>
+<li><strong>Created</strong>: April 16, 2025</li>
+<li><strong>Last Updated</strong>: April 17, 2025</li>
+<li><strong>Compatible with</strong>: Audim v0.0.3</li>
+</ul>
+</blockquote>
+<p>This example explores Audim's implementation of the "progressive disclosure of complexity" design principle through the <code>effects</code> module in the <code>sub2pod</code> package. We'll demonstrate how Audim provides a smooth learning curve for users of all experience levels.</p>
+<h2 id="what-is-progressive-disclosure-of-complexity">What is Progressive Disclosure of Complexity?</h2>
+<p>Progressive disclosure of complexity is a design principle that gradually reveals advanced functionality as users become more experienced with a system. This concept originated in UI design but has been adapted for API design in software libraries.</p>
+<p>As described by design experts:</p>
+<blockquote>
+<p>"Progressive disclosure is an interaction design technique that sequences information and actions across several screens in order to reduce feelings of overwhelm for the user."</p>
+<p>— <a href="https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure">Interaction Design Foundation</a></p>
+</blockquote>
+<p>Specially in module or library design, this principle is realized by creating higher level APIs and lower level APIs. While the lower level APIs are granular, fundamental, small and rigid catering to specific functionalities of the module or library. The higher level APIs are complex and formed by combining the lower level APIs catering to specific end user requirements and use cases.</p>
+<p>This results in end users using the higher level APIs with ease, getting out of the box experience, while also being able to dig deeper into the lower level APIs for specific customizations when needed.</p>
+<p>The best way to put it is to quote the creator of Keras:</p>
+<blockquote>
+<p>"A key design principle I follow in libraries (e.g. Keras) is 'progressive disclosure of complexity'. Make it easy to get started, yet make it possible to handle arbitrarily flexible use cases, only requiring incremental learning at each step."</p>
+<p>— <a href="https://x.com/fchollet/status/1231285340335267840">François Chollet</a></p>
+</blockquote>
+<p>This approach is used by many popular libraries like <a href="https://keras.io/getting_started/about/#keras-follows-the-principle-of-progressive-disclosure-of-complexity">Keras</a>, <a href="https://huggingface.co/blog/transformers-design-philosophy">Hugging Face Transformers</a>, <a href="https://huggingface.co/docs/diffusers/en/conceptual/philosophy">Hugging Face Diffusers</a> and many more allowing users to:</p>
+<ul>
+<li>Start simple with sensible defaults</li>
+<li>Incrementally discover more advanced features</li>
+<li>Access the full power of the library when needed</li>
+</ul>
+<h2 id="how-audims-sub2pod-submodule-implements-progressive-disclosure">How Audim's <code>sub2pod</code> submodule Implements Progressive Disclosure</h2>
+<p>Audim's <code>sub2pod</code> submodule implements progressive disclosure of complexity through a carefully designed hierarchy of abstractions:</p>
+<ol>
+<li>
+<p><strong>High-Level API (<code>VideoGenerator</code> &amp; <code>PodcastLayout</code>)</strong></p>
+<ul>
+<li><code>VideoGenerator</code> takes care of video generation and rendering</li>
+<li><code>PodcastLayout</code> takes care of how each frames in the video will look like</li>
+<li>Provides out-of-the-box functionality for podcast video generation</li>
+<li>Offers sensible defaults for all parameters</li>
+<li>Perfect for users who want to get started quickly</li>
+</ul>
+</li>
+<li>
+<p><strong>Mid-Level API (<code>BaseLayout</code>)</strong></p>
+<ul>
+<li>Allows customization of layouts, elements in the layout and it's effects</li>
+<li>Provides string-based configuration for common use cases</li>
+<li>Enables users to put together various elements and effects to create their own layouts</li>
+<li>It's like a lego or a puzzle piece where lower level elements and effects can be used to create new layouts</li>
+<li>Ideal for users who want to customize their videos</li>
+</ul>
+</li>
+<li>
+<p><strong>Lower-Level API (<code>Header</code>, <code>Profile</code>, <code>Text</code> Elements and <code>Transition</code>, <code>Highlight</code> Effects)</strong></p>
+<ul>
+<li>Offers complete control over each elements and effects</li>
+<li>These elements are the fundamental building blocks that Audim provides</li>
+<li>These effects are the fundamental animations that Audim provides</li>
+<li>These elements and effects can be combined to create new layouts and animations</li>
+</ul>
+</li>
+<li>
+<p><strong>Lowest-Level API (<code>BaseElement</code> &amp; <code>BaseEffect</code>)</strong></p>
+<ul>
+<li>Offers complete control over rendering and effects</li>
+<li>Allows creation of custom elements and effects</li>
+<li>Provides access to all parameters and methods</li>
+<li>Designed for power users and developers</li>
+</ul>
+</li>
+</ol>
+<p>So, by providing API abstractions from higher levels to the lower levels, Audim's <code>sub2pod</code> submodule allows users to:</p>
+<ul>
+<li>Start using and generation podcast videos out of the box with sensible defaults</li>
+<li>Incrementally discover more advanced features and customizations when needed</li>
+<li>Access the full power of the library when needed with fine-tuned control over the layouts, elements and effects</li>
+<li>Power users can also implement their own custom layouts, elements and effects by overriding <code>BaseLayout</code>, <code>BaseElement</code> and <code>BaseEffect</code> classes.</li>
+</ul>
+<p>This layered approach creates a natural progression path for users:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Level 1: High-Level API (Simple)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">layout</span> <span class="o">=</span> <span class="n">PodcastLayout</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">generator</span> <span class="o">=</span> <span class="n">VideoGenerator</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">generator</span><span class="o">.</span><span class="n">generate_from_srt</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Level 2: Mid-Level API (Customization)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_transition_effect</span><span class="p">(</span><span class="s2">&quot;fade&quot;</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_highlight_effect</span><span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Level 3: Low-Level API</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">CustomEffect</span><span class="p">(</span><span class="n">BaseEffect</span><span class="p">):</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="c1"># Override for full customization and control</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">progress</span><span class="p">):</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="c1"># Custom effect implementation</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="k">pass</span>
+</span></code></pre></div>
+<p>So, the abstraction layers and inheritance hierarchy of Audim's <code>sub2pod</code> submodule can be visualized as follows:</p>
+<pre class="mermaid"><code>graph TD
+    A[VideoGenerator] --&gt; B[PodcastLayout]
+    B --&gt; C[BaseLayout]
+    C --&gt; D[Elements]
+    C --&gt; E[Effects]
+    D --&gt; F[Header]
+    D --&gt; G[ProfilePicture]
+    D --&gt; H[TextRenderer]
+    E --&gt; I[Transition]
+    E --&gt; J[Highlight]
+    I --&gt; K[BaseTransition]
+    J --&gt; L[BaseHighlight]</code></pre>
+<h2 id="why-this-is-powerful">Why this is powerful?</h2>
+<h3 id="1-progressive-disclosure-of-complexity">1. Progressive Disclosure of Complexity</h3>
+<p>This approach creates a natural hierarchy of complexity:</p>
+<ul>
+<li><strong>Simple level</strong>: Users choose a pre-configured layout with default effects</li>
+<li><strong>Intermediate level</strong>: Users customize effects for elements on existing layouts</li>
+<li><strong>Advanced level</strong>: Users create custom layouts with custom elements and effects</li>
+</ul>
+<p>This matches how video editors typically work - first selecting templates, then adjusting effects, and finally creating custom compositions when needed.</p>
+<h3 id="2-end-user-experience">2. End User Experience</h3>
+<p>For video creators and editors, this model is intuitive because:</p>
+<ul>
+<li>It follows familiar mental models from tools like OBS, Premiere Pro, and After Effects</li>
+<li>Effects are naturally tied to how content appears (the layout)</li>
+<li>The separation keeps the API clean while maintaining flexibility</li>
+<li>Users can think in terms of "scenes" (layouts) that have both positioning and visual effects</li>
+</ul>
+<h3 id="3-developer-experience">3. Developer Experience</h3>
+<p>For developers and power users, this architecture provides:</p>
+<ul>
+<li>Clear extension points for adding new features</li>
+<li>Well-defined interfaces between components</li>
+<li>Easy testing and maintenance of individual components</li>
+<li>Ability to mix and match different levels of abstraction</li>
+</ul>
+<h3 id="4-performance-and-maintainability">4. Performance and Maintainability</h3>
+<p>The layered architecture also benefits the codebase itself:</p>
+<ul>
+<li>Each layer can be optimized independently</li>
+<li>Changes in one layer don't affect others</li>
+<li>Easier to add new features without breaking existing code</li>
+<li>Better separation of concerns</li>
+</ul>
+<h2 id="how-the-new-effects-module-implements-progressive-disclosure">How the new <code>effects</code> module Implements Progressive Disclosure</h2>
+<p>Audim's <code>effects</code> module provides transition and highlight effects for videos with three distinct levels of complexity:</p>
+<ol>
+<li><strong>Level 1: Default Usage</strong> - No configuration needed</li>
+<li><strong>Level 2: Simple Customization</strong> - Basic string-based configuration</li>
+<li><strong>Level 3: Advanced Customization</strong> - Detailed parameter configuration</li>
+</ol>
+<p>This approach allows beginners to get started quickly while giving advanced users the power and flexibility they need.</p>
+<h2 id="example-three-levels-of-complexity">Example: Three Levels of Complexity</h2>
+<p>Let's explore how you can use Audim's effects at different complexity levels:</p>
+<h3 id="level-1-default-usage-no-configuration">Level 1: Default Usage (No Configuration)</h3>
+<p>The simplest way to use Audim is with default settings. The <code>PodcastLayout</code> automatically includes a default fade transition:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">audim.sub2pod.layouts.podcast</span><span class="w"> </span><span class="kn">import</span> <span class="n">PodcastLayout</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">audim.sub2pod.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">VideoGenerator</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Create a podcast layout with default effects</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">layout</span> <span class="o">=</span> <span class="n">PodcastLayout</span><span class="p">(</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">video_width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> 
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">video_height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">show_speaker_names</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Add speakers</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">layout</span><span class="o">.</span><span class="n">add_speaker</span><span class="p">(</span><span class="s2">&quot;Host&quot;</span><span class="p">,</span> <span class="s2">&quot;input/host.png&quot;</span><span class="p">)</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">layout</span><span class="o">.</span><span class="n">add_speaker</span><span class="p">(</span><span class="s2">&quot;Guest&quot;</span><span class="p">,</span> <span class="s2">&quot;input/guest.png&quot;</span><span class="p">)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># Create generator with this layout</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">generator</span> <span class="o">=</span> <span class="n">VideoGenerator</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># The layout will automatically use the default effects</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># No explicit configuration needed!</span>
+</span></code></pre></div>
+<p>At this level, users don't need to know anything about effects - they just work.</p>
+<h3 id="level-2-simple-customization">Level 2: Simple Customization</h3>
+<p>As users become more comfortable, they can easily customize effects by simply specifying the effect type:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Create podcast layout</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">layout</span> <span class="o">=</span> <span class="n">PodcastLayout</span><span class="p">(</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">video_width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">video_height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">show_speaker_names</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Simple customization - just specify effect type</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_transition_effect</span><span class="p">(</span><span class="s2">&quot;fade&quot;</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_highlight_effect</span><span class="p">(</span><span class="s2">&quot;glow&quot;</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Add speakers and generate video as before</span>
+</span></code></pre></div>
+<p>This level introduces a clean, string-based API that's easy to understand and use.</p>
+<h3 id="level-3-advanced-customization">Level 3: Advanced Customization</h3>
+<p>Power users can access detailed customization options when they need fine-grained control:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Create podcast layout</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">layout</span> <span class="o">=</span> <span class="n">PodcastLayout</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">video_width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">video_height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">show_speaker_names</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Advanced customization with detailed parameters</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_transition_effect</span><span class="p">(</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="s2">&quot;slide&quot;</span><span class="p">,</span> 
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">frames</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>                  <span class="c1"># Longer transition (default: 15 frames)</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>            <span class="c1"># Slide in from left</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_highlight_effect</span><span class="p">(</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="s2">&quot;pulse&quot;</span><span class="p">,</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">215</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>   <span class="c1"># Custom gold color, semi-transparent</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="n">min_size</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>               <span class="c1"># Subtle pulse (90% to 110% size)</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="n">max_size</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="n">blur_radius</span><span class="o">=</span><span class="mi">8</span>               <span class="c1"># More blur for softer effect</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="p">)</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1"># Add speakers and generate video as before</span>
+</span></code></pre></div>
+<p>At this level, users have complete control over every aspect of the effects.</p>
+<h2 id="full-implementation-example">Full Implementation Example</h2>
+<p>Here's how you might use Audim's <code>sub2pod</code> submodule in a complete project:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">audim.sub2pod.layouts.podcast</span><span class="w"> </span><span class="kn">import</span> <span class="n">PodcastLayout</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">audim.sub2pod.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">VideoGenerator</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Create a podcast layout</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating layout...&quot;</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">layout</span> <span class="o">=</span> <span class="n">PodcastLayout</span><span class="p">(</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">video_width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">video_height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">show_speaker_names</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># Set custom effects for the layout</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_transition_effect</span><span class="p">(</span><span class="s2">&quot;fade&quot;</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">layout</span><span class="o">.</span><span class="n">set_highlight_effect</span><span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1"># Add speakers</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Adding speakers...&quot;</span><span class="p">)</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="n">layout</span><span class="o">.</span><span class="n">add_speaker</span><span class="p">(</span><span class="s2">&quot;Grant Sanderson&quot;</span><span class="p">,</span> <span class="s2">&quot;input/grant.png&quot;</span><span class="p">)</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">layout</span><span class="o">.</span><span class="n">add_speaker</span><span class="p">(</span><span class="s2">&quot;Sal Khan&quot;</span><span class="p">,</span> <span class="s2">&quot;input/sal.png&quot;</span><span class="p">)</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1"># Generate video</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generating video...&quot;</span><span class="p">)</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">generator</span> <span class="o">=</span> <span class="n">VideoGenerator</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="n">generator</span><span class="o">.</span><span class="n">generate_from_srt</span><span class="p">(</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="n">srt_path</span><span class="o">=</span><span class="s2">&quot;input/podcast.srt&quot;</span><span class="p">,</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="n">audio_path</span><span class="o">=</span><span class="s2">&quot;input/podcast.mp3&quot;</span><span class="p">,</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>    <span class="n">logo_path</span><span class="o">=</span><span class="s2">&quot;input/logo.png&quot;</span><span class="p">,</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;3b1b Podcast: Sal Khan: Beyond Khan Academy&quot;</span><span class="p">,</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="n">cpu_core_utilization</span><span class="o">=</span><span class="s2">&quot;max&quot;</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="p">)</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="c1"># Export the final video</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exporting video...&quot;</span><span class="p">)</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="n">datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="n">generator</span><span class="o">.</span><span class="n">export_video</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output/podcast_underline_</span><span class="si">{</span><span class="n">datetime</span><span class="si">}</span><span class="s2">.mp4&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Here's how the generated video looks like upon completion of the rendering process:</p>
+<div style="text-align: center; margin: 20px 0;">
+  <video controls style="width: 100%;">
+    <source src="/assets/example_01/podcast.mp4" type="video/mp4">
+    Your browser does not support the video element.
+  </video>
+</div>
+
+<h2 id="available-effects">Available Effects</h2>
+<h3 id="transition-effects">Transition Effects</h3>
+<p>Transitions control how each frame fades in or slides into view:</p>
+<table>
+<thead>
+<tr>
+<th>Effect Type</th>
+<th>Description</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"none"</code></td>
+<td>No transition (default)</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>"fade"</code></td>
+<td>Smooth fade-in transition</td>
+<td><code>frames</code>: Duration of fade</td>
+</tr>
+<tr>
+<td><code>"slide"</code></td>
+<td>Slide-in animation</td>
+<td><code>frames</code>: Duration of slide, <code>direction</code>: "left", "right", "up", or "down"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="highlight-effects">Highlight Effects</h3>
+<p>Highlights emphasize the active speaker's text:</p>
+<table>
+<thead>
+<tr>
+<th>Effect Type</th>
+<th>Description</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"none"</code></td>
+<td>No highlight</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>"pulse"</code></td>
+<td>Pulsing animation</td>
+<td><code>color</code>, <code>min_size</code>, <code>max_size</code>, <code>blur_radius</code></td>
+</tr>
+<tr>
+<td><code>"glow"</code></td>
+<td>Glowing background</td>
+<td><code>color</code>, <code>blur_radius</code></td>
+</tr>
+<tr>
+<td><code>"underline"</code></td>
+<td>Simple underline</td>
+<td><code>color</code>, <code>thickness</code></td>
+</tr>
+<tr>
+<td><code>"box"</code></td>
+<td>Box around text</td>
+<td><code>color</code>, <code>padding</code>, <code>thickness</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="benefits-of-progressive-disclosure">Benefits of Progressive Disclosure</h2>
+<p>This design pattern offers several advantages:</p>
+<ol>
+<li><strong>Reduced Learning Curve</strong>: New users can be productive immediately without being overwhelmed</li>
+<li><strong>Smooth Progression</strong>: Users can gradually discover more advanced features as they need them</li>
+<li><strong>Documentation Organization</strong>: Documentation can target different user groups based on expertise</li>
+<li><strong>API Cleanliness</strong>: The API remains clean and intuitive at all levels</li>
+<li><strong>Flexibility</strong>: Advanced users can access powerful features without sacrificing simplicity for beginners</li>
+</ol>
+<h2 id="real-world-impact">Real-World Impact</h2>
+<p>The progressive disclosure pattern in Audim helps different types of users:</p>
+<ul>
+<li><strong>Content Creators</strong>: Can quickly generate basic podcast videos without technical knowledge</li>
+<li><strong>Video Editors</strong>: Can customize effects to match their brand and style</li>
+<li><strong>Developers</strong>: Can achieve precise control and integrate Audim into larger workflows</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If you encounter issues with effects:</p>
+<ul>
+<li>Verify you're using Audim v0.0.3 or later</li>
+<li>Check that effect names are spelled correctly (e.g., "fade" not "fading")</li>
+<li>For slide transitions with text, ensure your text color includes an opacity value</li>
+<li>When using highlight effects, ensure the subtitle area is properly defined</li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../v0.0.1/">Basic Podcast Example</a></li>
+<li><a href="../v0.0.2/">Professional Podcast Example</a></li>
+<li><a href="../../audim/sub2pod/effects/transitions/">API Documentation for Transitions</a></li>
+<li><a href="../../audim/sub2pod/effects/highlights/">API Documentation for Highlights</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

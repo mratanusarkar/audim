@@ -1,0 +1,244 @@
+1
+00:00:00,151 --> 00:00:02,112
+[Grant Sanderson] If I think of like the early days of Khan Academy
+
+2
+00:00:02,112 --> 00:00:03,834
+[Grant Sanderson] and like the TED talks that you gave
+
+3
+00:00:03,834 --> 00:00:05,575
+[Grant Sanderson] or the book that you wrote, there's a
+
+4
+00:00:05,575 --> 00:00:10,359
+[Grant Sanderson] kind of, um, there's an optimism around it and also an ambition, right?
+
+5
+00:00:10,359 --> 00:00:11,922
+[Grant Sanderson] There's like, this is, this is what the
+
+6
+00:00:11,922 --> 00:00:14,503
+[Grant Sanderson] world could look like, or this is what education could be.
+
+7
+00:00:14,503 --> 00:00:16,486
+[Grant Sanderson] And aside from that, I was like, and let's start to build it.
+
+8
+00:00:16,486 --> 00:00:18,027
+[Grant Sanderson] Let's actually start to make it.
+
+9
+00:00:18,027 --> 00:00:19,309
+[Grant Sanderson] Uh, like where, where is your current
+
+10
+00:00:19,309 --> 00:00:21,269
+[Grant Sanderson] mind when you're thinking about the next decade
+
+11
+00:00:21,269 --> 00:00:23,446
+[Grant Sanderson] or the next two decades of education?
+
+12
+00:00:23,446 --> 00:00:25,126
+[Sal Khan] I continue to be optimistic, although I
+
+13
+00:00:25,126 --> 00:00:29,309
+[Sal Khan] have, I think, a better appreciation for the complexity, not,
+
+14
+00:00:29,309 --> 00:00:31,371
+[Sal Khan] you know, including this complexity of
+
+15
+00:00:31,371 --> 00:00:33,432
+[Sal Khan] running an organization or multiple organizations,
+
+16
+00:00:33,432 --> 00:00:37,256
+[Sal Khan] but also how that interfaces with the broader world.
+
+17
+00:00:37,256 --> 00:00:39,857
+[Sal Khan] When I first wrote Khan Academy's mission statement, it was really,
+
+18
+00:00:39,857 --> 00:00:41,219
+[Sal Khan] I was just trying to fill out the
+
+19
+00:00:41,219 --> 00:00:43,079
+[Sal Khan] paperwork with the IRS as quickly as possible
+
+20
+00:00:43,079 --> 00:00:45,161
+[Sal Khan] so that I could get the not-for-profit status.
+
+21
+00:00:45,161 --> 00:00:46,781
+[Sal Khan] You know, it was delusional when a one
+
+22
+00:00:46,781 --> 00:00:48,143
+[Sal Khan] guy in a walk-in closet is writing
+
+23
+00:00:48,143 --> 00:00:49,945
+[Sal Khan] free world-class education for anyone anywhere.
+
+24
+00:00:49,945 --> 00:00:51,646
+[Sal Khan] And even then, I recognize it's a mission.
+
+25
+00:00:51,646 --> 00:00:53,567
+[Sal Khan] It's not something that you're just going to be able to like,
+
+26
+00:00:53,567 --> 00:00:58,210
+[Sal Khan] Solve in the next two or three years But if you fast-forward to now,
+
+27
+00:00:58,210 --> 00:01:01,732
+[Sal Khan] I think 2008 Sal who was or seven Sal who was filling out
+
+28
+00:01:01,732 --> 00:01:03,694
+[Sal Khan] that paperwork would have been blown away
+
+29
+00:01:03,694 --> 00:01:07,477
+[Sal Khan] by how far Khan Academy has gotten and
+
+30
+00:01:07,477 --> 00:01:09,899
+[Sal Khan] to some degree how legitimate it's viewed and
+
+31
+00:01:11,140 --> 00:01:14,061
+[Sal Khan] And how we work with systems and how many people are using it
+
+32
+00:01:15,284 --> 00:01:19,789
+[Sal Khan] But 2021 Sal, myself, knows that that's nice.
+
+33
+00:01:19,489 --> 00:01:22,170
+[Sal Khan] 2007 Sal, I know this is getting a little weird.
+
+34
+00:01:23,131 --> 00:01:26,254
+[Sal Khan] But as many people are using it and
+
+35
+00:01:26,254 --> 00:01:29,036
+[Sal Khan] as much as we've done, we're still making
+
+36
+00:01:29,036 --> 00:01:33,379
+[Sal Khan] a relatively small dent relative to the overall
+
+37
+00:01:33,379 --> 00:01:36,099
+[Sal Khan] issue of we genuinely want billions of
+
+38
+00:01:36,099 --> 00:01:40,802
+[Sal Khan] people to become actualized in their lives.
+
+39
+00:01:40,802 --> 00:01:43,284
+[Sal Khan] And I do think that Khan Academy can
+
+40
+00:01:43,284 --> 00:01:44,724
+[Sal Khan] play a role catalyzing this in terms
+
+41
+00:01:44,724 --> 00:01:47,206
+[Sal Khan] of the underlying philosophy around
+
+42
+00:01:47,206 --> 00:01:49,126
+[Sal Khan] mastery-based learning, personalization.
+
+43
+00:01:50,287 --> 00:01:54,069
+[Sal Khan] I keep coming back to it and it's, you know, every now
+
+44
+00:01:54,069 --> 00:01:55,590
+[Sal Khan] and then there's this temptation to say,
+
+45
+00:01:55,590 --> 00:01:57,111
+[Sal Khan] well, that's not where other people are.
+
+46
+00:01:57,111 --> 00:02:00,655
+[Sal Khan] Let's tweak it a little bit to be a little bit more mainstream.
+
+47
+00:02:00,655 --> 00:02:02,096
+[Sal Khan] And then you just, but then you realize
+
+48
+00:02:02,096 --> 00:02:04,879
+[Sal Khan] the truth of it over and over and over again.
+
+49
+00:02:04,879 --> 00:02:07,501
+[Sal Khan] So yes, we will, we are doing things at Khan Academy
+
+50
+00:02:07,501 --> 00:02:09,983
+[Sal Khan] that help work with the traditional
+
+51
+00:02:09,983 --> 00:02:12,304
+[Sal Khan] workflow or traditional classroom that might
+
+52
+00:02:12,304 --> 00:02:14,385
+[Sal Khan] not be mastery based because there's still value
+
+53
+00:02:14,385 --> 00:02:16,367
+[Sal Khan] in using Khan Academy as a supplement
+
+54
+00:02:17,187 --> 00:02:18,830
+[Sal Khan] using it as the go-to place
+
+55
+00:02:18,830 --> 00:02:21,455
+[Sal Khan] for practice, getting immediate feedback, getting micro lessons.
+
+56
+00:02:21,455 --> 00:02:23,438
+[Sal Khan] So we want to make sure it's used in that way.
+
+57
+00:02:23,438 --> 00:02:25,102
+[Sal Khan] But we want to make sure also that
+
+58
+00:02:25,102 --> 00:02:27,245
+[Sal Khan] we never lose our core principle that
+
+59
+00:02:27,245 --> 00:02:30,890
+[Sal Khan] the ideal is mastery-based learning, differentiation, personalization.
+
+60
+00:02:30,890 --> 00:02:34,016
+[Sal Khan] I think we have helped put it into the zeitgeist.
+
+61
+00:02:34,016 --> 00:02:35,618
+[Sal Khan] You hear a lot more people talking about
+
