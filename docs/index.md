@@ -19,7 +19,11 @@ Audim is an engine for precise programmatic animation and rendering of podcast v
 - Support for video to subtitle and scene elements generation.
 - Support for subtitle and scene elements to video generation.
 
-## Example Usage
+## Also See
 
-- See "Examples" section in the documentation for usage examples.
-- Ensure you have setup correctly before usage. See "Setup" section in the documentation for more details.
+- See [Setup](./setup/installation.md) section in the documentation and ensure you have setup correctly before usage.
+- If you are a developer, or contributor, see [Development](./setup/development.md) section in the documentation for more details.
+- See [API Documentation](./audim/index.md) for the API documentation of the project.
+- See "Examples" section in the documentation for usage examples. (coming soon)
+- See [Dev Blog](./devblog/index.md) for the development blog of the project to gain more insights into the project.
+- See [Changelog](./devblog/index.md#changelog) for the changelog of the project.
