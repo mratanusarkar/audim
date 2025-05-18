@@ -68,6 +68,7 @@ nav:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
   - Audim:
+    - Index: 'audim/index.md'
     - Aud2Sub:
       - Core: 'audim/aud2sub/core.md'
       - Transcribers:
