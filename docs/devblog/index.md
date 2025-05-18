@@ -23,3 +23,16 @@ Each blog post might include (and not limited to) the following:
 | v0.0.4              | NA           | NA
 | [v0.0.5](v0.0.5.md) | May 15, 2025 | SRT transcription from audio |
 | [v0.0.6](v0.0.6.md) | May 18, 2025 | Audio extraction from video |
+
+## Changelog
+
+Since we are documenting the development of the project, why not have a changelog and PR trackers for the project?
+
+| Version | Date | Modules Affected | Feature Changes | PR Links |
+|---------|------|------------------|-----------------|----------|
+| v0.0.1  | Mar 05, 2025 | `sub2pod`            | subtitle text to podcast video                   | [#3](https://github.com/mratanusarkar/audim/pull/3) |
+| v0.0.2  | Mar 13, 2025 | `sub2pod`            | optimize & parallize `sub2pod`                   | [#5](https://github.com/mratanusarkar/audim/pull/5) |
+| v0.0.3  | Apr 17, 2025 | `sub2pod`            | `effects` submodule + design changes             | [#11](https://github.com/mratanusarkar/audim/pull/11) |
+| v0.0.4  | Apr 22, 2025 | `aud2sub`, `sub2pod` | audio to srt + ts normalization + pos offset     | [#15](https://github.com/mratanusarkar/audim/pull/15), [#14](https://github.com/mratanusarkar/audim/pull/14), [#13](https://github.com/mratanusarkar/audim/pull/13) |
+| v0.0.5  | Apr 22, 2025 | `util`               | playback audio with subs + replace speaker names | [#17](https://github.com/mratanusarkar/audim/pull/17) |
+| v0.0.6  | May 15, 2025 | `util`               | extract audio from video                         | [#24](https://github.com/mratanusarkar/audim/pull/24) |
