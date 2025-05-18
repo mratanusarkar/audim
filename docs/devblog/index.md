@@ -37,6 +37,6 @@ Since we are documenting the development of the project, why not have a changelo
 | v0.0.4  | Apr 22, 2025 | `aud2sub`, `sub2pod` | audio to srt + ts normalization + pos offset     | [#15](https://github.com/mratanusarkar/audim/pull/15), [#14](https://github.com/mratanusarkar/audim/pull/14), [#13](https://github.com/mratanusarkar/audim/pull/13) |
 | v0.0.5  | Apr 22, 2025 | `util`               | playback audio with subs + replace speaker names | [#17](https://github.com/mratanusarkar/audim/pull/17) |
 | v0.0.6  | May 15, 2025 | `util`               | extract audio from video                         | [#24](https://github.com/mratanusarkar/audim/pull/24) |
-| v0.0.7* | NA           | ???                  | final firstse                                    | ??? |
+| v0.0.7* | NA           | ???                  | final first release                              | ??? |
 
 > Note: In the above table, the versions marked with `*` are released.
