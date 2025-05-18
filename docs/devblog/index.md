@@ -17,12 +17,12 @@ Each blog post might include (and not limited to) the following:
 
 | Blog Post | Date | Description |
 |-----------|------|-------------|
-| [v0.0.1](v0.0.1.md) | Mar 05, 2025 | Basic video from SRT files |
-| [v0.0.2](v0.0.2.md) | Mar 13, 2025 | Podcast video from SRT files |
-| [v0.0.3](v0.0.3.md) | Apr 16, 2025 | Progressive disclosure of complexity |
-| v0.0.4              | NA           | NA
-| [v0.0.5](v0.0.5.md) | May 15, 2025 | SRT transcription from audio |
-| [v0.0.6](v0.0.6.md) | May 18, 2025 | Audio extraction from video |
+| [v0.0.1](v0.0.1.md) | Mar 05, 2025 | generate basic video from SRT files |
+| [v0.0.2](v0.0.2.md) | Mar 13, 2025 | making professional podcast video from SRT files |
+| [v0.0.3](v0.0.3.md) | Apr 16, 2025 | cleaner design with progressive disclosure of complexity |
+| v0.0.4              | NA           | no blog post |
+| [v0.0.5](v0.0.5.md) | May 15, 2025 | SRT transcription from audio + playback utility |
+| [v0.0.6](v0.0.6.md) | May 18, 2025 | Audio extraction from video files |
 
 ## Changelog
 
