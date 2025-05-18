@@ -68,6 +68,7 @@ nav:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
   - Audim:
+    - Index: 'audim/index.md'
     - Aud2Sub:
       - Core: 'audim/aud2sub/core.md'
       - Transcribers:
@@ -90,11 +91,13 @@ nav:
       - Playback: 'audim/utils/playback.md'
       - Subtitle: 'audim/utils/subtitle.md'
       - Extract: 'audim/utils/extract.md'
-  - Examples:
-    - Podcast 01: 'examples/podcast_01.md'
-    - Podcast 02: 'examples/podcast_02.md'
-    - Podcast 03: 'examples/podcast_03.md'
-    - Podcast 04: 'examples/podcast_04.md'
-    - Podcast 05: 'examples/podcast_05.md'
+  - Dev Blog:
+    - Index: 'devblog/index.md'
+    - v0.0.7: 'devblog/v0.0.7.md'
+    - v0.0.6: 'devblog/v0.0.6.md'
+    - v0.0.5: 'devblog/v0.0.5.md'
+    - v0.0.3: 'devblog/v0.0.3.md'
+    - v0.0.2: 'devblog/v0.0.2.md'
+    - v0.0.1: 'devblog/v0.0.1.md'
 
 repo_url: https://github.com/mratanusarkar/audim

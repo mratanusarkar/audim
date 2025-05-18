@@ -88,3 +88,12 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
+
+## Also See
+
+- See [Setup](./docs/setup/installation.md) section in the documentation and ensure you have setup correctly before usage.
+- If you are a developer, or contributor, see [Development](./docs/setup/development.md) section in the documentation for more details.
+- See [API Documentation](./docs/audim/index.md) for the API documentation of the project.
+- See "Examples" section in the documentation for usage examples. (coming soon)
+- See [Dev Blog](./docs/devblog/index.md) for the development blog of the project to gain more insights into the project.
+- See [Changelog](./docs/devblog/index.md#changelog) for the changelog of the project.
