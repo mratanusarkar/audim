@@ -9,12 +9,27 @@
 
 > _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
-[Introduction](#-introduction) •
-[Features](#-features) •
-[Getting Started](#-getting-started) •
+|
+[Introduction](#-introduction) |
+[Features](#-features) |
+[Getting Started](#-getting-started) |
 [Quick Links](#-quick-links)
+|
 
 </div>
+
+## 🔗 Quick Links
+
+1. Getting Started
+    - See [Setup](https://mratanusarkar.github.io/audim/setup/installation.md) and ensure you have setup correctly before usage.
+    - For developers and contributors, see [Development](https://mratanusarkar.github.io/audim/setup/development.md).
+2. API Documentation
+    - See [API Docs](https://mratanusarkar.github.io/audim/audim/index.md) for the `audim` API documentation.
+3. Usage and Examples
+    - See [Usage](https://mratanusarkar.github.io/audim/usage/index.md) for usage examples.
+4. Dev Blog
+    - See [Dev Blog](https://mratanusarkar.github.io/audim/devblog/index.md) for the development blog of the project to gain more insights into the project.
+    - See [Changelog](https://mratanusarkar.github.io/audim/devblog/index.md#changelog) for the changelog of the project.
 
 ## 🎯 Introduction
 
@@ -99,16 +114,3 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
-
-## 🔗 Quick Links
-
-- Getting Started
-    - See [Setup](https://mratanusarkar.github.io/audim/setup/installation.md) and ensure you have setup correctly before usage.
-    - For developers or contributors, see [Development](https://mratanusarkar.github.io/audim/setup/development.md).
-- API Documentation
-    - See [API Docs](https://mratanusarkar.github.io/audim/audim/index.md) for the `audim` API documentation.
-- Usage and Examples
-    - See [Usage](https://mratanusarkar.github.io/audim/usage/index.md) for usage examples.
-- Dev Blog
-    - See [Dev Blog](https://mratanusarkar.github.io/audim/devblog/index.md) for the development blog of the project to gain more insights into the project.
-    - See [Changelog](https://mratanusarkar.github.io/audim/devblog/index.md#changelog) for the changelog of the project.
