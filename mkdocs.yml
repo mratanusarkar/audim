@@ -7,6 +7,17 @@ repo_url: https://github.com/mratanusarkar/audim
 edit_uri: https://github.com/mratanusarkar/audim/tree/main/docs
 copyright: Copyright &copy; 2025 Atanu Sarkar
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mratanusarkar
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/mratanusarkar
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/mratanusarkar
+    - icon: fontawesome/solid/envelope
+      link: mailto:mratanusarkar@gmail.com
+
 theme:
   name: material
   palette: 
