@@ -8,7 +8,7 @@ Have a quick pick for your script based on your requirements:
 | ------------ | ------- | -------- | --------------------------- | ------------------------------------------------- |
 | Audio        | Subs    | generate | [script_01](./script_01.md) | audio transcription with speaker diarization      |
 | Audio + Subs | Podcast | generate | [script_02](./script_02.md) | generate podcast from audio and original subtitle |
-| Audio        | Podcast | generate | 🚧     | 🚧      |
+| Audio        | Podcast | generate | [script_03](./script_03.md) | 🚧, generate podcast from audio recording         |
 | Video        | Audio   | extract  | 🚧     | 🚧      |
 | Video        | Subs    | generate | 🚧     | 🚧      |
 | Video + Subs | Podcast | generate | 🚧     | 🚧      |
