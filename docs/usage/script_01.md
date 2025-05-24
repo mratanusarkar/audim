@@ -7,8 +7,14 @@ You have an audio file and you want to generate subtitles and transcriptions wit
 ## Script
 
 ```python
+from datetime import datetime
 from audim.aud2sub.transcribers.podcast import PodcastTranscriber
 from audim.aud2sub.core import SubtitleGenerator
+
+# Set input and output files
+timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+input_audio_file = "input/podcast.mp3"
+output_subtitle_file = f"output/podcast_{timestamp}.srt"
 
 # Create transcriber object
 print("Creating transcriber...")
@@ -25,10 +31,10 @@ generator = SubtitleGenerator(transcriber)
 
 # Process audio file
 print("Processing audio...")
-generator.generate_from_mp3("input/podcast.mp3")
+generator.generate_from_mp3(input_audio_file)
 
 # Export the final subtitle
 print("Exporting subtitles...")
-generator.export_subtitle("output/podcast.srt")
-print("Done! Check output/podcast.srt for results.")
+generator.export_subtitle(output_subtitle_file)
+print(f"Done! Check {output_subtitle_file} for results.")
 ```

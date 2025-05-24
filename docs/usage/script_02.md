@@ -37,6 +37,24 @@ from datetime import datetime
 from audim.sub2pod.layouts.podcast import PodcastLayout
 from audim.sub2pod.core import VideoGenerator
 
+# Set input and output files
+timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+input_audio_file = "input/podcast.mp3"
+input_subtitle_file = "input/podcast.srt"
+output_video_file = f"output/podcast_{timestamp}.mp4"
+speakers = [
+    {
+        "name": "Grant Sanderson",
+        "dp": "input/grant.png"
+    },
+    {
+        "name": "Sal Khan",
+        "dp": "input/sal.png"
+    }
+]
+podcast_logo = "input/logo.png"
+podcast_title = "3b1b Podcast: Sal Khan: Beyond Khan Academy"
+
 # Create a podcast layout
 print("Creating layout...")
 layout = PodcastLayout(
@@ -51,22 +69,22 @@ layout.set_highlight_effect("none")
 
 # Add speakers
 print("Adding speakers...")
-layout.add_speaker("Grant Sanderson", "input/grant.png")
-layout.add_speaker("Sal Khan", "input/sal.png")
+for speaker in speakers:
+    layout.add_speaker(speaker["name"], speaker["dp"])
 
 # Generate video
 print("Generating video...")
 generator = VideoGenerator(layout, fps=30)
 generator.generate_from_srt(
-    srt_path="input/podcast.srt",
-    audio_path="input/podcast.mp3",
-    logo_path="input/logo.png",
-    title="3b1b Podcast: Sal Khan: Beyond Khan Academy",
+    srt_path=input_subtitle_file,
+    audio_path=input_audio_file,
+    logo_path=podcast_logo,
+    title=podcast_title,
     cpu_core_utilization="max"
 )
 
 # Export the final video
 print("Exporting video...")
-datetime = datetime.now().strftime("%Y%m%d%H%M%S")
-generator.export_video(f"output/podcast_underline_{datetime}.mp4")
+generator.export_video(output_video_file)
+print(f"Done! Check {output_video_file} for results.")
 ```
