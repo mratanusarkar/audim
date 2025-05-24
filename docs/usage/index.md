@@ -4,9 +4,9 @@ Here are some example usage covering various use cases, using the `audim` librar
 
 Have a quick pick for your script based on your requirements:
 
-| From         | To      | Use      | Script | Comment |
-| ------------ | ------- | -------- | ------ | ------- |
-| Audio        | Subs    | generate | 🚧     | 🚧      |
+| From         | To      | Use      | Script                      | Comment                                      |
+| ------------ | ------- | -------- | --------------------------- | -------------------------------------------- |
+| Audio        | Subs    | generate | [script_01](./script_01.md) | audio transcription with speaker diarization |
 | Audio + Subs | Podcast | generate | 🚧     | 🚧      |
 | Audio        | Podcast | generate | 🚧     | 🚧      |
 | Video        | Audio   | extract  | 🚧     | 🚧      |

@@ -119,12 +119,13 @@ nav:
       - Effects:
         - Transitions: 'audim/sub2pod/effects/transitions.md'
         - Highlights: 'audim/sub2pod/effects/highlights.md'
-    - Usage:
-      - Index: 'usage/index.md'
     - Utils:
       - Playback: 'audim/utils/playback.md'
       - Subtitle: 'audim/utils/subtitle.md'
       - Extract: 'audim/utils/extract.md'
+  - Usage:
+    - Index: 'usage/index.md'
+    - Script 01: 'usage/script_01.md'
   - Dev Blog:
     - Index: 'devblog/index.md'
     - v0.0.7: 'devblog/v0.0.7.md'
