@@ -1,4 +1,4 @@
-# Audio to Subtitle Generation
+# **Audio** to **Subtitle** Generation
 
 ## Use Case
 
