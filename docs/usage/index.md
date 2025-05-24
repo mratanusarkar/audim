@@ -10,7 +10,7 @@ Have a quick pick for your script based on your requirements:
 | Audio + Subs | Podcast | generate | [script_02](./script_02.md) | generate podcast from audio and original subtitle |
 | Audio        | Podcast | generate | [script_03](./script_03.md) | 🚧, generate podcast from audio recording         |
 | Video        | Audio   | extract  | [script_04](./script_04.md) | extract audio from video                          |
-| Video        | Subs    | generate | 🚧     | 🚧      |
+| Video        | Subs    | generate | [script_05](./script_05.md) | transcribe and generate subtitles from video      |
 | Video + Subs | Podcast | generate | 🚧     | 🚧      |
 | Video        | Podcast | generate | 🚧     | 🚧      |
 | Audio        | -       | playback | 🚧     | 🚧      |
