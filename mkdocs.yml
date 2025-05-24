@@ -1,5 +1,11 @@
-# mkdocs.yml
 site_name: Audim
+site_url: https://mratanusarkar.github.io/audim
+site_author: Atanu Sarkar
+site_description: An animation and video rendering engine for audio-based and voice-based podcast videos.
+repo_name: audim
+repo_url: https://github.com/mratanusarkar/audim
+edit_uri: https://github.com/mratanusarkar/audim/tree/main/docs
+copyright: Copyright &copy; 2025 Atanu Sarkar
 
 theme:
   name: material
@@ -23,16 +29,31 @@ theme:
     - navigation.tracking
 
 plugins:
-  - mkdocstrings
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            # show symbol types in the table of contents
+            show_symbol_type_toc: true
+            # show symbol type in the heading
+            show_symbol_type_heading: true
+            # show the root heading (module/class name)
+            show_root_heading: true
+            # don't show the source code
+            show_source: false
+            # docstring style parsing format
+            docstring_style: google
+            # order the members (by source order)
+            members_order: source
+            # sort members alphabetically
+            sort_members: false
   - search
   - minify
   - glightbox
   - mkdocs-jupyter:
-      include_source: True
-
+      include_source: true
 
 markdown_extensions:
-  - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -99,5 +120,3 @@ nav:
     - v0.0.3: 'devblog/v0.0.3.md'
     - v0.0.2: 'devblog/v0.0.2.md'
     - v0.0.1: 'devblog/v0.0.1.md'
-
-repo_url: https://github.com/mratanusarkar/audim
