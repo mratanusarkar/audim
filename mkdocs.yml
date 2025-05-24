@@ -1,5 +1,22 @@
-# mkdocs.yml
 site_name: Audim
+site_url: https://mratanusarkar.github.io/audim
+site_author: Atanu Sarkar
+site_description: An animation and video rendering engine for audio-based and voice-based podcast videos.
+repo_name: audim
+repo_url: https://github.com/mratanusarkar/audim
+edit_uri: https://github.com/mratanusarkar/audim/tree/main/docs
+copyright: Copyright &copy; 2025 Atanu Sarkar
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mratanusarkar
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/mratanusarkar
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/mratanusarkar
+    - icon: fontawesome/solid/envelope
+      link: mailto:mratanusarkar@gmail.com
 
 theme:
   name: material
@@ -23,16 +40,31 @@ theme:
     - navigation.tracking
 
 plugins:
-  - mkdocstrings
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            # show symbol types in the table of contents
+            show_symbol_type_toc: true
+            # show symbol type in the heading
+            show_symbol_type_heading: true
+            # show the root heading (module/class name)
+            show_root_heading: true
+            # don't show the source code
+            show_source: false
+            # docstring style parsing format
+            docstring_style: google
+            # order the members (by source order)
+            members_order: source
+            # sort members alphabetically
+            sort_members: false
   - search
   - minify
   - glightbox
   - mkdocs-jupyter:
-      include_source: True
-
+      include_source: true
 
 markdown_extensions:
-  - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -91,6 +123,17 @@ nav:
       - Playback: 'audim/utils/playback.md'
       - Subtitle: 'audim/utils/subtitle.md'
       - Extract: 'audim/utils/extract.md'
+  - Usage:
+    - Index: 'usage/index.md'
+    - Script 01: 'usage/script_01.md'
+    - Script 02: 'usage/script_02.md'
+    - Script 03: 'usage/script_03.md'
+    - Script 04: 'usage/script_04.md'
+    - Script 05: 'usage/script_05.md'
+    - Script 06: 'usage/script_06.md'
+    - Script 07: 'usage/script_07.md'
+    - Script 08: 'usage/script_08.md'
+    - Script 10: 'usage/script_10.md'
   - Dev Blog:
     - Index: 'devblog/index.md'
     - v0.0.7: 'devblog/v0.0.7.md'
@@ -99,5 +142,3 @@ nav:
     - v0.0.3: 'devblog/v0.0.3.md'
     - v0.0.2: 'devblog/v0.0.2.md'
     - v0.0.1: 'devblog/v0.0.1.md'
-
-repo_url: https://github.com/mratanusarkar/audim

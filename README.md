@@ -1,39 +1,64 @@
-# Audim
+<div align='center'>
+
+# Audim ✨
 
 [![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
+[![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-purple)](https://github.com/mratanusarkar)
 
 **Au**dio Po**d**cast An**im**ation Engine
 
-_An animation and video rendering engine for audio-based and voice-based podcast videos._
+> _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
----
+|
+[Introduction](#-introduction) |
+[Features](#-features) |
+[Getting Started](#-getting-started) |
+[Quick Links](#-quick-links)
+|
+
+</div>
+
+## 🔗 Quick Links
+
+1. Getting Started
+    - See [Setup](https://mratanusarkar.github.io/audim/setup/installation.md) and ensure you have setup correctly before usage.
+    - For developers and contributors, see [Development](https://mratanusarkar.github.io/audim/setup/development.md).
+2. API Documentation
+    - See [API Docs](https://mratanusarkar.github.io/audim/audim/index.md) for the `audim` API documentation.
+3. Usage and Examples
+    - See [Usage](https://mratanusarkar.github.io/audim/usage/index.md) for usage examples.
+4. Dev Blog
+    - See [Dev Blog](https://mratanusarkar.github.io/audim/devblog/index.md) for the development blog of the project to gain more insights into the project.
+    - See [Changelog](https://mratanusarkar.github.io/audim/devblog/index.md#changelog) for the changelog of the project.
+
+## 🎯 Introduction
 
 Audim is an engine for precise programmatic animation and rendering of podcast videos from audio-based and voice-based file recordings.
 
-## Features
+## ✨ Features
 
-- Precise programmatic animations.
-- Rendering of videos.
-- Layout based scenes.
-- Support for audio to subtitle generation.
-- Support for video to subtitle and scene elements generation.
-- Support for subtitle and scene elements to video generation.
+- 💻 Precise programmatic animations.
+- 🎬 Rendering of videos with layout based scenes.
+- 📝 Generate subtitles and transcripts from audio/video files.
+- 🎤 From subtitle and scene elements to podcast video generation.
 
-## Prerequisites
+## 🚀 Getting Started
 
-- Python ≥ 3.10
-- Conda
-- FFmpeg (optional, for faster video encoding)
+### Prerequisites
 
-## Setup
+- 🐍 Python ≥ 3.10
+- 🖥️ Conda
+- 🎥 FFmpeg (optional, for faster video encoding)
 
-### 1. Clone the repository:
+### Installation
+
+#### 1. Clone the repository:
 
 ```bash
 git clone https://github.com/mratanusarkar/audim.git
 ```
 
-### 2. Install FFmpeg locally (optional)
+#### 2. Install FFmpeg locally (optional)
 
 Using local FFmpeg is optional but recommended for speeding up the video encoding process.
 
@@ -48,9 +73,10 @@ On Windows and other platforms, download and install FFmpeg from the official we
 - [Download FFmpeg](https://ffmpeg.org/download.html)
 - Ensure FFmpeg is in your system PATH
 
-### 3. Install `uv` and setup project environment:
+#### 3. Install `uv` and setup project environment:
 
-> **Note**: If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
+> [!IMPORTANT]
+> If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
 >
 > ```bash
 > conda activate base
@@ -69,7 +95,7 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-### 4. Build and deploy documentation
+#### 4. Build and deploy documentation
 
 You can build and serve the documentation by running:
 
@@ -88,12 +114,3 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
-
-## Also See
-
-- See [Setup](./docs/setup/installation.md) section in the documentation and ensure you have setup correctly before usage.
-- If you are a developer, or contributor, see [Development](./docs/setup/development.md) section in the documentation for more details.
-- See [API Documentation](./docs/audim/index.md) for the API documentation of the project.
-- See "Examples" section in the documentation for usage examples. (coming soon)
-- See [Dev Blog](./docs/devblog/index.md) for the development blog of the project to gain more insights into the project.
-- See [Changelog](./docs/devblog/index.md#changelog) for the changelog of the project.
