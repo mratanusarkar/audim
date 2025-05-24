@@ -11,7 +11,7 @@ Have a quick pick for your script based on your requirements:
 | Audio        | Podcast | generate | [script_03](./script_03.md) | 🚧, generate podcast from audio recording         |
 | Video        | Audio   | extract  | [script_04](./script_04.md) | extract audio from video                          |
 | Video        | Subs    | generate | [script_05](./script_05.md) | transcribe and generate subtitles from video      |
-| Video + Subs | Podcast | generate | 🚧     | 🚧      |
+| Video + Subs | Podcast | generate | [script_06](./script_06.md) | generate podcast from video and original subtitle |
 | Video        | Podcast | generate | 🚧     | 🚧      |
 | Audio        | -       | playback | 🚧     | 🚧      |
 | Video        | -       | playback | NYI    | NYI     |
