@@ -126,6 +126,7 @@ nav:
   - Usage:
     - Index: 'usage/index.md'
     - Script 01: 'usage/script_01.md'
+    - Script 02: 'usage/script_02.md'
   - Dev Blog:
     - Index: 'devblog/index.md'
     - v0.0.7: 'devblog/v0.0.7.md'
