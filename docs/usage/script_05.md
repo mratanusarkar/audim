@@ -14,13 +14,13 @@ from audim.aud2sub.core import SubtitleGenerator
 
 # Set input and output file paths
 input_file = "input/podcast.mp4"
-audio_file = "temp/podcast.wav"
-audio_format = "wav"
 output_subtitle_file = f"output/podcast.srt"
 
 # Extract audio from video
+temp_audio_file = "temp/podcast.wav"
+temp_audio_format = "wav"
 extractor = Extract()
-extractor.extract_audio(input_file, audio_file, audio_format)
+extractor.extract_audio(input_file, temp_audio_file, temp_audio_format)
 
 # Create transcriber object
 print("Creating transcriber...")
@@ -37,10 +37,10 @@ generator = SubtitleGenerator(transcriber)
 
 # Process audio file
 print("Processing extracted audio from video...")
-generator.generate_from_mp3(audio_file)
+generator.generate_from_mp3(temp_audio_file)
 
 # Delete the intermediate extracted audio file
-os.remove(audio_file)
+os.remove(temp_audio_file)
 
 # Export the final subtitle
 print("Exporting subtitles...")
