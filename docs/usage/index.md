@@ -14,8 +14,8 @@ Have a quick pick for your script based on your requirements:
 | Video + Subs | Podcast | generate | [script_06](./script_06.md) | generate podcast from video and original subtitle |
 | Video        | Podcast | generate | [script_07](./script_07.md) | 🚧, generate podcast from video recording         |
 | Audio        | -       | playback | [script_08](./script_08.md) | play audio with subtitles in sync, in terminal    |
-| Video        | -       | playback | NYI    | NYI     |
-| Subs         | Subs    | modify   | 🚧     | 🚧      |
+| Video        | -       | playback | NYI                         | NYI                                               |
+| Subs         | Subs    | modify   | [script_10](./script_10.md) | replace speaker names in subtitle file            |
 
 !!! info "Key"
 

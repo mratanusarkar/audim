@@ -133,6 +133,7 @@ nav:
     - Script 06: 'usage/script_06.md'
     - Script 07: 'usage/script_07.md'
     - Script 08: 'usage/script_08.md'
+    - Script 10: 'usage/script_10.md'
   - Dev Blog:
     - Index: 'devblog/index.md'
     - v0.0.7: 'devblog/v0.0.7.md'
