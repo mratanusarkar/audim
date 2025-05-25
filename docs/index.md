@@ -30,3 +30,19 @@ Audim is an engine for precise programmatic animation and rendering of podcast v
 4. Dev Blog
     - See [Dev Blog](./devblog/index.md) for the development blog of the project to gain more insights into the project.
     - See [Changelog](./devblog/index.md#changelog) for the changelog of the project.
+
+## 📄 License & Attribution
+
+Audim is licensed under **Apache 2.0**. You can use it freely for personal and commercial projects.
+
+**Attribution is encouraged.** If you use Audim, please:
+
+- Keep the default watermark in videos, OR
+- Add "Made with Audim" to video descriptions, OR  
+- Link to this repo in your project documentation
+
+!!! info "Additional Information"
+
+    - See [NOTICE](https://github.com/mratanusarkar/audim/blob/main/NOTICE) file for complete attribution guidelines.
+    - See [LICENSE](https://github.com/mratanusarkar/audim/blob/main/LICENSE) file for the license of the project.
+    - For additional attribution examples, see [Watermark](./audim/sub2pod/elements/watermark/) documentation.

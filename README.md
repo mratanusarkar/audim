@@ -10,7 +10,6 @@
 > _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
 |
-[Introduction](#-introduction) |
 [Features](#-features) |
 [Getting Started](#-getting-started) |
 [Quick Links](#-quick-links)
@@ -114,3 +113,15 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
+
+## 📄 License & Attribution
+
+Audim is licensed under **Apache 2.0**. You can use it freely for personal and commercial projects.
+
+**Attribution is encouraged.** If you use Audim, please:
+
+- Keep the default watermark in videos, OR
+- Add "Made with Audim" to video descriptions, OR  
+- Link to this repo in your project documentation
+
+> See [NOTICE](./NOTICE) file for complete attribution guidelines.
