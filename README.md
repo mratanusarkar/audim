@@ -4,6 +4,8 @@
 
 [![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
 [![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-purple)](https://github.com/mratanusarkar)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
+[![Citation](https://img.shields.io/badge/Cite%20this-Repository-green)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
 
 **Au**dio Po**d**cast An**im**ation Engine
 
