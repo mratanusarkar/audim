@@ -1,0 +1,57 @@
+Audim
+Copyright © 2025 Atanu Sarkar
+
+This product includes software developed by the Audim project
+(https://github.com/mratanusarkar/audim).
+
+-------------------------------------------------------------------------------
+
+ATTRIBUTION NOTICE
+
+In accordance with the Apache License 2.0 under which this software is 
+distributed, users are encouraged to provide appropriate attribution when 
+utilizing Audim in their projects or content.
+
+
+CONTENT GENERATION ATTRIBUTION
+
+When using Audim to generate video content, we encourage including attribution
+in one of the following ways:
+
+1. Keep the default watermark "made with ❤️ by audim" in generated videos
+2. Inclusion of attribution text such as "Generated with Audim" or "Made with Audim" 
+   in video descriptions, credits, or accompanying documentation
+3. Reference to the project documentation for additional attribution examples:
+   https://mratanusarkar.github.io/audim/audim/sub2pod/elements/watermark/
+
+
+SOFTWARE DISTRIBUTION AND DERIVATIVE WORKS
+
+When distributing, modifying, or creating derivative works based on Audim, 
+the following attribution practices are requested:
+
+1. Inclusion of a reference link to https://github.com/mratanusarkar/audim in 
+   project documentation, README files, or repository descriptions
+2. Submission of project references for inclusion in the "Made with Audim" 
+   showcase through pull requests or issue submissions to the main repository
+
+
+ACADEMIC AND RESEARCH USE
+
+For academic use, research use, publications, or scholarly work utilizing Audim, 
+please refer to the CITATION.cff file in the project repository for the 
+appropriate citation format and bibliographic information.
+
+-------------------------------------------------------------------------------
+
+THIRD-PARTY COMPONENTS
+
+This software makes use of the following third-party components:
+
+- WhisperX: https://github.com/m-bain/whisperx
+- PyTorch: https://pytorch.org/
+- Pillow (PIL): https://python-pillow.org/
+- pysrt: https://github.com/byroot/pysrt
+- And other dependencies listed in pyproject.toml
+
+All third-party components are used under their respective licenses.

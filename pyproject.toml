@@ -1,6 +1,6 @@
 [project]
 name = "audim"
-version = "0.0.1"
+version = "0.0.7"
 description = "Animation engine for voice-based podcast videos."
 readme = "README.md"
 requires-python = ">=3.10"

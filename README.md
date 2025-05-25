@@ -4,13 +4,14 @@
 
 [![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
 [![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-purple)](https://github.com/mratanusarkar)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
+[![Citation](https://img.shields.io/badge/Cite%20this-Repository-green)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
 
 **Au**dio Po**d**cast An**im**ation Engine
 
 > _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
 |
-[Introduction](#-introduction) |
 [Features](#-features) |
 [Getting Started](#-getting-started) |
 [Quick Links](#-quick-links)
@@ -114,3 +115,31 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
+
+## ⚖️ License & Attribution
+
+Audim is licensed under **Apache 2.0**. You can use it freely for personal and commercial projects.
+
+**Attribution is encouraged.** If you use Audim, please:
+
+- Keep the default watermark in videos, OR
+- Add "Made with Audim" to video descriptions, OR  
+- Link to this repo in your project documentation
+
+> See [NOTICE](./NOTICE) file for complete attribution guidelines.
+
+## 📄 Citation
+
+If you use Audim in your project or research, please cite it as follows:
+
+```bibtex
+@software{audim,
+  title = {Audim: Audio Podcast Animation Engine},
+  author = {Sarkar, Atanu},
+  year = {2025},
+  url = {https://github.com/mratanusarkar/audim},
+  version = {0.0.7}
+}
+```
+
+You can also click the **"Cite this repository"** button on GitHub for other citation formats.
