@@ -46,3 +46,19 @@ Audim is licensed under **Apache 2.0**. You can use it freely for personal and c
     - See [NOTICE](https://github.com/mratanusarkar/audim/blob/main/NOTICE) file for complete attribution guidelines.
     - See [LICENSE](https://github.com/mratanusarkar/audim/blob/main/LICENSE) file for the license of the project.
     - For additional attribution examples, see [Watermark](./audim/sub2pod/elements/watermark/) documentation.
+
+## 📄 Citation
+
+If you use Audim in your project or research, please cite it as follows:
+
+```bibtex
+@software{audim,
+  title = {Audim: Audio Podcast Animation Engine},
+  author = {Sarkar, Atanu},
+  year = {2025},
+  url = {https://github.com/mratanusarkar/audim},
+  version = {0.0.7}
+}
+```
+
+You can also click the **"Cite this repository"** button on GitHub for other citation formats.

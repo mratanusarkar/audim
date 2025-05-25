@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Audim: Audio Podcast Animation Engine"
+abstract: "An engine for precise programmatic animation and rendering of podcast videos from audio-based and voice-based file recordings. Audim provides audio-to-subtitle generation with speaker diarization and subtitle-to-podcast video generation with customizable layouts and effects."
+authors:
+  - family-names: "Sarkar"
+    given-names: "Atanu"
+    orcid: "https://orcid.org/0009-0009-6334-7312"
+    email: "mratanusarkar@gmail.com"
+repository-code: "https://github.com/mratanusarkar/audim"
+url: "https://mratanusarkar.github.io/audim"
+keywords:
+  - podcast generation
+  - video generation
+  - animation engine
+  - programmatic animation
+  - multimedia
+  - content creation
+  - python
+  - python library
+license: Apache-2.0
+version: "0.0.7"
+date-released: "2025-05-25"
+preferred-citation:
+  type: software
+  title: "Audim: Audio Podcast Animation Engine"
+  authors:
+    - family-names: "Sarkar"
+      given-names: "Atanu"
+  year: 2025
+  url: "https://github.com/mratanusarkar/audim"
+  version: "0.0.7"
