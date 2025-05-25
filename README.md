@@ -116,7 +116,7 @@ ruff format .
 ruff check --fix .
 ```
 
-## 📄 License & Attribution
+## ⚖️ License & Attribution
 
 Audim is licensed under **Apache 2.0**. You can use it freely for personal and commercial projects.
 

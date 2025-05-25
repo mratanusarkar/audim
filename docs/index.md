@@ -33,7 +33,7 @@ Audim is an engine for precise programmatic animation and rendering of podcast v
     - See [Dev Blog](./devblog/index.md) for the development blog of the project to gain more insights into the project.
     - See [Changelog](./devblog/index.md#changelog) for the changelog of the project.
 
-## 📄 License & Attribution
+## ⚖️ License & Attribution
 
 Audim is licensed under **Apache 2.0**. You can use it freely for personal and commercial projects.
 
