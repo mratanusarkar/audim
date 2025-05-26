@@ -1,9 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "audim"
 version = "0.0.7"
-description = "Animation engine for voice-based podcast videos."
+description = "An animation and video rendering engine for audio-based and voice-based podcast videos."
 readme = "README.md"
 requires-python = ">=3.10"
+license = {text = "Apache 2.0 License"}
+authors = [
+    {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
+]
+maintainers = [
+    {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
+]
+keywords = ["podcast", "animation", "video", "audio", "engine", "transcription", "subtitles", "generation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Content Creators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "pysrt>=1.1.2",
     "opencv-python>=4.9.0.80",
@@ -17,6 +43,13 @@ dependencies = [
     "pysrt==1.1.2",
     "pydub==0.25.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/mratanusarkar/audim"
+Documentation = "https://mratanusarkar.github.io/audim"
+Repository = "https://github.com/mratanusarkar/audim"
+"Bug Tracker" = "https://github.com/mratanusarkar/audim/issues"
+Changelog = "https://mratanusarkar.github.io/audim/devblog/index.md#changelog"
 
 [project.optional-dependencies]
 dev = [
@@ -38,8 +71,12 @@ docs = [
     "jupyter>=1.1.1",
 ]
 
-[tool.setuptools]
-py-modules = ["audim"]
+[tool.setuptools.packages.find]
+include = ["audim*"]
+exclude = ["docs*", "site*", "input*", "output*", "artifacts*", "*.egg-info*"]
+
+[tool.setuptools.package-data]
+audim = ["py.typed"]
 
 [tool.ruff]
 target-version = "py310"
