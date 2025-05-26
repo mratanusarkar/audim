@@ -1869,7 +1869,7 @@
 <p>Here's the audio file we have extracted:</p>
 <div style="text-align: center; margin: 20px 0;">
   <audio controls style="width: 100%;">
-    <source src="/assets/example_03/podcast.mp3" type="audio/mpeg">
+    <source src="../../assets/example_03/podcast.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
   <p style="text-align: center; font-style: italic; margin-top: 5px;">extracted audio snippet from the downloaded youtube video</p>
@@ -1891,7 +1891,7 @@
 </div>
 
 <script>
-fetch("/assets/example_03/podcast.srt")
+fetch("../../assets/example_03/podcast.srt")
 .then(response => response.text())
 .then(text => {
     document.getElementById("srt-container").textContent = text;
@@ -1946,7 +1946,7 @@ fetch("/assets/example_03/podcast.srt")
 <p>Here's the final output video we have generated:</p>
 <div style="text-align: center; margin: 20px 0;">
   <video controls style="width: 100%;">
-    <source src="/assets/example_03/podcast.mp4" type="video/mp4">
+    <source src="../../assets/example_03/podcast.mp4" type="video/mp4">
     Your browser does not support the video element.
   </video>
   <p style="text-align: center; font-style: italic; margin-top: 5px;">final podcast video generated from the input content</p>
