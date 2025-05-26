@@ -63,7 +63,7 @@
 
     > For this example, we have transformed a conversation between Grant Sanderson (from [3Blue1Brown](https://www.3blue1brown.com/)) and Sal Khan (from [Khan Academy](https://www.khanacademy.org/)) from [YouTube](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s) into a visually engaging podcast video using Audim.
     >
-    > See [docs/devblog/v0.0.7.md](./devblog/v0.0.7.md) for more details on how this video was generated.
+    > See [devblog/v0.0.7](./devblog/v0.0.7.md) for more details on how this video was generated.
 
 ## 🎯 Introduction
 
