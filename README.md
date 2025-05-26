@@ -2,9 +2,9 @@
 
 # Audim ✨
 
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?style=flat&logo=materialformkdocs&logoColor=white)](https://mratanusarkar.github.io/audim)
 [![PyPI version](https://img.shields.io/pypi/v/audim.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/audim/)
 [![Python versions](https://img.shields.io/pypi/pyversions/audim.svg?color=blue&logo=python&logoColor=white)](https://pypi.org/project/audim/)
-[![Documentation](https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?style=flat&logo=materialformkdocs&logoColor=white)](https://mratanusarkar.github.io/audim)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mratanusarkar/audim/deploy.yml?logo=githubactions&logoColor=white)](https://github.com/mratanusarkar/audim/actions)
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
@@ -16,6 +16,7 @@
 > _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
 |
+[Documentation](https://mratanusarkar.github.io/audim) |
 [Features](#-features) |
 [Getting Started](#-getting-started) |
 [Quick Links](#-quick-links)
