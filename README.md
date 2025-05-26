@@ -47,20 +47,20 @@ https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9
 > For this example,
 > we have transformed a conversation between Grant Sanderson (from [3Blue1Brown](https://www.3blue1brown.com/)) and Sal Khan (from [Khan Academy](https://www.khanacademy.org/)) from [YouTube](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s) into a visually engaging podcast video using Audim.
 > 
-> See [docs/devblog/v0.0.7.md](https://mratanusarkar.github.io/audim/devblog/v0.0.7.md) for more details on how this video was generated.
+> See [docs/devblog/v0.0.7](https://mratanusarkar.github.io/audim/devblog/v0.0.7/) for more details on how this video was generated.
 
 ## 🔗 Quick Links
 
 1. Getting Started
-    - See [Setup](https://mratanusarkar.github.io/audim/setup/installation.md) and ensure you have setup correctly before usage.
-    - For developers and contributors, see [Development](https://mratanusarkar.github.io/audim/setup/development.md).
+    - See [Setup](https://mratanusarkar.github.io/audim/setup/installation/) and ensure you have setup correctly before usage.
+    - For developers and contributors, see [Development](https://mratanusarkar.github.io/audim/setup/development/).
 2. API Documentation
-    - See [API Docs](https://mratanusarkar.github.io/audim/audim/index.md) for the `audim` API documentation.
+    - See [API Docs](https://mratanusarkar.github.io/audim/audim/) for the `audim` API documentation.
 3. Usage and Examples
-    - See [Usage](https://mratanusarkar.github.io/audim/usage/index.md) for usage examples.
+    - See [Usage](https://mratanusarkar.github.io/audim/usage/) for usage examples.
 4. Dev Blog
-    - See [Dev Blog](https://mratanusarkar.github.io/audim/devblog/index.md) for the development blog of the project to gain more insights into the project.
-    - See [Changelog](https://mratanusarkar.github.io/audim/devblog/index.md#changelog) for the changelog of the project.
+    - See [Dev Blog](https://mratanusarkar.github.io/audim/devblog/) for the development blog of the project to gain more insights into the project.
+    - See [Changelog](https://mratanusarkar.github.io/audim/devblog/#changelog) for the changelog of the project.
 
 ## 🎯 Introduction
 
@@ -182,7 +182,7 @@ ruff format .
 ruff check --fix .
 ```
 
-See [Development](https://mratanusarkar.github.io/audim/setup/development.md) for more details on how to setup the project environment and contribute to the project.
+See [Development](https://mratanusarkar.github.io/audim/setup/development/) for more details on how to setup the project environment and contribute to the project.
 
 </details>
 
