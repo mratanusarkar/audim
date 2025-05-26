@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "audim"
-version = "0.0.7"
+version = "0.0.6"
 description = "An animation and video rendering engine for audio-based and voice-based podcast videos."
 readme = "README.md"
 requires-python = ">=3.10"
