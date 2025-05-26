@@ -23,6 +23,14 @@
 
 <div align='center'>
 
+<!-- for html supported places like PyPI -->
+<div style="text-align: center; margin: 20px 0;">
+  <video width="100%" controls>
+    <source src="https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9" type="video/mp4">
+    Your browser does not support the video element.
+  </video>
+</div>
+
 https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9
 
 *A sample podcast video generated with Audim*

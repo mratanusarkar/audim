@@ -12,7 +12,7 @@ _An animation and video rendering engine for audio-based and voice-based podcast
 ## 🚀 Demo
 
 <div style="text-align: center; margin: 20px 0;">
-  <video controls style="width: 100%;">
+  <video width="100%" controls>
     <source src="./assets/example_03/podcast.mp4" type="video/mp4">
     Your browser does not support the video element.
   </video>
