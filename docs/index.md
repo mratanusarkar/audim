@@ -9,6 +9,22 @@
 
 _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
+## 🚀 Demo
+
+<div style="text-align: center; margin: 20px 0;">
+  <video controls style="width: 100%;">
+    <source src="./assets/example_03/podcast.mp4" type="video/mp4">
+    Your browser does not support the video element.
+  </video>
+  <p style="text-align: center; font-style: italic; margin-top: 5px;">A sample podcast video generated with Audim</p>
+</div>
+
+!!! quote "About the Demo"
+
+    > For this example, we have transformed a conversation between Grant Sanderson (from [3Blue1Brown](https://www.3blue1brown.com/)) and Sal Khan (from [Khan Academy](https://www.khanacademy.org/)) from [YouTube](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s) into a visually engaging podcast video using Audim.
+    >
+    > See [docs/devblog/v0.0.7.md](./devblog/v0.0.7.md) for more details on how this video was generated.
+
 ## 🎯 Introduction
 
 Audim is an engine for precise programmatic animation and rendering of podcast videos from audio-based and voice-based file recordings.
@@ -64,3 +80,19 @@ If you use Audim in your project or research, please cite it as follows:
 ```
 
 You can also click the **"Cite this repository"** button on GitHub for other citation formats.
+
+## ⚠️ Disclaimer
+
+!!! warning "Early Development Stage"
+
+    - This project is actively under development and may contain bugs or limitations.
+    - While stable for basic use cases, the rendering engine requires further development and testing across diverse scenarios.
+    - The API is subject to change, so keep an eye at the documentation for the latest updates.
+
+!!! tip "We encourage you to:"
+
+    - Try Audim for your projects and podcast videos.
+    - [Report issues](https://github.com/mratanusarkar/audim/issues) when encountered.  
+    - Feel free to raise a PR to contribute and improve the project.
+
+_Your feedback and contributions help make Audim better for everyone!_

@@ -19,6 +19,23 @@
 
 </div>
 
+## 🚀 Demo
+
+<div align='center'>
+
+https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9
+
+*A sample podcast video generated with Audim*
+
+</div>
+
+> [!NOTE]
+> 
+> For this example,
+> we have transformed a conversation between Grant Sanderson (from [3Blue1Brown](https://www.3blue1brown.com/)) and Sal Khan (from [Khan Academy](https://www.khanacademy.org/)) from [YouTube](https://www.youtube.com/watch?v=SAhKohb5e_w&t=1179s) into a visually engaging podcast video using Audim.
+> 
+> See [docs/devblog/v0.0.7.md](https://mratanusarkar.github.io/audim/devblog/v0.0.7.md) for more details on how this video was generated.
+
 ## 🔗 Quick Links
 
 1. Getting Started
@@ -143,3 +160,21 @@ If you use Audim in your project or research, please cite it as follows:
 ```
 
 You can also click the **"Cite this repository"** button on GitHub for other citation formats.
+
+## ⚠️ Disclaimer
+
+> [!WARNING]
+> **Early Development Stage**
+> 
+> - This project is actively under development and may contain bugs or limitations.
+> - While stable for basic use cases, the rendering engine requires further development and testing across diverse scenarios.
+> - The API is subject to change, so keep an eye at the documentation for the latest updates.
+
+> [!TIP]
+> **We encourage you to:**
+> 
+> - Try Audim for your projects and podcast videos.
+> - [Report issues](https://github.com/mratanusarkar/audim/issues) when encountered.
+> - Feel free to raise a PR to contribute and improve the project.
+
+_Your feedback and contributions help make Audim better for everyone!_
