@@ -92,6 +92,8 @@ pip install audim
 
 <summary>Install from source</summary>
 
+<br>
+
 By installing `audim` from source, you can explore the latest features and enhancements that have not yet been officially released.
 Please note that the latest changes may be still in development and may not be stable and may contain bugs.
 
@@ -129,6 +131,8 @@ On Windows and other platforms, download and install FFmpeg from the official we
 <details>
 
 <summary>Virtual environment and project setup for development with uv</summary>
+
+<br>
 
 #### Install `uv` and setup project environment:
 
