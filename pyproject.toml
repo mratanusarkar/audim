@@ -15,7 +15,7 @@ authors = [
 maintainers = [
     {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
 ]
-keywords = ["podcast", "animation", "video", "audio", "engine", "transcription", "subtitles", "generation"]
+keywords = ["podcast", "animation", "video", "audio", "engine", "transcription", "subtitle", "generation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
