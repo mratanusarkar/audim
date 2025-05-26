@@ -73,18 +73,45 @@ Audim is an engine for precise programmatic animation and rendering of podcast v
 ### Prerequisites
 
 - 🐍 Python ≥ 3.10
-- 🖥️ Conda
-- 🎥 FFmpeg (optional, for faster video encoding)
+- 🖥️ Conda or venv
+- 🎥 FFmpeg (recommended, for faster video encoding)
 
 ### Installation
 
-#### 1. Clone the repository:
+#### 1. Install Audim
+
+It is recommended to install Audim in a virtual environment from PyPI or Conda in a [Python=3.10](https://www.python.org/) environment.
+
+Install `audim` package from PyPI:
+
+```bash
+pip install audim
+```
+
+<details>
+
+<summary>Install from source</summary>
+
+By installing `audim` from source, you can explore the latest features and enhancements that have not yet been officially released.
+Please note that the latest changes may be still in development and may not be stable and may contain bugs.
+
+#### Install from source
+
+```bash
+pip install git+https://github.com/mratanusarkar/audim.git
+```
+
+OR, you can also clone the repository and install the package from source:
+
+#### Clone the repository
 
 ```bash
 git clone https://github.com/mratanusarkar/audim.git
 ```
 
-#### 2. Install FFmpeg locally (optional)
+</details>
+
+#### 2. Install FFmpeg locally (recommended)
 
 Using local FFmpeg is optional but recommended for speeding up the video encoding process.
 
@@ -99,9 +126,14 @@ On Windows and other platforms, download and install FFmpeg from the official we
 - [Download FFmpeg](https://ffmpeg.org/download.html)
 - Ensure FFmpeg is in your system PATH
 
-#### 3. Install `uv` and setup project environment:
+<details>
 
-> [!IMPORTANT]
+<summary>Virtual environment and project setup for development with uv</summary>
+
+#### Install `uv` and setup project environment:
+
+> **IMPORTANT**
+> 
 > If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
 >
 > ```bash
@@ -121,7 +153,7 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-#### 4. Build and deploy documentation
+#### Build and deploy documentation
 
 You can build and serve the documentation by running:
 
@@ -140,6 +172,10 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
+
+See [Development](https://mratanusarkar.github.io/audim/setup/development.md) for more details on how to setup the project environment and contribute to the project.
+
+</details>
 
 ## ⚖️ License & Attribution
 
