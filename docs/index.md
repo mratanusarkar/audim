@@ -80,3 +80,19 @@ If you use Audim in your project or research, please cite it as follows:
 ```
 
 You can also click the **"Cite this repository"** button on GitHub for other citation formats.
+
+## ⚠️ Disclaimer
+
+!!! warning "Early Development Stage"
+
+    - This project is actively under development and may contain bugs or limitations.
+    - While stable for basic use cases, the rendering engine requires further development and testing across diverse scenarios.
+    - The API is subject to change, so keep an eye at the documentation for the latest updates.
+
+!!! tip "We encourage you to:"
+
+    - Try Audim for your projects and podcast videos.
+    - [Report issues](https://github.com/mratanusarkar/audim/issues) when encountered.  
+    - Feel free to raise a PR to contribute and improve the project.
+
+_Your feedback and contributions help make Audim better for everyone!_
