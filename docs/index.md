@@ -1,18 +1,58 @@
-# Audim
+<h1 align="center"><strong>Audim ✨</strong></h1>
 
-[![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
-[![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-purple)](https://github.com/mratanusarkar)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
-[![Citation](https://img.shields.io/badge/Cite%20this-Repository-green)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
+<p align="center">
 
-**Au**dio Po**d**cast An**im**ation Engine
+<a href="https://mratanusarkar.github.io/audim">
+  <img
+  src="https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?logo=materialformkdocs&logoColor=white"
+  alt="Documentation">
+</a>
+<a href="https://pypi.org/project/audim/">
+  <img
+  src="https://img.shields.io/pypi/v/audim.svg?color=blue&logo=pypi&logoColor=white"
+  alt="PyPI version">
+</a>
+<a href="https://pypi.org/project/audim/">
+  <img src="https://img.shields.io/pypi/pyversions/audim.svg?color=blue&logo=python&logoColor=white"
+  alt="Python versions">
+</a>
+<a href="https://github.com/mratanusarkar/audim/actions">
+  <img
+  src="https://img.shields.io/github/actions/workflow/status/mratanusarkar/audim/deploy.yml?logo=githubactions&logoColor=white"
+  alt="GitHub Actions Workflow Status">
+</a>
 
-_An animation and video rendering engine for audio-based and voice-based podcast videos._
+<br>
+
+<a href="https://github.com/mratanusarkar/audim/blob/main/LICENSE">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white"
+  alt="License: Apache 2.0">
+</a>
+<a href="https://github.com/mratanusarkar">
+  <img src="https://img.shields.io/badge/Author-Atanu%20Sarkar-708FCC?logo=github&logoColor=white"
+  alt="Author: Atanu Sarkar">
+</a>
+<a href="https://github.com/mratanusarkar/audim/blob/main/CITATION.cff">
+  <img src="https://img.shields.io/badge/Cite%20this-Repository-green?logo=gitextensions&logoColor=white"
+  alt="Citation">
+</a>
+
+</p>
+
+<p align="center">
+
+<b>Au</b>dio Po<b>d</b>cast An<b>im</b>ation Engine
+
+<br><br>
+
+<i style="color: #888888">An animation and video rendering engine for audio-based and voice-based podcast videos.</i>
+
+</p>
 
 ## 🚀 Demo
 
 <div style="text-align: center; margin: 20px 0;">
-  <video controls style="width: 100%;">
+  <video width="100%" controls>
     <source src="./assets/example_03/podcast.mp4" type="video/mp4">
     Your browser does not support the video element.
   </video>

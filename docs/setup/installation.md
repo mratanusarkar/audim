@@ -1,71 +1,147 @@
 # Installation
 
+!!! note "Note"
+
+    This guide is for end users using Audim for creating podcast videos.
+    For developers and contributors, see [Development](./development.md).
+
 ## Prerequisites
 
-- Python ≥ 3.10
-- Conda
+- 🐍 Python ≥ 3.10
+- 🖥️ Conda or venv
+- 🎥 FFmpeg (recommended, for faster video encoding)
 
 ## Setup
 
-### 1. Clone the repository:
+### 1. Install Audim
 
-```bash
-git clone https://github.com/mratanusarkar/audim.git
-cd audim
-```
+It is recommended to install `audim` in a virtual environment from PyPI or Conda in a [Python=3.10](https://www.python.org/) environment.
 
-### 2. Install FFmpeg locally (optional)
+=== "Install using PyPI"
 
-Using local FFmpeg is optional.
-It is recommended to install FFmpeg locally as it will speed up the video encoding process.
+    Activate your virtual environment (recommended):
 
-On Ubuntu, install FFmpeg using:
+    ```bash
+    source .venv/bin/activate
+    ```
 
-```bash
-sudo apt install ffmpeg libx264-dev
-```
+    Install `audim` using `pip`:
 
-On Windows and other platforms, download and install FFmpeg from the official website:
+    ```bash
+    pip install audim
+    ```
 
-- [Download FFmpeg](https://ffmpeg.org/download.html)
-- Make sure FFmpeg is in your system PATH
+=== "Install using Conda"
 
-### 3. Install `uv` and setup project environment:
+    Create a new environment using Conda:
 
-> **Note**: If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
->
-> ```bash
-> conda activate base
-> ```
+    ```bash
+    conda create -n my-project python=3.10
+    ```
 
-```bash
-# Install uv
-pip install uv
+    Activate your virtual environment:
 
-# Setup project environment
-uv venv
+    ```bash
+    conda activate my-project
+    ```
 
-source .venv/bin/activate   # on Linux
-# .venv\Scripts\activate    # on Windows
+    Install `pip` and `audim` using `conda`:
 
-uv pip install -e ".[dev,docs]"
-```
+    ```bash
+    conda install pip
+    pip install audim
+    ```
 
-### 4. Create input and output directories:
+=== "Install from source"
+
+    !!! tip "Note"
+
+        By installing `audim` from source, you can explore the latest features and enhancements that have not yet been officially released.
+    
+    !!! warning "Note"
+
+        Please note that the latest changes may be still in development and may not be stable and may contain bugs.
+
+    Install from source
+
+    ```bash
+    pip install git+https://github.com/mratanusarkar/audim.git
+    ```
+
+
+### 2. Install FFmpeg locally (recommended)
+
+Using local FFmpeg is optional but recommended for speeding up the video encoding process.
+
+!!! example "Install FFmpeg"
+
+    === "Ubuntu"
+
+        ```bash
+        sudo apt install ffmpeg libx264-dev
+        ```
+
+    === "MacOS"
+
+        ```bash
+        brew install ffmpeg
+        ```
+
+    === "Windows"
+
+        ```bash
+        choco install ffmpeg
+        ```
+
+    === "Windows (manual)"
+
+        Download and install FFmpeg from the official website:
+
+        - [Download FFmpeg](https://ffmpeg.org/download.html)
+        - Ensure FFmpeg is in your system PATH
+
+    === "Other platforms"
+
+        Download and install FFmpeg from the official website:
+
+        - [Download FFmpeg](https://ffmpeg.org/download.html)
+        - Follow the installation instructions for your platform
+
+## Start your project
+
+Create input and output directories
 
 ```bash
 mkdir ./input ./output
 ```
 
-ideally, if done correctly, the setup should be like this:
+Create a `run.py` or `test.py` to write your python script using `audim` and start creating your podcast videos.
 
 ```bash
-audim/
-├── audim/
-├── docs/
-├── input/
-├── output/
-└── README.md
+touch run.py
 ```
 
-Note: you would dump your input files in the `input` directory and the output files will be dumped in the `output` directory.
+Ideally, if done correctly, the setup should look like this:
+
+```bash
+your-project/
+├── .venv/
+├── input/
+├── output/
+└── run.py # or test.py
+```
+
+Now, you are all set!
+
+- Go ahead and create your python script in `run.py` to start creating your podcast videos.
+- See [Usage](../usage/index.md) for more details or see sample scripts to get some inspiration.
+- Once done, you would dump your input files in the `input` directory.
+- The output files will be generated in the `output` directory on running the script.
+
+Run the script using:
+
+```bash
+python run.py
+```
+
+Feel free to share your generations and tag us!

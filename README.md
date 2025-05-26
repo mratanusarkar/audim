@@ -2,16 +2,21 @@
 
 # Audim ✨
 
-[![Documentation](https://img.shields.io/badge/Audim-docs-blue)](https://mratanusarkar.github.io/audim)
-[![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-purple)](https://github.com/mratanusarkar)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
-[![Citation](https://img.shields.io/badge/Cite%20this-Repository-green)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?logo=materialformkdocs&logoColor=white)](https://mratanusarkar.github.io/audim)
+[![PyPI version](https://img.shields.io/pypi/v/audim.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/audim/)
+[![Python versions](https://img.shields.io/pypi/pyversions/audim.svg?color=blue&logo=python&logoColor=white)](https://pypi.org/project/audim/)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mratanusarkar/audim/deploy.yml?logo=githubactions&logoColor=white)](https://github.com/mratanusarkar/audim/actions)
+<br>
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
+[![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-708FCC?logo=github&logoColor=white)](https://github.com/mratanusarkar)
+[![Citation](https://img.shields.io/badge/Cite%20this-Repository-green?logo=gitextensions&logoColor=white)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
 
 **Au**dio Po**d**cast An**im**ation Engine
 
 > _An animation and video rendering engine for audio-based and voice-based podcast videos._
 
 |
+[Documentation](https://mratanusarkar.github.io/audim) |
 [Features](#-features) |
 [Getting Started](#-getting-started) |
 [Quick Links](#-quick-links)
@@ -22,6 +27,14 @@
 ## 🚀 Demo
 
 <div align='center'>
+
+<!-- for html supported places like PyPI -->
+<div style="text-align: center; margin: 20px 0;">
+  <video width="100%" controls>
+    <source src="https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9" type="video/mp4">
+    Your browser does not support the video element.
+  </video>
+</div>
 
 https://github.com/user-attachments/assets/634df0ca-77ee-448b-ac35-f4eb3e4261b9
 
@@ -65,18 +78,47 @@ Audim is an engine for precise programmatic animation and rendering of podcast v
 ### Prerequisites
 
 - 🐍 Python ≥ 3.10
-- 🖥️ Conda
-- 🎥 FFmpeg (optional, for faster video encoding)
+- 🖥️ Conda or venv
+- 🎥 FFmpeg (recommended, for faster video encoding)
 
 ### Installation
 
-#### 1. Clone the repository:
+#### 1. Install Audim
+
+It is recommended to install Audim in a virtual environment from PyPI or Conda in a [Python=3.10](https://www.python.org/) environment.
+
+Install `audim` package from PyPI:
+
+```bash
+pip install audim
+```
+
+<details>
+
+<summary>Install from source</summary>
+
+<br>
+
+By installing `audim` from source, you can explore the latest features and enhancements that have not yet been officially released.
+Please note that the latest changes may be still in development and may not be stable and may contain bugs.
+
+#### Install from source
+
+```bash
+pip install git+https://github.com/mratanusarkar/audim.git
+```
+
+OR, you can also clone the repository and install the package from source:
+
+#### Clone the repository
 
 ```bash
 git clone https://github.com/mratanusarkar/audim.git
 ```
 
-#### 2. Install FFmpeg locally (optional)
+</details>
+
+#### 2. Install FFmpeg locally (recommended)
 
 Using local FFmpeg is optional but recommended for speeding up the video encoding process.
 
@@ -91,9 +133,16 @@ On Windows and other platforms, download and install FFmpeg from the official we
 - [Download FFmpeg](https://ffmpeg.org/download.html)
 - Ensure FFmpeg is in your system PATH
 
-#### 3. Install `uv` and setup project environment:
+<details>
 
-> [!IMPORTANT]
+<summary>Virtual environment and project setup for development with uv</summary>
+
+<br>
+
+#### Install `uv` and setup project environment:
+
+> **IMPORTANT**
+> 
 > If you are using conda base environment as the default base environment for your python projects, run the below command to activate the base environment. If not, skip this step and continue with the next step.
 >
 > ```bash
@@ -113,7 +162,7 @@ source .venv/bin/activate   # on Linux
 uv pip install -e ".[dev,docs]"
 ```
 
-#### 4. Build and deploy documentation
+#### Build and deploy documentation
 
 You can build and serve the documentation by running:
 
@@ -132,6 +181,10 @@ Run the following commands to check and fix code style issues:
 ruff format .
 ruff check --fix .
 ```
+
+See [Development](https://mratanusarkar.github.io/audim/setup/development.md) for more details on how to setup the project environment and contribute to the project.
+
+</details>
 
 ## ⚖️ License & Attribution
 
