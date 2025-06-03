@@ -10,6 +10,10 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](https://github.com/mratanusarkar/audim/blob/main/LICENSE)
 [![Author: Atanu Sarkar](https://img.shields.io/badge/Author-Atanu%20Sarkar-708FCC?logo=github&logoColor=white)](https://github.com/mratanusarkar)
 [![Citation](https://img.shields.io/badge/Cite%20this-Repository-green?logo=gitextensions&logoColor=white)](https://github.com/mratanusarkar/audim/blob/main/CITATION.cff)
+<br>
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Faudim&label=view&labelColor=%235e5e5e&countColor=%237C8AA0&style=flat&labelStyle=lower)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Faudim)
+[![PyPI Total Downloads](https://static.pepy.tech/badge/audim)](https://pepy.tech/projects/audim)
+[![PyPI Monthly Downloads](https://img.shields.io/pypi/dm/audim?style=flat&color=%231F86BF)](https://pypistats.org/packages/audim)
 
 **Au**dio Po**d**cast An**im**ation Engine
 

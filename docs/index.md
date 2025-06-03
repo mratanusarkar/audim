@@ -37,6 +37,23 @@
   alt="Citation">
 </a>
 
+<br>
+
+<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Faudim">
+  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Faudim&label=view&labelColor=%235e5e5e&countColor=%237C8AA0&style=flat&labelStyle=lower"
+  alt="Visitors">
+</a>
+
+<a href="https://pepy.tech/projects/audim">
+  <img src="https://static.pepy.tech/badge/audim"
+  alt="PyPI Total Downloads">
+</a>
+
+<a href="https://pypistats.org/packages/audim">
+  <img src="https://img.shields.io/pypi/dm/audim?style=flat&color=%231F86BF"
+  alt="PyPI Monthly Downloads">
+</a>
+
 </p>
 
 <p align="center">
